@@ -77,21 +77,14 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
 
-      String prefix = getPrefix() != null ? getPrefix() : "";
-      if(!prefix.isEmpty() && !prefix.endsWith("/")) {
-         prefix += "/";
-      }
-
       AbstractMetadata meta = metadataResolver.resolve(getObject(), getPropertyName());
       List<String> convertedNames = new ArrayList<String>();
       for(String name : meta.getCandidateTemplateNames()) {
-         String converted = StringUtils.lowercaseSeparated(name, "-");
-         String url = prefix + converted;
-         convertedNames.add(url);
+         convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
       }
 
       List<String> definitionNames = new ArrayList<String>();
-      for(String path : new String[] { prefix, "/scaffold/" }) {
+      for(String path : getSearchPaths()) {
          for(String name : convertedNames) {
             String url = path + name;
             definitionNames.add(url);
@@ -104,6 +97,14 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       servletRequest.removeAttribute("meta");
 
       return 0;
+   }
+
+   private String[] getSearchPaths() {
+      String prefix = getPrefix() != null ? getPrefix() : "";
+      if(!prefix.isEmpty() && !prefix.endsWith("/")) {
+         prefix += "/";
+      }
+      return new String[] { prefix, "scaffold/" + getMode() + "/" };
    }
 
    private void renderDefinition(Collection<String> definitionNames, ServletRequest servletRequest, ServletContext servletContext) throws ServletException {

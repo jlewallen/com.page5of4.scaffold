@@ -2,6 +2,10 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
 
-    <definition name="object" template="/WEB-INF/views/scaffold/object.jspx" />
+    <definition name="scaffold/display/object" template="/WEB-INF/views/scaffold/display/object.jspx" />
+    <definition name="scaffold/display/string" template="/WEB-INF/views/scaffold/display/string.jspx" />
+
+    <definition name="scaffold/editor/object" template="/WEB-INF/views/scaffold/editor/object.jspx" />
+    <definition name="scaffold/editor/string" template="/WEB-INF/views/scaffold/editor/string.jspx" />
 
 </tiles-definitions>

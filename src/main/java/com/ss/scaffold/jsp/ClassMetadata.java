@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClassMetadata extends AbstractMetadata {
+   private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
+
    public static ClassMetadata create(Class<? extends Object> klass) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(klass);
@@ -22,7 +24,6 @@ public class ClassMetadata extends AbstractMetadata {
       return new ClassMetadata(klass, properties);
    }
 
-   private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
    private Class<? extends Object> klass;
    private List<PropertyMetadata> properties;
 
