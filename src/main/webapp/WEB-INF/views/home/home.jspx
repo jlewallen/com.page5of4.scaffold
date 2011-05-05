@@ -3,10 +3,45 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
 
 	<div>
 		<h1>Hello, world!</h1>
+	</div>
+	
+	<style>
+.display .label,
+.editor .label
+{
+    margin: 1em 0 0 0;
+}
+
+.display .field,
+.editor .field
+{
+    margin:0.5em 0 0 0;
+}
+
+.editor .text-box
+{
+    width: 30em;
+}
+
+.editor .text-box.multi-line
+{
+    height: 6.5em;
+}
+
+.editor .tri-state
+{
+    width: 6em;
+}
+	</style>
+
+	<div>
+		<ss:display-for object="${model}">
+		</ss:display-for>
 	</div>
 </jsp:root>
 
