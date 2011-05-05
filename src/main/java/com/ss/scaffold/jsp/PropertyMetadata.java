@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ClassUtils;
 
-public class PropertyMetadata {
+public class PropertyMetadata extends AbstractMetadata {
    private PropertyDescriptor descriptor;
 
    public String getName() {
@@ -22,10 +22,11 @@ public class PropertyMetadata {
    }
 
    public String getPropertyTypeTemplateName() {
-      return StringUtils.capitaliseFirstLetter(ClassUtils.getShortClassName(getPropertyType()));
+      return ClassUtils.getShortClassName(getPropertyType());
    }
 
-   public String[] getPossibleTemplateNames() {
+   @Override
+   public String[] getCandidateTemplateNames() {
       List<String> names = new ArrayList<String>();
       names.add(getPropertyNameTemplateName());
       names.add(getPropertyTypeTemplateName());

@@ -1,11 +1,20 @@
 package com.ss.scaffold.jsp;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+
+   public static String join(String[] parts, String separator) {
+      return org.apache.commons.lang.StringUtils.join(parts, separator);
+   }
+
+   public static String join(Collection<String> parts, String separator) {
+      return org.apache.commons.lang.StringUtils.join(parts, separator);
+   }
 
    public static String interpolate(String text, Map<String, Object> values) {
       Pattern pattern = Pattern.compile("\\{(.+?)\\}");
@@ -24,6 +33,16 @@ public class StringUtils {
       }
       matcher.appendTail(builder);
       return builder.toString();
+   }
+
+   public static String lowercaseSeparated(String text, String separator) {
+      Pattern pattern = Pattern.compile("([A-Z][a-z]+|[A-Z]+)");
+      Vector<String> tokens = new Vector<String>();
+      Matcher matcher = pattern.matcher(capitaliseFirstLetter(text));
+      while(matcher.find()) {
+         tokens.add(matcher.group().toLowerCase());
+      }
+      return join(tokens, separator);
    }
 
    public static String humanize(String text) {
