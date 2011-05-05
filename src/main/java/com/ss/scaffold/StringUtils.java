@@ -1,4 +1,4 @@
-package com.ss.scaffold.jsp;
+package com.ss.scaffold;
 
 import java.util.Collection;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.ss.scaffold.jsp;
+package com.ss.scaffold;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -18,12 +18,12 @@ import org.slf4j.LoggerFactory;
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
 
-   public static ClassMetadata create(Class<? extends Object> klass, Object object) throws IntrospectionException {
+   public static ClassMetadata create(Class<? extends Object> klass, Object target) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(klass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
          if(!shouldSkip(descriptor)) {
-            properties.add(new PropertyMetadata(descriptor));
+            properties.add(new PropertyMetadata(target, descriptor));
          }
       }
       Collections.sort(properties, new Comparator<PropertyMetadata>() {
@@ -32,7 +32,7 @@ public class ClassMetadata extends AbstractMetadata {
             return o1.getName().compareTo(o2.getName());
          }
       });
-      return new ClassMetadata(klass, properties, object);
+      return new ClassMetadata(klass, properties, target);
    }
 
    public static boolean shouldSkip(PropertyDescriptor descriptor) {

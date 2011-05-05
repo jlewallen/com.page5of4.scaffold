@@ -6,9 +6,14 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
 
-	<c:choose>
-		<c:when test="${meta.displayValue == true}">True</c:when>
-		<c:when test="${meta.displayValue == false}">False</c:when>
-		<c:otherwise></c:otherwise>
-	</c:choose>
+	<div class="display">
+		<c:forEach items="${meta.properties}" var="property">
+			<div class="label">${property.displayName}</div>
+			<div class="field">
+			<ss:display-for object="${meta.object}" propertyName="${property.name}" />
+		    </div>
+		</c:forEach>
+	</div>
+
 </jsp:root>
+

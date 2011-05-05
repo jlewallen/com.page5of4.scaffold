@@ -1,4 +1,4 @@
-package com.ss.scaffold;
+package com.ss.scaffold.web;
 
 import java.util.Date;
 

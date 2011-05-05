@@ -6,5 +6,5 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
 
-	${meta}
+	${meta.displayValue}
 </jsp:root>

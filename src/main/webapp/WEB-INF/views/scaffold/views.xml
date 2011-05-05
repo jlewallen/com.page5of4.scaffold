@@ -6,10 +6,12 @@
     <definition name="scaffold/display/string" template="/WEB-INF/views/scaffold/display/string.jspx" />
     <definition name="scaffold/display/date" template="/WEB-INF/views/scaffold/display/date.jspx" />
     <definition name="scaffold/display/boolean" template="/WEB-INF/views/scaffold/display/boolean.jspx" />
+    <definition name="scaffold/display/enum" template="/WEB-INF/views/scaffold/display/enum.jspx" />
 
     <definition name="scaffold/editor/object" template="/WEB-INF/views/scaffold/editor/object.jspx" />
     <definition name="scaffold/editor/string" template="/WEB-INF/views/scaffold/editor/string.jspx" />
     <definition name="scaffold/editor/date" template="/WEB-INF/views/scaffold/editor/date.jspx" />
     <definition name="scaffold/editor/boolean" template="/WEB-INF/views/scaffold/editor/boolean.jspx" />
+    <definition name="scaffold/editor/enum" template="/WEB-INF/views/scaffold/editor/enum.jspx" />
 
 </tiles-definitions>

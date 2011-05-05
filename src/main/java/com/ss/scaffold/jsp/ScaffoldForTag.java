@@ -20,6 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
+import com.ss.scaffold.AbstractMetadata;
+import com.ss.scaffold.MetadataResolver;
+import com.ss.scaffold.StringUtils;
+
 public abstract class ScaffoldForTag extends RequestContextAwareTag {
 
    private static final Logger logger = LoggerFactory.getLogger(ScaffoldForTag.class);
@@ -128,7 +132,6 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       }
       else {
          servletRequest.removeAttribute(META_VARIABLE_NAME);
-
       }
    }
 
