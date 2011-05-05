@@ -1,12 +1,12 @@
 package com.ss.scaffold.jsp;
 
-public class DisplayForTag extends ScaffoldForTag {
+public class EditorForTag extends ScaffoldForTag {
 
    private static final long serialVersionUID = 1L;
 
    @Override
    public String getMode() {
-      return "display";
+      return "editor";
    }
 
 }
