@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,16 @@ public class ClassMetadata extends AbstractMetadata {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(klass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
-         properties.add(new PropertyMetadata(descriptor));
+         if(!shouldSkip(descriptor)) {
+            properties.add(new PropertyMetadata(descriptor));
+         }
       }
       return new ClassMetadata(klass, properties);
+   }
+
+   public static boolean shouldSkip(PropertyDescriptor descriptor) {
+      String[] skip = new String[] { "class" };
+      return ArrayUtils.contains(skip, descriptor.getName());
    }
 
    private Class<? extends Object> klass;

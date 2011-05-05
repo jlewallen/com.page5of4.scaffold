@@ -12,9 +12,10 @@ public class MetadataResolver {
    public AbstractMetadata resolve(Object target, String propertyName) throws IntrospectionException {
       Class<? extends Object> klass = target.getClass();
       ClassMetadata meta = ClassMetadata.create(klass);
+
       logger.info(String.format("%s %s", klass.getName(), StringUtils.join(meta.getCandidateTemplateNames(), ", ")));
       for(PropertyMetadata property : meta.getProperties()) {
-         logger.info(String.format("%s %s %s", property.getDisplayName(), property.getName(), StringUtils.join(property.getCandidateTemplateNames(), ", ")));
+         logger.info(String.format("  %s %s %s", property.getDisplayName(), property.getName(), StringUtils.join(property.getCandidateTemplateNames(), ", ")));
       }
 
       if(propertyName == null) {
