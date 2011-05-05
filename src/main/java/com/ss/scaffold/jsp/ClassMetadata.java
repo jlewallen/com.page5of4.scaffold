@@ -6,6 +6,8 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -24,6 +26,12 @@ public class ClassMetadata extends AbstractMetadata {
             properties.add(new PropertyMetadata(descriptor));
          }
       }
+      Collections.sort(properties, new Comparator<PropertyMetadata>() {
+         @Override
+         public int compare(PropertyMetadata o1, PropertyMetadata o2) {
+            return o1.getName().compareTo(o2.getName());
+         }
+      });
       return new ClassMetadata(klass, properties);
    }
 
