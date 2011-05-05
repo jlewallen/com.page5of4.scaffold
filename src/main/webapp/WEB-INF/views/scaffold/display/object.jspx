@@ -9,7 +9,9 @@
 	<div class="display">
 		<c:forEach items="${meta.properties}" var="property">
 			<div class="label">${property.displayName}</div>
-			<div class="field"> <!--  --> </div>
+			<div class="field">
+			<ss:display-for object="${meta.object}" propertyName="${property.name}" />
+		    </div>
 		</c:forEach>
 	</div>
 

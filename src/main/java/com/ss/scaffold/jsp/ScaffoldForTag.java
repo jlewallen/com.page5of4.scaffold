@@ -24,6 +24,7 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
 
    private static final Logger logger = LoggerFactory.getLogger(ScaffoldForTag.class);
    private static final long serialVersionUID = 1L;
+   private static final String META_VARIABLE_NAME = "meta";
 
    private TilesRequestContextFactory tilesRequestContextFactory;
    private MetadataResolver metadataResolver = new MetadataResolver();
@@ -88,13 +89,12 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
          for(String name : convertedNames) {
             String url = path + name;
             definitionNames.add(url);
-            logger.info("Searching: {}", url);
          }
       }
 
-      servletRequest.setAttribute("meta", meta);
-      renderDefinition(definitionNames, servletRequest, servletContext);
-      servletRequest.removeAttribute("meta");
+      logger.info("Searching: {}", StringUtils.join(definitionNames, ", "));
+
+      renderDefinition(definitionNames, meta, servletRequest, servletContext);
 
       return 0;
    }
@@ -107,7 +107,7 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       return new String[] { prefix, "scaffold/" + getMode() + "/" };
    }
 
-   private void renderDefinition(Collection<String> definitionNames, ServletRequest servletRequest, ServletContext servletContext) throws ServletException {
+   private void renderDefinition(Collection<String> definitionNames, AbstractMetadata meta, ServletRequest servletRequest, ServletContext servletContext) throws ServletException {
       BasicTilesContainer container = (BasicTilesContainer)ServletUtil.getCurrentContainer(servletRequest, servletContext);
       if(container == null) {
          throw new ServletException("Tiles container is not initialized. Have you added a TilesConfigurer to your web application context?");
@@ -116,13 +116,27 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       TilesRequestContext tilesRequestContext = tilesRequestContextFactory.createRequestContext(container.getApplicationContext(), new Object[] { getPageContext() });
       Definition definition = findDefinition(definitionNames, container, tilesRequestContext);
 
+      logger.info("Rendering: {} = {}", definition.getName(), definition);
+
+      Object existing = servletRequest.getAttribute(META_VARIABLE_NAME);
+      servletRequest.setAttribute(META_VARIABLE_NAME, meta);
+      container.startContext(getPageContext()).inheritCascadedAttributes(definition);
       container.render(definition.getName(), getPageContext());
+      container.endContext(getPageContext());
+      if(existing != null) {
+         servletRequest.setAttribute(META_VARIABLE_NAME, existing);
+      }
+      else {
+         servletRequest.removeAttribute(META_VARIABLE_NAME);
+
+      }
    }
 
    private Definition findDefinition(Collection<String> definitionNames, BasicTilesContainer container, TilesRequestContext tilesRequestContext) throws ServletException {
       for(String definitionName : definitionNames) {
          Definition definition = container.getDefinitionsFactory().getDefinition(definitionName, tilesRequestContext);
          if(definition != null) {
+            logger.info("Selected: {}", definitionName);
             return definition;
          }
       }

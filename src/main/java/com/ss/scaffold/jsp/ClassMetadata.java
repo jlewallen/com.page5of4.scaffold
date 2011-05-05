@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
 
-   public static ClassMetadata create(Class<? extends Object> klass) throws IntrospectionException {
+   public static ClassMetadata create(Class<? extends Object> klass, Object object) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(klass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
@@ -32,7 +32,7 @@ public class ClassMetadata extends AbstractMetadata {
             return o1.getName().compareTo(o2.getName());
          }
       });
-      return new ClassMetadata(klass, properties);
+      return new ClassMetadata(klass, properties, object);
    }
 
    public static boolean shouldSkip(PropertyDescriptor descriptor) {
@@ -42,9 +42,18 @@ public class ClassMetadata extends AbstractMetadata {
 
    private Class<? extends Object> klass;
    private List<PropertyMetadata> properties;
+   private Object object;
 
    public List<PropertyMetadata> getProperties() {
       return properties;
+   }
+
+   public Class<? extends Object> getObjectClass() {
+      return klass;
+   }
+
+   public Object getObject() {
+      return object;
    }
 
    @Override
@@ -58,9 +67,10 @@ public class ClassMetadata extends AbstractMetadata {
       return names.toArray(new String[0]);
    }
 
-   public ClassMetadata(Class<? extends Object> klass, Collection<PropertyMetadata> properties) {
+   public ClassMetadata(Class<? extends Object> klass, Collection<PropertyMetadata> properties, Object object) {
       super();
       this.klass = klass;
+      this.object = object;
       this.properties = new ArrayList<PropertyMetadata>(properties);
    }
 
