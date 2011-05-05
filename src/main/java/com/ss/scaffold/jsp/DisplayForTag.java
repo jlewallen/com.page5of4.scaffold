@@ -109,9 +109,7 @@ public class DisplayForTag extends RequestContextAwareTag {
       TilesRequestContext tilesRequestContext = tilesRequestContextFactory.createRequestContext(container.getApplicationContext(), new Object[] { getPageContext() });
       Definition definition = findDefinition(definitionNames, container, tilesRequestContext);
 
-      container.startContext(getPageContext()).inheritCascadedAttributes(definition);
       container.render(definition.getName(), getPageContext());
-      container.endContext(getPageContext());
    }
 
    private Definition findDefinition(Collection<String> definitionNames, BasicTilesContainer container, TilesRequestContext tilesRequestContext) throws ServletException {
