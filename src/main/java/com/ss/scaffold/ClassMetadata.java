@@ -59,6 +59,11 @@ public class ClassMetadata extends AbstractMetadata {
    @Override
    public String[] getCandidateTemplateNames() {
       List<String> names = new ArrayList<String>();
+      ScaffoldTemplate annotation = klass.getAnnotation(ScaffoldTemplate.class);
+      if(annotation != null) {
+         names.add(annotation.value());
+      }
+
       Class<? extends Object> klass = this.klass;
       while(klass != null) {
          names.add(ClassUtils.getShortClassName(klass));

@@ -17,11 +17,31 @@ public class HomeController {
    @RequestMapping(value = "/", method = RequestMethod.GET)
    public ModelAndView home() {
       logger.info("Welcome home!");
-      Project model = new Project();
-      model.setName("Super Cool Project");
-      model.setDescription("A really nifty project that we're all working very hard on!");
-      model.setStartingAt(new Date());
-      return new ModelAndView("home", "model", model);
+      return new ModelAndView("home", "model", new HomeModel());
+   }
+
+   public static class HomeModel {
+      private Project project;
+      private Card card;
+
+      public Project getProject() {
+         return project;
+      }
+
+      public Card getCard() {
+         return card;
+      }
+
+      public HomeModel() {
+         project = new Project();
+         project.setName("Super Cool Project");
+         project.setDescription("A really nifty project that we're all working very hard on!");
+         project.setStartingAt(new Date());
+         card = new Card();
+         card.setTitle("Fix all the bugs!");
+         card.setStatus(Card.Status.WORKING);
+         card.setProject(project);
+      }
    }
 
 }

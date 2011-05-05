@@ -6,10 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
 
-	<div>
-		<h1>Hello, world!</h1>
-	</div>
-	
 	<style>
 .display .label,
 .editor .label
@@ -40,8 +36,13 @@
 	</style>
 
 	<div>
-		<ss:display-for object="${model}">
-		</ss:display-for>
+		<h2>Project</h2>
+		<ss:display-for object="${model.project}" />
+	</div>
+
+	<div>
+		<h2>Card</h2>
+		<ss:display-for object="${model.card}" />
 	</div>
 </jsp:root>
 

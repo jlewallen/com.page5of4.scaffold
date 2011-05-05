@@ -2,7 +2,12 @@ package com.ss.scaffold.web;
 
 import java.util.Date;
 
+import com.ss.scaffold.ScaffoldHidden;
+
 public class Project {
+
+   @ScaffoldHidden
+   private Long id;
 
    private String name;
 
@@ -13,6 +18,14 @@ public class Project {
    private Date endingAt;
 
    private boolean started;
+
+   public Long getId() {
+      return id;
+   }
+
+   public void setId(Long id) {
+      this.id = id;
+   }
 
    public String getName() {
       return name;
