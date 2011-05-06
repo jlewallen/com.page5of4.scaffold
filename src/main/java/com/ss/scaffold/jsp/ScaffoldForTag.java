@@ -104,11 +104,16 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
    }
 
    private String[] getSearchPaths() {
-      String prefix = getPrefix() != null ? getPrefix() : "";
-      if(!prefix.isEmpty() && !prefix.endsWith("/")) {
-         prefix += "/";
+      List<String> paths = new ArrayList<String>();
+      if(getPrefix() != null) {
+         String prefix = getPrefix();
+         if(!prefix.isEmpty() && !prefix.endsWith("/")) {
+            prefix += "/";
+         }
+         paths.add(prefix);
       }
-      return new String[] { prefix, "scaffold/" + getMode() + "/" };
+      paths.add("scaffold/" + getMode() + "/");
+      return paths.toArray(new String[0]);
    }
 
    private void renderDefinition(Collection<String> definitionNames, AbstractMetadata meta, ServletRequest servletRequest, ServletContext servletContext) throws ServletException {

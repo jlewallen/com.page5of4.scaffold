@@ -6,7 +6,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
 
-	<div class="display">
+	<div class="editor">
 		<c:forEach items="${meta.properties}" var="property">
 			<div class="label">${property.displayName}</div>
 			<div class="field">

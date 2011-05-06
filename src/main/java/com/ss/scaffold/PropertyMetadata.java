@@ -24,6 +24,10 @@ public class PropertyMetadata extends AbstractMetadata {
       return hidden;
    }
 
+   public boolean isVisible() {
+      return !isHidden();
+   }
+
    public String getName() {
       return descriptor.getName();
    }
