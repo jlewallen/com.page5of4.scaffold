@@ -21,7 +21,15 @@
 		</property>
 	</bean>
 
-	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean"/>
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<!--
+    	       <bean class="example.MyCustomConverter"/>
+    	       -->
+			</list>
+		</property>
+	</bean>
 
 	<!-- Default view as configured by Roo/Spring MVC -->
 	<bean

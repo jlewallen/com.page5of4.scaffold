@@ -67,22 +67,12 @@ public class PropertyMetadata extends AbstractMetadata {
          return null;
       }
 
+      @SuppressWarnings("unchecked")
       DateTimeFormat dateFormatAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(DateTimeFormat.class, target.getClass(), descriptor);
       if(dateFormatAnnotation != null) {
          AnnotationFormatterFactory<DateTimeFormat> dateTimeFormatAnnotationFormatterFactory = new JodaDateTimeFormatAnnotationFormatterFactory();
-         Printer<?> printer = dateTimeFormatAnnotationFormatterFactory.getPrinter(dateFormatAnnotation, getPropertyType());
+         Printer printer = dateTimeFormatAnnotationFormatterFactory.getPrinter(dateFormatAnnotation, getPropertyType());
          return printer.print((Date)value, Locale.ENGLISH);
-         /*
-         Date date = (Date)value;
-         if(dateFormatAnnotation.pattern() != null) {
-            DateTimeFormatter formatter = org.joda.time.format.DateTimeFormat.forPattern(dateFormatAnnotation.pattern());
-            return formatter.print(date.getTime());
-         }
-         if(dateFormatAnnotation.style() != null) {
-            DateTimeFormatter formatter = org.joda.time.format.DateTimeFormat.forStyle(dateFormatAnnotation.style());
-            return formatter.print(date.getTime());
-         }
-         */
       }
       return getValue();
    }

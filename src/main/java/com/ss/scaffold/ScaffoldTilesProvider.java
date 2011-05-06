@@ -20,8 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ScaffoldTilesProvider {
 
    private static final Logger logger = LoggerFactory.getLogger(ScaffoldTilesProvider.class);
@@ -30,12 +31,13 @@ public class ScaffoldTilesProvider {
    private TilesRequestContextFactory tilesRequestContextFactory;
    private MetadataResolver metadataResolver = new MetadataResolver();
 
-   @Autowired
    private ConversionService conversionService;
 
+   @Autowired
    @SuppressWarnings("deprecation")
-   public ScaffoldTilesProvider() {
-      SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+   public ScaffoldTilesProvider(ConversionService conversionService) {
+      super();
+      this.conversionService = conversionService;
       tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }
