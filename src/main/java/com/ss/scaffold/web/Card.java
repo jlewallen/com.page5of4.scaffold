@@ -7,7 +7,7 @@ import com.ss.scaffold.ScaffoldTemplate;
 public class Card {
 
    public enum Status {
-      NEW, WORKING, DONE
+      NEW, WORKING, BLOCKED, DONE
    }
 
    @ScaffoldHidden
