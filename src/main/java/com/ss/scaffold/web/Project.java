@@ -2,6 +2,8 @@ package com.ss.scaffold.web;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ss.scaffold.ScaffoldHidden;
 import com.ss.scaffold.ScaffoldTextArea;
 
@@ -15,8 +17,10 @@ public class Project {
    @ScaffoldTextArea
    private String description;
 
+   @DateTimeFormat(pattern = "MM/dd/yyyy")
    private Date startingAt;
 
+   @DateTimeFormat(pattern = "MM/dd/yyyy")
    private Date endingAt;
 
    private boolean started;

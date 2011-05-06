@@ -21,6 +21,8 @@
 		</property>
 	</bean>
 
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean"/>
+
 	<!-- Default view as configured by Roo/Spring MVC -->
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

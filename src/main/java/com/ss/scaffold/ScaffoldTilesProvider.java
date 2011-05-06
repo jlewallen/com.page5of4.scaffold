@@ -18,6 +18,9 @@ import org.apache.tiles.impl.BasicTilesContainer;
 import org.apache.tiles.servlet.context.ServletUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 public class ScaffoldTilesProvider {
 
@@ -27,8 +30,12 @@ public class ScaffoldTilesProvider {
    private TilesRequestContextFactory tilesRequestContextFactory;
    private MetadataResolver metadataResolver = new MetadataResolver();
 
+   @Autowired
+   private ConversionService conversionService;
+
    @SuppressWarnings("deprecation")
    public ScaffoldTilesProvider() {
+      SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
       tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }

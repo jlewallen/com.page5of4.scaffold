@@ -2,9 +2,15 @@ package com.ss.scaffold;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.ClassUtils;
+import org.springframework.format.AnnotationFormatterFactory;
+import org.springframework.format.Printer;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.datetime.joda.JodaDateTimeFormatAnnotationFormatterFactory;
 
 public class PropertyMetadata extends AbstractMetadata {
    private static final String HIDDEN_TEMPLATE_NAME = "Hidden";
@@ -56,6 +62,28 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public Object getDisplayValue() {
+      Object value = getValue();
+      if(value == null) {
+         return null;
+      }
+
+      DateTimeFormat dateFormatAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(DateTimeFormat.class, target.getClass(), descriptor);
+      if(dateFormatAnnotation != null) {
+         AnnotationFormatterFactory<DateTimeFormat> dateTimeFormatAnnotationFormatterFactory = new JodaDateTimeFormatAnnotationFormatterFactory();
+         Printer<?> printer = dateTimeFormatAnnotationFormatterFactory.getPrinter(dateFormatAnnotation, getPropertyType());
+         return printer.print((Date)value, Locale.ENGLISH);
+         /*
+         Date date = (Date)value;
+         if(dateFormatAnnotation.pattern() != null) {
+            DateTimeFormatter formatter = org.joda.time.format.DateTimeFormat.forPattern(dateFormatAnnotation.pattern());
+            return formatter.print(date.getTime());
+         }
+         if(dateFormatAnnotation.style() != null) {
+            DateTimeFormatter formatter = org.joda.time.format.DateTimeFormat.forStyle(dateFormatAnnotation.style());
+            return formatter.print(date.getTime());
+         }
+         */
+      }
       return getValue();
    }
 
