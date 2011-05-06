@@ -72,9 +72,17 @@ public class PropertyMetadata extends AbstractMetadata {
    @Override
    public String[] getCandidateTemplateNames() {
       List<String> names = new ArrayList<String>();
-      ScaffoldTemplate annotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTemplate.class, target.getClass(), descriptor);
-      if(annotation != null) {
-         names.add(annotation.value());
+      {
+         ScaffoldTemplate annotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTemplate.class, target.getClass(), descriptor);
+         if(annotation != null) {
+            names.add(annotation.value());
+         }
+      }
+      {
+         ScaffoldTextArea annotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTextArea.class, target.getClass(), descriptor);
+         if(annotation != null) {
+            names.add("TextArea");
+         }
       }
       names.add(getPropertyNameTemplateName());
       if(hidden) {

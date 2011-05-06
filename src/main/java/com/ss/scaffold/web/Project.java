@@ -3,6 +3,7 @@ package com.ss.scaffold.web;
 import java.util.Date;
 
 import com.ss.scaffold.ScaffoldHidden;
+import com.ss.scaffold.ScaffoldTextArea;
 
 public class Project {
 
@@ -11,6 +12,7 @@ public class Project {
 
    private String name;
 
+   @ScaffoldTextArea
    private String description;
 
    private Date startingAt;

@@ -4,6 +4,7 @@
 
     <definition name="scaffold/display/object" template="/WEB-INF/views/scaffold/display/object.jspx" />
     <definition name="scaffold/display/string" template="/WEB-INF/views/scaffold/display/string.jspx" />
+    <definition name="scaffold/display/text-area" template="/WEB-INF/views/scaffold/display/text-area.jspx" />
     <definition name="scaffold/display/date" template="/WEB-INF/views/scaffold/display/date.jspx" />
     <definition name="scaffold/display/boolean" template="/WEB-INF/views/scaffold/display/boolean.jspx" />
     <definition name="scaffold/display/enum" template="/WEB-INF/views/scaffold/display/enum.jspx" />
@@ -11,6 +12,7 @@
 
     <definition name="scaffold/editor/object" template="/WEB-INF/views/scaffold/editor/spring/object.jspx" />
     <definition name="scaffold/editor/string" template="/WEB-INF/views/scaffold/editor/spring/string.jspx" />
+    <definition name="scaffold/editor/text-area" template="/WEB-INF/views/scaffold/editor/spring/text-area.jspx" />
     <definition name="scaffold/editor/date" template="/WEB-INF/views/scaffold/editor/spring/date.jspx" />
     <definition name="scaffold/editor/boolean" template="/WEB-INF/views/scaffold/editor/spring/boolean.jspx" />
     <definition name="scaffold/editor/enum" template="/WEB-INF/views/scaffold/editor/spring/enum.jspx" />
@@ -18,6 +20,7 @@
 
     <definition name="scaffold/editor/plain/object" template="/WEB-INF/views/scaffold/editor/plain/object.jspx" />
     <definition name="scaffold/editor/plain/string" template="/WEB-INF/views/scaffold/editor/plain/string.jspx" />
+    <definition name="scaffold/editor/plain/text-area" template="/WEB-INF/views/scaffold/editor/plain/text-area.jspx" />
     <definition name="scaffold/editor/plain/date" template="/WEB-INF/views/scaffold/editor/plain/date.jspx" />
     <definition name="scaffold/editor/plain/boolean" template="/WEB-INF/views/scaffold/editor/plain/boolean.jspx" />
     <definition name="scaffold/editor/plain/enum" template="/WEB-INF/views/scaffold/editor/plain/enum.jspx" />
