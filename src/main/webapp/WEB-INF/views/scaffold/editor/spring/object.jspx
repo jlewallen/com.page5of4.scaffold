@@ -12,11 +12,11 @@
 				<c:when test="${property.visible}">
 					<div class="label">${property.displayName}</div>
 					<div class="field">
-						<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
+						<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
 					</div>
 				</c:when>
 				<c:otherwise>
-					<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
+					<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>

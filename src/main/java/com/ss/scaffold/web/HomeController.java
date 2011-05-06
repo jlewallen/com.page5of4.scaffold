@@ -6,7 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,16 +20,39 @@ public class HomeController {
 
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
+   @InitBinder
+   public void initBinder(WebDataBinder binder) {
+      binder.setIgnoreUnknownFields(false);
+   }
+
+   /*
+   @ModelAttribute("model")
+   public HomeModel findModel() {
+      HomeModel model = HomeModel.create();
+      logger.info("Model: {}", model);
+      return model;
+   }
+
+   @ModelAttribute("project")
+   public Project findProject() {
+      Project project = HomeModel.create().getProject();
+      logger.info("Project: {}", project);
+      return project;
+   }
+   */
+
    @RequestMapping(value = "/", method = RequestMethod.GET)
    public ModelAndView home() {
-      logger.info("Welcome home!");
       return new ModelAndView("home", "model", HomeModel.create());
    }
 
    @RequestMapping(value = "/", method = RequestMethod.POST)
-   public String save(HomeModel model, BindingResult br) {
+   public String save(@ModelAttribute("project") Project project, BindingResult br) {
       for(ObjectError error : br.getAllErrors()) {
-         logger.info(String.format("Error %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
+         logger.info(String.format("OE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
+      }
+      for(FieldError error : br.getFieldErrors()) {
+         logger.info(String.format("FE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
       }
       return "redirect:/";
    }

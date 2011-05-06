@@ -34,6 +34,34 @@
     width: 6em;
 }
 	</style>
+	
+	<h1><a href="/scaffold">Reload</a></h1>
+	
+	<div>
+		<spring:bind path="model.project.name">
+			${status}
+			${status.expression}
+		</spring:bind>
+	</div>
+	<div>
+		<spring:bind path="model">
+			${status}
+		</spring:bind>
+	</div>
+	<div>
+		<spring:bind path="model.project">
+			${status}
+			${status.expression}
+		</spring:bind>
+	</div>
+	<div>
+		<spring:nestedPath path="model">
+			<spring:bind path="project">
+				${status}
+				${status.expression}
+			</spring:bind>
+		</spring:nestedPath>
+	</div>
 
 	<div>
 		<h2>Project</h2>

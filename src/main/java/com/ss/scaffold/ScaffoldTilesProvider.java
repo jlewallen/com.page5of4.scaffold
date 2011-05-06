@@ -23,6 +23,7 @@ public class ScaffoldTilesProvider {
 
    private static final Logger logger = LoggerFactory.getLogger(ScaffoldTilesProvider.class);
    private static final String META_VARIABLE_NAME = "meta";
+   private static final String MODEL_VARIABLE_NAME = "scaffold";
    private TilesRequestContextFactory tilesRequestContextFactory;
    private MetadataResolver metadataResolver = new MetadataResolver();
 
@@ -48,8 +49,10 @@ public class ScaffoldTilesProvider {
          }
       }
 
+      ScaffoldModel model = new ScaffoldModel(mode, templatePrefix, formPrefix, meta);
+
       logger.info("Searching: {}", StringUtils.join(definitionNames, ", "));
-      renderDefinition(definitionNames, meta, servletRequest, servletContext, requestItems);
+      renderDefinition(definitionNames, model, servletRequest, servletContext, requestItems);
    }
 
    private AbstractMetadata resolve(Object target, String propertyName, ClassMetadata classMetadata) throws IntrospectionException {
@@ -74,8 +77,7 @@ public class ScaffoldTilesProvider {
       return paths.toArray(new String[0]);
    }
 
-   private void renderDefinition(Collection<String> definitionNames, AbstractMetadata meta, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems)
-         throws ServletException {
+   private void renderDefinition(Collection<String> definitionNames, ScaffoldModel model, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws ServletException {
       BasicTilesContainer container = (BasicTilesContainer)ServletUtil.getCurrentContainer(servletRequest, servletContext);
       if(container == null) {
          throw new ServletException("Tiles container is not initialized. Have you added a TilesConfigurer to your web application context?");
@@ -86,17 +88,19 @@ public class ScaffoldTilesProvider {
 
       logger.info("Rendering: {} = {}", definition.getName(), definition);
 
-      Object existing = servletRequest.getAttribute(META_VARIABLE_NAME);
-      servletRequest.setAttribute(META_VARIABLE_NAME, meta);
+      Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
+      Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);
+      servletRequest.setAttribute(MODEL_VARIABLE_NAME, model);
+      servletRequest.setAttribute(META_VARIABLE_NAME, model.getMeta());
+
       container.startContext(requestItems).inheritCascadedAttributes(definition);
       container.render(definition.getName(), requestItems);
       container.endContext(requestItems);
-      if(existing != null) {
-         servletRequest.setAttribute(META_VARIABLE_NAME, existing);
-      }
-      else {
-         servletRequest.removeAttribute(META_VARIABLE_NAME);
-      }
+
+      if(existingMeta != null) servletRequest.setAttribute(META_VARIABLE_NAME, existingMeta);
+      else servletRequest.removeAttribute(META_VARIABLE_NAME);
+      if(existingModel != null) servletRequest.setAttribute(MODEL_VARIABLE_NAME, existingModel);
+      else servletRequest.removeAttribute(MODEL_VARIABLE_NAME);
    }
 
    private Definition findDefinition(Collection<String> definitionNames, BasicTilesContainer container, TilesRequestContext tilesRequestContext) throws ServletException {

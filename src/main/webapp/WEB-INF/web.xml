@@ -27,4 +27,10 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!--
+	<taglib>
+		<taglib-uri>/spring</taglib-uri>
+		<taglib-location>/WEB-INF/tlds/spring.tld</taglib-location>
+	</taglib>
+  	-->
 </web-app>
