@@ -26,11 +26,19 @@ public class MultivaluedPropertyMetadata {
    }
 
    public static MultivaluedPropertyMetadata create(PropertyMetadata property) {
+      MultivaluedPropertyMetadata metadata = tryCreate(property);
+      if(metadata != null) {
+         return metadata;
+      }
+      throw new RuntimeException("Invalid multivalued property type: " + property);
+   }
+
+   public static MultivaluedPropertyMetadata tryCreate(PropertyMetadata property) {
       Class<? extends Object> type = property.getPropertyType();
       if(type.isEnum()) {
          return new MultivaluedPropertyMetadata(property, type.getEnumConstants());
       }
-      throw new RuntimeException("Invalid multivalued property type: " + type);
+      return null;
    }
 
 }
