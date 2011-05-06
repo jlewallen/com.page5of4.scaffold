@@ -9,7 +9,7 @@ public class MetadataResolver {
 
    private static final Logger logger = LoggerFactory.getLogger(MetadataResolver.class);
 
-   public AbstractMetadata resolve(Object target, String propertyName) throws IntrospectionException {
+   public ClassMetadata resolve(Object target) throws IntrospectionException {
       if(target == null) {
          throw new IntrospectionException("Cannot resolve NULL object.");
       }
@@ -21,11 +21,7 @@ public class MetadataResolver {
          logger.info(String.format("  %s %s %s", property.getDisplayName(), property.getName(), StringUtils.join(property.getCandidateTemplateNames(), ", ")));
       }
 
-      if(propertyName == null) {
-         return meta;
-      }
-
-      return meta.findProperty(propertyName);
+      return meta;
    }
 
 }

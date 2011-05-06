@@ -6,6 +6,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
+import com.ss.scaffold.ClassMetadata;
 import com.ss.scaffold.ScaffoldTilesProvider;
 
 public abstract class ScaffoldForTag extends RequestContextAwareTag {
@@ -25,12 +26,22 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
 
    private String formPrefix;
 
+   private ClassMetadata classMetadata;
+
    public Object getObject() {
       return object;
    }
 
    public void setObject(Object object) {
       this.object = object;
+   }
+
+   public ClassMetadata getClassMetadata() {
+      return classMetadata;
+   }
+
+   public void setClassMetadata(ClassMetadata classMetadata) {
+      this.classMetadata = classMetadata;
    }
 
    public String getPropertyName() {
@@ -66,7 +77,7 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      provider.render(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), servletRequest, servletContext, requestItems);
+      provider.render(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata(), servletRequest, servletContext, requestItems);
       return 0;
    }
 }

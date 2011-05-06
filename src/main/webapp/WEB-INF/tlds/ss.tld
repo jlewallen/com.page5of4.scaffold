@@ -27,6 +27,12 @@
 		</attribute>
 		<attribute>
 			<description></description>
+			<name>classMetadata</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
 			<name>templatePrefix</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -46,6 +52,12 @@
 		<attribute>
 			<description></description>
 			<name>propertyName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>classMetadata</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

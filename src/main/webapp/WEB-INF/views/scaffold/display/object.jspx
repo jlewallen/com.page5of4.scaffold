@@ -12,7 +12,7 @@
 				<c:when test="${property.visible}">
 					<div class="label">${property.displayName}</div>
 					<div class="field">
-						<ss:display-for object="${meta.object}" propertyName="${property.name}" />
+						<ss:display-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
 					</div>
 				</c:when>
 				<c:otherwise>

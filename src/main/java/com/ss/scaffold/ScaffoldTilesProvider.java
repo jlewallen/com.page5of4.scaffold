@@ -32,9 +32,9 @@ public class ScaffoldTilesProvider {
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }
 
-   public void render(String mode, String templatePrefix, String formPrefix, Object target, String propertyName, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems)
-         throws IntrospectionException, ServletException {
-      AbstractMetadata meta = metadataResolver.resolve(target, propertyName);
+   public void render(String mode, String templatePrefix, String formPrefix, Object target, String propertyName, ClassMetadata classMetadata, ServletRequest servletRequest,
+         ServletContext servletContext, Object[] requestItems) throws IntrospectionException, ServletException {
+      AbstractMetadata meta = resolve(target, propertyName, classMetadata);
       List<String> convertedNames = new ArrayList<String>();
       for(String name : meta.getCandidateTemplateNames()) {
          convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
@@ -50,6 +50,16 @@ public class ScaffoldTilesProvider {
 
       logger.info("Searching: {}", StringUtils.join(definitionNames, ", "));
       renderDefinition(definitionNames, meta, servletRequest, servletContext, requestItems);
+   }
+
+   private AbstractMetadata resolve(Object target, String propertyName, ClassMetadata classMetadata) throws IntrospectionException {
+      if(classMetadata == null) {
+         classMetadata = metadataResolver.resolve(target);
+      }
+      if(propertyName == null) {
+         return classMetadata;
+      }
+      return classMetadata.findProperty(propertyName);
    }
 
    private String[] getSearchPaths(String mode, String prefix) {
@@ -93,7 +103,6 @@ public class ScaffoldTilesProvider {
       for(String definitionName : definitionNames) {
          Definition definition = container.getDefinitionsFactory().getDefinition(definitionName, tilesRequestContext);
          if(definition != null) {
-            logger.info("Selected: {}", definitionName);
             return definition;
          }
       }
