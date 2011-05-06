@@ -33,23 +33,23 @@ public class ScaffoldTilesProvider {
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }
 
-   public void render(String mode, String templatePrefix, String formPrefix, Object target, String propertyName, ClassMetadata classMetadata, ServletRequest servletRequest,
-         ServletContext servletContext, Object[] requestItems) throws IntrospectionException, ServletException {
-      AbstractMetadata meta = resolve(target, propertyName, classMetadata);
+   public void render(ScaffoldModel model, ClassMetadata classMetadata, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException,
+         ServletException {
+      AbstractMetadata meta = resolve(model.getTargetObject(), model.getPropertyName(), classMetadata);
+      model.setMeta(meta);
+
       List<String> convertedNames = new ArrayList<String>();
       for(String name : meta.getCandidateTemplateNames()) {
          convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
       }
 
       List<String> definitionNames = new ArrayList<String>();
-      for(String path : getSearchPaths(mode, templatePrefix)) {
+      for(String path : getSearchPaths(model.getMode(), model.getTemplatePrefix())) {
          for(String name : convertedNames) {
             String url = path + name;
             definitionNames.add(url);
          }
       }
-
-      ScaffoldModel model = new ScaffoldModel(mode, templatePrefix, formPrefix, meta);
 
       logger.info("Searching: {}", StringUtils.join(definitionNames, ", "));
       renderDefinition(definitionNames, model, servletRequest, servletContext, requestItems);

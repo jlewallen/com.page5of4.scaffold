@@ -7,6 +7,7 @@ import javax.servlet.jsp.PageContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.ss.scaffold.ClassMetadata;
+import com.ss.scaffold.ScaffoldModel;
 import com.ss.scaffold.ScaffoldTilesProvider;
 
 public abstract class ScaffoldForTag extends RequestContextAwareTag {
@@ -77,7 +78,8 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      provider.render(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata(), servletRequest, servletContext, requestItems);
+      ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName());
+      provider.render(model, getClassMetadata(), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }
 }

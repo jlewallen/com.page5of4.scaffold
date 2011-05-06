@@ -5,6 +5,8 @@ public class ScaffoldModel {
    private String mode;
    private String templatePrefix;
    private String formPrefix;
+   private Object targetObject;
+   private String propertyName;
    private AbstractMetadata meta;
 
    public String getMode() {
@@ -31,6 +33,22 @@ public class ScaffoldModel {
       this.formPrefix = formPrefix;
    }
 
+   public Object getTargetObject() {
+      return targetObject;
+   }
+
+   public void setTargetObject(Object targetObject) {
+      this.targetObject = targetObject;
+   }
+
+   public String getPropertyName() {
+      return propertyName;
+   }
+
+   public void setPropertyName(String propertyName) {
+      this.propertyName = propertyName;
+   }
+
    public AbstractMetadata getMeta() {
       return meta;
    }
@@ -39,12 +57,13 @@ public class ScaffoldModel {
       this.meta = meta;
    }
 
-   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, AbstractMetadata meta) {
+   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Object targetObject, String propertyName) {
       super();
       this.mode = mode;
       this.templatePrefix = templatePrefix;
       this.formPrefix = formPrefix;
-      this.meta = meta;
+      this.targetObject = targetObject;
+      this.propertyName = propertyName;
    }
 
 }
