@@ -69,4 +69,12 @@ public class Project {
       this.started = started;
    }
 
+   public Project() {
+      System.getenv();
+   }
+
+   public static Project findProject(String key) {
+      throw new RuntimeException("What? " + key);
+   }
+
 }

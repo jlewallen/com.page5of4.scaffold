@@ -5,6 +5,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +23,11 @@ public class HomeController {
    }
 
    @RequestMapping(value = "/", method = RequestMethod.POST)
-   public ModelAndView save(HomeModel model) {
-      return new ModelAndView("home", "model", model);
+   public String save(HomeModel model, BindingResult br) {
+      for(ObjectError error : br.getAllErrors()) {
+         logger.info(String.format("Error %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
+      }
+      return "redirect:/";
    }
 
    public static class HomeModel {
@@ -33,8 +38,16 @@ public class HomeController {
          return project;
       }
 
+      public void setProject(Project project) {
+         this.project = project;
+      }
+
       public Card getCard() {
          return card;
+      }
+
+      public void setCard(Card card) {
+         this.card = card;
       }
 
       public HomeModel() {}
@@ -46,6 +59,7 @@ public class HomeController {
 
       public static HomeModel create() {
          Project project = new Project();
+         project.setId(20L);
          project.setName("Super Cool Project");
          project.setDescription("A really nifty project that we're all working very hard on!");
          project.setStartingAt(new Date());
