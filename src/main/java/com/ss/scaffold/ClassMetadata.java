@@ -14,16 +14,17 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.ConversionService;
 
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
 
-   public static ClassMetadata create(Class<? extends Object> klass, String formPrefix, Object target) throws IntrospectionException {
+   public static ClassMetadata create(ConversionService conversionService, Class<? extends Object> klass, String formPrefix, Object target) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(klass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
          if(!shouldSkip(descriptor)) {
-            properties.add(new PropertyMetadata(formPrefix, descriptor, target));
+            properties.add(new PropertyMetadata(conversionService, formPrefix, descriptor, target));
          }
       }
       Collections.sort(properties, new Comparator<PropertyMetadata>() {

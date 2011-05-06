@@ -2,15 +2,10 @@ package com.ss.scaffold;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang.ClassUtils;
-import org.springframework.format.AnnotationFormatterFactory;
-import org.springframework.format.Printer;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.datetime.joda.JodaDateTimeFormatAnnotationFormatterFactory;
+import org.springframework.core.convert.ConversionService;
 
 public class PropertyMetadata extends AbstractMetadata {
    private static final String HIDDEN_TEMPLATE_NAME = "Hidden";
@@ -19,6 +14,7 @@ public class PropertyMetadata extends AbstractMetadata {
    private PropertyDescriptor descriptor;
    private boolean hidden;
    private String help;
+   private ConversionService conversionService;
 
    public boolean isHidden() {
       return hidden;
@@ -62,19 +58,11 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public Object getDisplayValue() {
-      Object value = getValue();
-      if(value == null) {
-         return null;
-      }
-
-      @SuppressWarnings("unchecked")
-      DateTimeFormat dateFormatAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(DateTimeFormat.class, target.getClass(), descriptor);
-      if(dateFormatAnnotation != null) {
-         AnnotationFormatterFactory<DateTimeFormat> dateTimeFormatAnnotationFormatterFactory = new JodaDateTimeFormatAnnotationFormatterFactory();
-         Printer printer = dateTimeFormatAnnotationFormatterFactory.getPrinter(dateFormatAnnotation, getPropertyType());
-         return printer.print((Date)value, Locale.ENGLISH);
-      }
       return getValue();
+   }
+
+   public Object getConvertedStringValue() {
+      return conversionService.convert(getPropertyType(), String.class);
    }
 
    private MultivaluedPropertyMetadata multivaluedPropertyMetadata;
@@ -118,8 +106,9 @@ public class PropertyMetadata extends AbstractMetadata {
       return descriptor.getPropertyType();
    }
 
-   public PropertyMetadata(String formPrefix, PropertyDescriptor descriptor, Object target) {
+   public PropertyMetadata(ConversionService conversionService, String formPrefix, PropertyDescriptor descriptor, Object target) {
       super();
+      this.conversionService = conversionService;
       this.formName = formPrefix + "." + descriptor.getName();
       this.target = target;
       this.descriptor = descriptor;

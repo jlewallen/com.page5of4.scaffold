@@ -29,15 +29,15 @@ public class ScaffoldTilesProvider {
    private static final String META_VARIABLE_NAME = "meta";
    private static final String MODEL_VARIABLE_NAME = "scaffold";
    private TilesRequestContextFactory tilesRequestContextFactory;
-   private MetadataResolver metadataResolver = new MetadataResolver();
-
+   private MetadataResolver metadataResolver;
    private ConversionService conversionService;
 
    @Autowired
    @SuppressWarnings("deprecation")
-   public ScaffoldTilesProvider(ConversionService conversionService) {
+   public ScaffoldTilesProvider(ConversionService conversionService, MetadataResolver metadataResolver) {
       super();
       this.conversionService = conversionService;
+      this.metadataResolver = metadataResolver;
       tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }
