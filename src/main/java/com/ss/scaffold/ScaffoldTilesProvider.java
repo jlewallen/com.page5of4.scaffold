@@ -35,7 +35,7 @@ public class ScaffoldTilesProvider {
 
    public void render(ScaffoldModel model, ClassMetadata classMetadata, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException,
          ServletException {
-      AbstractMetadata meta = resolve(model.getTargetObject(), model.getPropertyName(), classMetadata);
+      AbstractMetadata meta = resolve(model);
       model.setMeta(meta);
 
       List<String> convertedNames = new ArrayList<String>();
@@ -55,14 +55,14 @@ public class ScaffoldTilesProvider {
       renderDefinition(definitionNames, model, servletRequest, servletContext, requestItems);
    }
 
-   private AbstractMetadata resolve(Object target, String propertyName, ClassMetadata classMetadata) throws IntrospectionException {
-      if(classMetadata == null) {
-         classMetadata = metadataResolver.resolve(target);
+   private AbstractMetadata resolve(ScaffoldModel model) throws IntrospectionException {
+      if(model.getClassMetadata() == null) {
+         model.setClassMetadata(metadataResolver.resolve(model));
       }
-      if(propertyName == null) {
-         return classMetadata;
+      if(model.getPropertyName() == null) {
+         return model.getClassMetadata();
       }
-      return classMetadata.findProperty(propertyName);
+      return model.getClassMetadata().findProperty(model.getPropertyName());
    }
 
    private String[] getSearchPaths(String mode, String prefix) {

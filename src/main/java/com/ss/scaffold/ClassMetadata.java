@@ -18,12 +18,12 @@ import org.slf4j.LoggerFactory;
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
 
-   public static ClassMetadata create(Class<? extends Object> klass, Object target) throws IntrospectionException {
+   public static ClassMetadata create(Class<? extends Object> klass, String formPrefix, Object target) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(klass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
          if(!shouldSkip(descriptor)) {
-            properties.add(new PropertyMetadata(target, descriptor));
+            properties.add(new PropertyMetadata(formPrefix, descriptor, target));
          }
       }
       Collections.sort(properties, new Comparator<PropertyMetadata>() {

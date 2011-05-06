@@ -9,12 +9,13 @@ public class MetadataResolver {
 
    private static final Logger logger = LoggerFactory.getLogger(MetadataResolver.class);
 
-   public ClassMetadata resolve(Object target) throws IntrospectionException {
+   public ClassMetadata resolve(ScaffoldModel model) throws IntrospectionException {
+      Object target = model.getTargetObject();
       if(target == null) {
          throw new IntrospectionException("Cannot resolve NULL object.");
       }
       Class<? extends Object> klass = target.getClass();
-      ClassMetadata meta = ClassMetadata.create(klass, target);
+      ClassMetadata meta = ClassMetadata.create(klass, model.getFormPrefix(), target);
 
       logger.info(String.format("Resolving: %s %s %s", target, klass.getName(), StringUtils.join(meta.getCandidateTemplateNames(), ", ")));
       for(PropertyMetadata property : meta.getProperties()) {

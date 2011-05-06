@@ -8,9 +8,11 @@ import org.apache.commons.lang.ClassUtils;
 
 public class PropertyMetadata extends AbstractMetadata {
    private static final String HIDDEN_TEMPLATE_NAME = "Hidden";
+   private String formName;
    private Object target;
    private PropertyDescriptor descriptor;
    private boolean hidden;
+   private String help;
 
    public boolean isHidden() {
       return hidden;
@@ -25,11 +27,7 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public String getFormName() {
-      return "";
-   }
-
-   public String getFormId() {
-      return "";
+      return this.formName;
    }
 
    public String getDisplayName() {
@@ -42,6 +40,10 @@ public class PropertyMetadata extends AbstractMetadata {
 
    public String getPropertyTypeTemplateName() {
       return ClassUtils.getShortClassName(getPropertyType());
+   }
+
+   public String getHelp() {
+      return this.help;
    }
 
    public Object getValue() {
@@ -98,10 +100,15 @@ public class PropertyMetadata extends AbstractMetadata {
       return descriptor.getPropertyType();
    }
 
-   public PropertyMetadata(Object target, PropertyDescriptor descriptor) {
+   public PropertyMetadata(String formPrefix, PropertyDescriptor descriptor, Object target) {
       super();
+      this.formName = formPrefix + "." + descriptor.getName();
       this.target = target;
       this.descriptor = descriptor;
       this.hidden = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHidden.class, target.getClass(), descriptor) != null;
+      ScaffoldHelp helpAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHelp.class, target.getClass(), descriptor);
+      if(helpAnnotation != null) {
+         this.help = helpAnnotation.value();
+      }
    }
 }
