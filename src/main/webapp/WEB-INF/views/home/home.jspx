@@ -4,7 +4,7 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
+	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
 	<style>
 .display .label,
@@ -38,14 +38,14 @@
 	<div>
 		<h2>Project</h2>
 		<form method="POST">
-			<ss:editor-for object="${model.project}" />
+			<scaffold:editor-for object="${model.project}" />
 		</form>	
 	</div>
 
 	<div>
 		<h2>Card</h2>
 		<form method="POST">
-			<ss:editor-for object="${model.card}" />
+			<scaffold:editor-for object="${model.card}" />
 		</form>	
 	</div>
 </jsp:root>

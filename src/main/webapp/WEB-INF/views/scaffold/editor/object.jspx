@@ -4,7 +4,7 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
+	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
 	<div class="editor">
 		<c:forEach items="${meta.properties}" var="property">
@@ -12,11 +12,11 @@
 				<c:when test="${property.visible}">
 					<div class="label">${property.displayName}</div>
 					<div class="field">
-						<ss:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
+						<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
 					</div>
 				</c:when>
 				<c:otherwise>
-					<ss:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
+					<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" />
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>

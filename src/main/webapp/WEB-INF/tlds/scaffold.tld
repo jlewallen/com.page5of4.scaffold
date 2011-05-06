@@ -4,10 +4,10 @@
 		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
 		version="2.0">
 
-	<description>SolutionStream Tags</description>
+	<description>Scaffold Tags</description>
 	<tlib-version>1.0</tlib-version>
 	<short-name>ss</short-name>
-	<uri>http://www.solutionstream.org/tags</uri>
+	<uri></uri>
 
 	<tag>
 		<name>display-for</name>
