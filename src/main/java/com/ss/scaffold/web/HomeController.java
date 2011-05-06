@@ -17,7 +17,12 @@ public class HomeController {
    @RequestMapping(value = "/", method = RequestMethod.GET)
    public ModelAndView home() {
       logger.info("Welcome home!");
-      return new ModelAndView("home", "model", new HomeModel());
+      return new ModelAndView("home", "model", HomeModel.create());
+   }
+
+   @RequestMapping(value = "/", method = RequestMethod.POST)
+   public ModelAndView save(HomeModel model) {
+      return new ModelAndView("home", "model", model);
    }
 
    public static class HomeModel {
@@ -32,15 +37,23 @@ public class HomeController {
          return card;
       }
 
-      public HomeModel() {
-         project = new Project();
+      public HomeModel() {}
+
+      public HomeModel(Project project, Card card) {
+         this.project = project;
+         this.card = card;
+      }
+
+      public static HomeModel create() {
+         Project project = new Project();
          project.setName("Super Cool Project");
          project.setDescription("A really nifty project that we're all working very hard on!");
          project.setStartingAt(new Date());
-         card = new Card();
+         Card card = new Card();
          card.setTitle("Fix all the bugs!");
-         card.setStatus(Card.Status.WORKING);
+         card.setStatus(Card.Status.BLOCKED);
          card.setProject(project);
+         return new HomeModel(project, card);
       }
    }
 

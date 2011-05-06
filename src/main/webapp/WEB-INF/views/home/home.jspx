@@ -39,6 +39,9 @@
 		<h2>Project</h2>
 		<form:form commandName="model.project">
 			<scaffold:editor-for object="${model.project}" />
+			<div>
+				<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
+			</div>
 		</form:form>
 	</div>
 
@@ -46,6 +49,9 @@
 		<h2>Card</h2>
 		<form:form commandName="model.card">
 			<scaffold:editor-for object="${model.card}" />
+			<div>
+				<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
+			</div>
 		</form:form>
 	</div>
 </jsp:root>
