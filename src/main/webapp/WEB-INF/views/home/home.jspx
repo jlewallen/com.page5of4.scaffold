@@ -37,16 +37,16 @@
 
 	<div>
 		<h2>Project</h2>
-		<form method="POST">
+		<form:form commandName="model.project">
 			<scaffold:editor-for object="${model.project}" />
-		</form>	
+		</form:form>
 	</div>
 
 	<div>
 		<h2>Card</h2>
-		<form method="POST">
+		<form:form commandName="model.card">
 			<scaffold:editor-for object="${model.card}" />
-		</form>	
+		</form:form>
 	</div>
 </jsp:root>
 

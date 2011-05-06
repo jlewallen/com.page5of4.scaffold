@@ -6,5 +6,5 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	${meta.displayValue}
+	<form:select path="${meta.name}" items="${meta.multivaluedPropertyMetadata.items}" />
 </jsp:root>

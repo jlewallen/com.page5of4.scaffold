@@ -60,6 +60,15 @@ public class PropertyMetadata extends AbstractMetadata {
       return getValue();
    }
 
+   private MultivaluedPropertyMetadata multivaluedPropertyMetadata;
+
+   public MultivaluedPropertyMetadata getMultivaluedPropertyMetadata() {
+      if(multivaluedPropertyMetadata == null) {
+         multivaluedPropertyMetadata = MultivaluedPropertyMetadata.create(this);
+      }
+      return multivaluedPropertyMetadata;
+   }
+
    @Override
    public String[] getCandidateTemplateNames() {
       List<String> names = new ArrayList<String>();

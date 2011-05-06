@@ -78,6 +78,6 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
       provider.render(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata(), servletRequest, servletContext, requestItems);
-      return 0;
+      return EVAL_BODY_INCLUDE;
    }
 }
