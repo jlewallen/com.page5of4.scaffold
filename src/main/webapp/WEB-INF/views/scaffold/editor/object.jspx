@@ -8,10 +8,17 @@
 
 	<div class="editor">
 		<c:forEach items="${meta.properties}" var="property">
-			<div class="label">${property.displayName}</div>
-			<div class="field">
-			<ss:display-for object="${meta.object}" propertyName="${property.name}" />
-		    </div>
+			<c:choose>
+				<c:when test="${property.visible}">
+					<div class="label">${property.displayName}</div>
+					<div class="field">
+						<ss:editor-for object="${meta.object}" propertyName="${property.name}" />
+					</div>
+				</c:when>
+				<c:otherwise>
+					<ss:editor-for object="${meta.object}" propertyName="${property.name}" />
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
 	</div>
 

@@ -8,12 +8,16 @@
 
 	<div class="display">
 		<c:forEach items="${meta.properties}" var="property">
-			<c:if test="${property.visible}">
-				<div class="label">${property.displayName}</div>
-				<div class="field">
-					<ss:display-for object="${meta.object}" propertyName="${property.name}" />
-				</div>
-			</c:if>
+			<c:choose>
+				<c:when test="${property.visible}">
+					<div class="label">${property.displayName}</div>
+					<div class="field">
+						<ss:display-for object="${meta.object}" propertyName="${property.name}" />
+					</div>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
 	</div>
 

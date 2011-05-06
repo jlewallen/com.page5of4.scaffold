@@ -6,5 +6,5 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:ss="urn:jsptld:/WEB-INF/tlds/ss.tld" version="2.0">
 
-	${meta.displayValue}
+	<INPUT TYPE="TEXT" ID="${meta.formId}" NAME="${meta.formName}" VALUE="${meta.displayValue}"></INPUT>
 </jsp:root>

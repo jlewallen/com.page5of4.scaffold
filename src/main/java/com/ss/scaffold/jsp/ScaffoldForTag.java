@@ -43,6 +43,8 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
 
    private String prefix;
 
+   private String formPrefix;
+
    public Object getObject() {
       return object;
    }
@@ -65,6 +67,14 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
 
    public void setPrefix(String prefix) {
       this.prefix = prefix;
+   }
+
+   public String getFormPrefix() {
+      return formPrefix;
+   }
+
+   public void setFormPrefix(String formPrefix) {
+      this.formPrefix = formPrefix;
    }
 
    public String getMode() {

@@ -12,14 +12,6 @@ public class PropertyMetadata extends AbstractMetadata {
    private PropertyDescriptor descriptor;
    private boolean hidden;
 
-   public Object getTarget() {
-      return target;
-   }
-
-   public PropertyDescriptor getDescriptor() {
-      return descriptor;
-   }
-
    public boolean isHidden() {
       return hidden;
    }
@@ -30,6 +22,14 @@ public class PropertyMetadata extends AbstractMetadata {
 
    public String getName() {
       return descriptor.getName();
+   }
+
+   public String getFormName() {
+      return "";
+   }
+
+   public String getFormId() {
+      return "";
    }
 
    public String getDisplayName() {
