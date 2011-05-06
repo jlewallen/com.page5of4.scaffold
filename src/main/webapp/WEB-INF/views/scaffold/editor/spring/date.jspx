@@ -6,5 +6,5 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	${meta.displayValue}
+	<form:input path="${meta.name}" cssClass="date-field" cssErrorClass="date-field error" />
 </jsp:root>

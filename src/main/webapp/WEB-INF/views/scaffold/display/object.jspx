@@ -6,7 +6,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	<div class="display">
+	<div class="scaffold display">
 		<c:forEach items="${meta.properties}" var="property">
 			<c:choose>
 				<c:when test="${property.visible}">
