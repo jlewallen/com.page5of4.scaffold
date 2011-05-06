@@ -19,17 +19,17 @@
     margin:0.5em 0 0 0;
 }
 
-.editor .text-box
+.editor .text-field
 {
     width: 30em;
 }
 
-.editor .text-box.multi-line
+.editor .text-field.multi-line
 {
     height: 6.5em;
 }
 
-.editor .tri-state
+.editor .check-box
 {
     width: 6em;
 }
