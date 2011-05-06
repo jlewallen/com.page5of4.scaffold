@@ -41,9 +41,6 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public String getPropertyTypeTemplateName() {
-      if(getPropertyType().isEnum()) {
-         return "Enum";
-      }
       return ClassUtils.getShortClassName(getPropertyType());
    }
 
@@ -90,6 +87,9 @@ public class PropertyMetadata extends AbstractMetadata {
       }
       else {
          names.add(getPropertyTypeTemplateName());
+      }
+      if(getPropertyType().isEnum()) {
+         names.add("Enum");
       }
       return names.toArray(new String[0]);
    }
