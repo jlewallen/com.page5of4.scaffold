@@ -29,9 +29,9 @@ public class MetadataResolver {
       Class<? extends Object> klass = target.getClass();
       ClassMetadata meta = ClassMetadata.create(conversionService, klass, model.getFormPrefix(), target);
 
-      logger.info(String.format("Resolving: %s %s %s", target, klass.getName(), StringUtils.join(meta.getCandidateTemplateNames(), ", ")));
+      logger.trace(String.format("Resolving: %s %s %s", target, klass.getName(), StringUtils.join(meta.getCandidateTemplateNames(), ", ")));
       for(PropertyMetadata property : meta.getProperties()) {
-         logger.info(String.format("  %s %s %s", property.getDisplayName(), property.getName(), StringUtils.join(property.getCandidateTemplateNames(), ", ")));
+         logger.trace(String.format("  %s %s %s", property.getDisplayName(), property.getName(), StringUtils.join(property.getCandidateTemplateNames(), ", ")));
       }
 
       return meta;

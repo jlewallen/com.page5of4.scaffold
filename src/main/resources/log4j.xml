@@ -12,10 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.ss.scaffold">
-		<level value="all" />
-	</logger>
-	<logger name="com.ss.scaffold.jsp">
-		<level value="all" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

@@ -60,7 +60,7 @@ public class ScaffoldTilesProvider {
          }
       }
 
-      logger.info("Searching: {}", StringUtils.join(definitionNames, ", "));
+      logger.trace("Searching: {}", StringUtils.join(definitionNames, ", "));
       renderDefinition(definitionNames, model, servletRequest, servletContext, requestItems);
    }
 
@@ -95,7 +95,7 @@ public class ScaffoldTilesProvider {
       TilesRequestContext tilesRequestContext = tilesRequestContextFactory.createRequestContext(container.getApplicationContext(), requestItems);
       Definition definition = findDefinition(definitionNames, container, tilesRequestContext);
 
-      logger.info("Rendering: {} = {}", definition.getName(), definition);
+      logger.trace("Rendering: {} = {}", definition.getName(), definition);
 
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);
