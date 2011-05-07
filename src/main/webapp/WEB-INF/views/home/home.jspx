@@ -6,7 +6,8 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	<h1><a href="/scaffold">Reload</a></h1>
+	<spring:url value="/" var="homeUrl" />
+	<h1><a href="${homeUrl}">Reload</a></h1>
 	
 	<div>
 		<spring:bind path="model.project.name">
