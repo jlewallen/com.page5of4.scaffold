@@ -5,16 +5,15 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ss.scaffold.spring.ScaffoldModelAttribute;
 
 @Controller
 public class HomeController {
@@ -48,7 +47,7 @@ public class HomeController {
    }
 
    @RequestMapping(value = "/", method = RequestMethod.POST)
-   public String save(/*@ModelAttribute("project")*/@ScaffoldModelAttribute Project project, BindingResult br) {
+   public String save(@ModelAttribute HomeModel model, Errors br) {
       for(ObjectError error : br.getAllErrors()) {
          logger.info(String.format("OE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
       }
