@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ss.scaffold.ScaffoldHidden;
@@ -86,8 +88,11 @@ public class Project {
       this.name = name;
    }
 
+   private static final Logger logger = LoggerFactory.getLogger(Project.class);
+
    public static Project findProject(String key) {
-      throw new RuntimeException("What? " + key);
+      logger.info("Finding Project: " + key);
+      return null;
    }
 
    public static Collection<Project> findAll() {
