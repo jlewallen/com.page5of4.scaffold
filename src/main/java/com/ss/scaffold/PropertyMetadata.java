@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ClassUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.convert.support.ConvertingPropertyEditorAdapter;
+
+import com.ss.scaffold.spring.ValueFormatter;
 
 public class PropertyMetadata extends AbstractMetadata {
    private static final String HIDDEN_TEMPLATE_NAME = "Hidden";
@@ -62,20 +68,50 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public Object getDisplayValue() {
-      return getValue();
+      BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(target);
+      Object value = bw.getPropertyValue(getName());
+      TypeDescriptor td = bw.getPropertyTypeDescriptor(getName());
+      if(!conversionService.canConvert(TypeDescriptor.valueOf(String.class), td)) {
+         return value;
+      }
+      ConvertingPropertyEditorAdapter editor = new ConvertingPropertyEditorAdapter(conversionService, td);
+      return ValueFormatter.getDisplayString(value, editor, true);
    }
 
    public Object getConvertedStringValue() {
       return conversionService.convert(getPropertyType(), String.class);
    }
 
-   private MultivaluedPropertyMetadata multivaluedPropertyMetadata;
+   private OneToManyPropertyMetadata oneToManyMetadata;
 
-   public MultivaluedPropertyMetadata getMultivaluedPropertyMetadata() {
-      if(multivaluedPropertyMetadata == null) {
-         multivaluedPropertyMetadata = MultivaluedPropertyMetadata.create(this);
+   public boolean getIsOneToMany() {
+      if(oneToManyMetadata == null) {
+         oneToManyMetadata = OneToManyPropertyMetadata.tryCreate(this);
       }
-      return multivaluedPropertyMetadata;
+      return oneToManyMetadata != null;
+   }
+
+   public OneToManyPropertyMetadata getOneToMany() {
+      if(oneToManyMetadata == null) {
+         oneToManyMetadata = OneToManyPropertyMetadata.create(this);
+      }
+      return oneToManyMetadata;
+   }
+
+   private ManyToOnePropertyMetadata manyToOneMetadata;
+
+   public boolean getIsManyToOne() {
+      if(manyToOneMetadata == null) {
+         manyToOneMetadata = ManyToOnePropertyMetadata.tryCreate(this);
+      }
+      return manyToOneMetadata != null;
+   }
+
+   public ManyToOnePropertyMetadata getManyToOne() {
+      if(manyToOneMetadata == null) {
+         manyToOneMetadata = ManyToOnePropertyMetadata.create(this);
+      }
+      return manyToOneMetadata;
    }
 
    @Override

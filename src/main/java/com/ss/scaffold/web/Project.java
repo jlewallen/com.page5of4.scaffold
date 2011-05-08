@@ -1,6 +1,9 @@
 package com.ss.scaffold.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -77,8 +80,23 @@ public class Project {
       System.getenv();
    }
 
+   public Project(Long id, String name) {
+      super();
+      this.id = id;
+      this.name = name;
+   }
+
    public static Project findProject(String key) {
       throw new RuntimeException("What? " + key);
+   }
+
+   public static Collection<Project> findAll() {
+      List<Project> all = new ArrayList<Project>();
+      all.add(new Project(1L, "A"));
+      all.add(new Project(2L, "B"));
+      all.add(new Project(3L, "C"));
+      all.add(new Project(4L, "D"));
+      return all;
    }
 
 }

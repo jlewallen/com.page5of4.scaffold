@@ -6,5 +6,22 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	<form:input path="${meta.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
+	<c:choose>
+		<c:when test="${not empty projectCollection}">
+			<form:select path="${meta.name}" items="${projectCollection}"></form:select>
+		</c:when>
+		<c:when test="${not empty projects}">
+			<form:select path="${meta.name}" items="${projects}"></form:select>
+		</c:when>
+		<c:when test="${meta.isOneToMany}">
+			One To Many
+		</c:when>
+		<c:when test="${meta.isManyToOne}">
+			Many To One
+		</c:when>
+		<c:otherwise>
+			<form:input path="${meta.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
+		</c:otherwise>
+	</c:choose>
+
 </jsp:root>

@@ -6,5 +6,5 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	<form:select path="${meta.name}" items="${meta.multivaluedPropertyMetadata.items}" />
+	<form:select path="${meta.name}" items="${meta.manyToOne.items}" />
 </jsp:root>

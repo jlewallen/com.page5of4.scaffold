@@ -3,9 +3,6 @@
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
 	<spring:url value="/" var="homeUrl" />
-	<h1>
-		<a href="${homeUrl}">Reload</a>
-	</h1>
 
 	<!-- 
 	<div>
@@ -34,8 +31,14 @@
 		</spring:nestedPath>
 	</div>
 	-->
-
+	
 	<div class="container">
+		<div class="span-24 last">
+			<h1>
+				<a href="${homeUrl}">Reload</a>
+			</h1>
+		</div>
+
 		<div class="span-12">
 			<h2>Project</h2>
 			<form:form commandName="model.project">
@@ -47,6 +50,11 @@
 		</div>
 
 		<div class="span-12 last">
+			<h2>Project</h2>
+			<scaffold:display-for object="${model.project}" />
+		</div>
+
+		<div class="span-12">
 			<h2>Card</h2>
 			<form:form commandName="model.card">
 				<scaffold:editor-for object="${model.card}" />
@@ -54,11 +62,6 @@
 					<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
 				</div>
 			</form:form>
-		</div>
-
-		<div class="span-12">
-			<h2>Project</h2>
-			<scaffold:display-for object="${model.project}" />
 		</div>
 
 		<div class="span-12 last">

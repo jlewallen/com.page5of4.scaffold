@@ -13,7 +13,7 @@
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	<bean id="conversionService" class="com.ss.scaffold.spring.ScaffoldConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
 			</list>

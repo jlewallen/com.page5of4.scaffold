@@ -1,5 +1,6 @@
 package com.ss.scaffold.web;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -40,6 +41,11 @@ public class HomeController {
       return project;
    }
    */
+
+   @ModelAttribute("projects")
+   public Collection<Project> findProjects() {
+      return Project.findAll();
+   }
 
    @RequestMapping(value = "/", method = RequestMethod.GET)
    public ModelAndView home() {
