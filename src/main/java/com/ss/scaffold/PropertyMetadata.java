@@ -28,6 +28,10 @@ public class PropertyMetadata extends AbstractMetadata {
       return descriptor.getName();
    }
 
+   public String getCssClassName() {
+      return getName();
+   }
+
    public String getFormName() {
       return this.formName;
    }

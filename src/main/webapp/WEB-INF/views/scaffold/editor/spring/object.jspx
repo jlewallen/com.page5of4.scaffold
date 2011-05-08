@@ -6,12 +6,12 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
 
-	<div class="scaffold editor">
+	<div class="scaffold editor ${meta.cssClassName}">
 		<c:forEach items="${meta.properties}" var="property">
 			<c:choose>
 				<c:when test="${property.visible}">
-					<div class="label">${property.displayName}</div>
-					<div class="field">
+					<div class="label ${property.cssClassName}">${property.displayName}</div>
+					<div class="field ${property.cssClassName}">
 						<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
 					</div>
 				</c:when>

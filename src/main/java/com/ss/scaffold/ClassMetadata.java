@@ -53,6 +53,14 @@ public class ClassMetadata extends AbstractMetadata {
       return klass;
    }
 
+   public String getName() {
+      return ClassUtils.getShortClassName(klass);
+   }
+
+   public String getCssClassName() {
+      return StringUtils.lowercaseFirstLetter(ClassUtils.getShortClassName(klass));
+   }
+
    public Object getObject() {
       return object;
    }
