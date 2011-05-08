@@ -1,6 +1,7 @@
 package com.ss.scaffold;
 
 import java.beans.IntrospectionException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,8 +43,8 @@ public class ScaffoldTilesProvider {
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }
 
-   public void render(ScaffoldModel model, ClassMetadata classMetadata, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException,
-         ServletException {
+   public void render(ScaffoldModel model, ClassMetadata classMetadata, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems)
+         throws IntrospectionException, ServletException {
       AbstractMetadata meta = resolve(model);
       model.setMeta(meta);
 
@@ -61,7 +62,7 @@ public class ScaffoldTilesProvider {
       }
 
       logger.trace("Searching: {}", StringUtils.join(definitionNames, ", "));
-      renderDefinition(definitionNames, model, servletRequest, servletContext, requestItems);
+      renderDefinition(definitionNames, model, writer, servletRequest, servletContext, requestItems);
    }
 
    private AbstractMetadata resolve(ScaffoldModel model) throws IntrospectionException {
@@ -86,7 +87,8 @@ public class ScaffoldTilesProvider {
       return paths.toArray(new String[0]);
    }
 
-   private void renderDefinition(Collection<String> definitionNames, ScaffoldModel model, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws ServletException {
+   private void renderDefinition(Collection<String> definitionNames, ScaffoldModel model, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems)
+         throws ServletException {
       BasicTilesContainer container = (BasicTilesContainer)ServletUtil.getCurrentContainer(servletRequest, servletContext);
       if(container == null) {
          throw new ServletException("Tiles container is not initialized. Have you added a TilesConfigurer to your web application context?");
@@ -96,6 +98,7 @@ public class ScaffoldTilesProvider {
       Definition definition = findDefinition(definitionNames, container, tilesRequestContext);
 
       logger.trace("Rendering: {} = {}", definition.getName(), definition);
+      writer.write(String.format("<!-- Definition: %s, Searched: %s -->", definition.getName(), StringUtils.join(definitionNames, ", ")));
 
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);

@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.tiles.jsp.context.JspPrintWriterAdapter;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
@@ -82,7 +83,7 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
       ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata());
-      getProvider().render(model, getClassMetadata(), servletRequest, servletContext, requestItems);
+      getProvider().render(model, getClassMetadata(), new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }
 
