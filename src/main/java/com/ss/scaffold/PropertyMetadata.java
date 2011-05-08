@@ -84,11 +84,12 @@ public class PropertyMetadata extends AbstractMetadata {
          }
       }
       {
-         ScaffoldTextArea annotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTextArea.class, target.getClass(), descriptor);
+         ScaffoldTemplate annotation = ReflectionUtils.getFirstAnnotationOnAnnotationsIn(ScaffoldTemplate.class, ReflectionUtils.getFieldOrMethodAnnotations(target.getClass(), descriptor));
          if(annotation != null) {
-            names.add("TextArea");
+            names.add(annotation.value());
          }
       }
+
       names.add(getPropertyNameTemplateName());
       if(hidden) {
          names.add(HIDDEN_TEMPLATE_NAME);
@@ -98,6 +99,9 @@ public class PropertyMetadata extends AbstractMetadata {
       }
       if(getPropertyType().isEnum()) {
          names.add("Enum");
+      }
+      if(!names.contains("String")) {
+         names.add("String");
       }
       return names.toArray(new String[0]);
    }

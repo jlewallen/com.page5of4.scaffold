@@ -1,5 +1,6 @@
 package com.ss.scaffold.web;
 
+import com.ss.scaffold.ScaffoldCollection;
 import com.ss.scaffold.ScaffoldHidden;
 import com.ss.scaffold.ScaffoldTemplate;
 
@@ -15,7 +16,7 @@ public class Card {
 
    private String title;
 
-   @ScaffoldHidden
+   @ScaffoldCollection
    private Project project;
 
    private Status status;

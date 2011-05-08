@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
+@ScaffoldTemplate("Hidden")
 public @interface ScaffoldHidden {
 
 }
