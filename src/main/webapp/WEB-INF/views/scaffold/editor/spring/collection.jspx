@@ -17,7 +17,7 @@
 			One To Many
 		</c:when>
 		<c:when test="${meta.isManyToOne}">
-			Many To One
+			<form:select path="${meta.name}" items="${meta.manyToOne.items}"></form:select>
 		</c:when>
 		<c:otherwise>
 			<form:input path="${meta.name}" cssClass="collection-field" cssErrorClass="collection-field error" />

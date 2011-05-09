@@ -102,14 +102,14 @@ public class PropertyMetadata extends AbstractMetadata {
 
    public boolean getIsManyToOne() {
       if(manyToOneMetadata == null) {
-         manyToOneMetadata = ManyToOnePropertyMetadata.tryCreate(this);
+         manyToOneMetadata = ManyToOnePropertyMetadata.tryCreate(conversionService, this);
       }
       return manyToOneMetadata != null;
    }
 
    public ManyToOnePropertyMetadata getManyToOne() {
       if(manyToOneMetadata == null) {
-         manyToOneMetadata = ManyToOnePropertyMetadata.create(this);
+         manyToOneMetadata = ManyToOnePropertyMetadata.create(conversionService, this);
       }
       return manyToOneMetadata;
    }
