@@ -4,8 +4,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
-import com.ss.scaffold.LabelAndValue;
-import com.ss.scaffold.LabelAndValueModel;
 import com.ss.scaffold.web.Project;
 
 public class ScaffoldConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
@@ -22,12 +20,14 @@ public class ScaffoldConversionServiceFactoryBean extends FormattingConversionSe
             return source.getName();
          }
       });
+      /*
       registry.addConverter(new Converter<Project, LabelAndValue>() {
          @Override
          public LabelAndValue convert(Project source) {
             return new LabelAndValueModel(source.getName(), source.getId());
          }
       });
+      */
    }
 
    @Override
