@@ -13,11 +13,8 @@
 		<c:when test="${not empty projects}">
 			<form:select path="${meta.name}" items="${projects}"></form:select>
 		</c:when>
-		<c:when test="${meta.isOneToMany}">
-			One To Many
-		</c:when>
 		<c:when test="${meta.isManyToOne}">
-			<form:select path="${meta.name}" items="${meta.manyToOne.items}"></form:select>
+			<form:select path="${meta.name}" items="${meta.manyToOne.items}" itemLabel="label" itemValue="value" />
 		</c:when>
 		<c:otherwise>
 			<form:input path="${meta.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
