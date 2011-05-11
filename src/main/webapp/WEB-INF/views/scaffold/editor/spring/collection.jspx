@@ -15,4 +15,5 @@
 		</c:otherwise>
 	</c:choose>
 
+	<form:errors path="${meta.name}" cssClass="field-error" />
 </jsp:root>
