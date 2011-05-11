@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,9 @@ public class Project {
 
    @NotEmpty
    private String name;
+
+   @Size(min = 3, max = 3)
+   private String code;
 
    @NotEmpty
    @ScaffoldTextArea
@@ -47,6 +52,14 @@ public class Project {
 
    public void setName(String name) {
       this.name = name;
+   }
+
+   public String getCode() {
+      return code;
+   }
+
+   public void setCode(String code) {
+      this.code = code;
    }
 
    public String getDescription() {

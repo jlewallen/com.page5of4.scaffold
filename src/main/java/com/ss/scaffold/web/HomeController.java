@@ -1,6 +1,15 @@
 package com.ss.scaffold.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+import javax.validation.metadata.BeanDescriptor;
+import javax.validation.metadata.ConstraintDescriptor;
+import javax.validation.metadata.PropertyDescriptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,29 +35,68 @@ public class HomeController {
       binder.setIgnoreUnknownFields(false);
    }
 
-   /*
-   @ModelAttribute("model")
-   public HomeModel findModel() {
-      HomeModel model = HomeModel.create();
-      logger.info("Model: {}", model);
-      return model;
+   public static class ClientSideConstraint {}
+
+   public static class PropertyConstraints {
+      private String path;
+      private String propertyName;
+      private ClientSideConstraint[] constraints;
+
+      public String getPath() {
+         return path;
+      }
+
+      public String getPropertyName() {
+         return propertyName;
+      }
+
+      public ClientSideConstraint[] getConstraints() {
+         return constraints;
+      }
+
+      public PropertyConstraints(String path, String propertyName, ClientSideConstraint[] constraints) {
+         super();
+         this.path = path;
+         this.propertyName = propertyName;
+         this.constraints = constraints;
+      }
    }
 
-   @ModelAttribute("project")
-   public Project findProject() {
-      Project project = HomeModel.create().getProject();
-      logger.info("Project: {}", project);
-      return project;
-   }
+   public static class ClientSideConstraints {
+      private List<PropertyConstraints> constraints = new ArrayList<PropertyConstraints>();
 
-   @ModelAttribute("projects")
-   public Collection<Project> findProjects() {
-      return Project.findAll();
+      public List<PropertyConstraints> getConstraints() {
+         return constraints;
+      }
+
+      public ClientSideConstraints(Collection<PropertyConstraints> constraints) {
+         super();
+         this.constraints = new ArrayList<PropertyConstraints>(constraints);
+      }
    }
-   */
 
    @RequestMapping(value = "/", method = RequestMethod.GET)
    public ModelAndView home() {
+      ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+      List<Class<?>> types = new ArrayList<Class<?>>();
+      List<Class<?>> visited = new ArrayList<Class<?>>();
+      types.add(HomeModel.class);
+      while(!types.isEmpty()) {
+         Class<?> klass = types.remove(0);
+         visited.add(klass);
+         BeanDescriptor descriptor = factory.getValidator().getConstraintsForClass(klass);
+         for(PropertyDescriptor property : descriptor.getConstrainedProperties()) {
+            if(property.isCascaded()) {
+               if(!visited.contains(property.getElementClass())) {
+                  types.add(property.getElementClass());
+               }
+            }
+            for(ConstraintDescriptor<?> cd : property.getConstraintDescriptors()) {
+               logger.info(String.format("%s %s %s", klass, cd.getAnnotation(), cd.getAttributes()));
+               logger.info(String.format("%s", cd));
+            }
+         }
+      }
       return new ModelAndView("home", "model", HomeModel.create());
    }
 
