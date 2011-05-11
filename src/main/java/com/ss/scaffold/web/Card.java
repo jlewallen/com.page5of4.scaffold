@@ -1,5 +1,9 @@
 package com.ss.scaffold.web;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.ss.scaffold.ScaffoldCollection;
 import com.ss.scaffold.ScaffoldHidden;
 import com.ss.scaffold.ScaffoldTemplate;
@@ -14,11 +18,14 @@ public class Card {
    @ScaffoldHidden
    private Long id;
 
+   @NotEmpty
    private String title;
 
+   @NotNull
    @ScaffoldCollection
    private Project project;
 
+   @NotNull
    private Status status;
 
    public Long getId() {
