@@ -11,7 +11,7 @@
 			<c:choose>
 				<c:when test="${property.visible}">
 					<div class="label ${property.cssClassName}">
-						<form:label path="${property.name}"></form:label>
+						<form:label path="${property.name}">${property.displayName}</form:label>
 					</div>
 					<div class="field ${property.cssClassName}">
 						<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
