@@ -1,5 +1,6 @@
 package com.ss.scaffold;
 
+
 public class LabelAndValueModel implements LabelAndValue {
 
    private String label;

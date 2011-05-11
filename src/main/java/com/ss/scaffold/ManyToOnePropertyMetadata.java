@@ -44,6 +44,9 @@ public class ManyToOnePropertyMetadata extends AssociationMetadata {
          try {
             Collection<?> found = (Collection<?>)finder.invoke(null, new Object[0]);
             List<LabelAndValue> items = new ArrayList<LabelAndValue>();
+            if(shouldIncludeEmpty()) {
+               items.add(new LabelAndValueModel("", ""));
+            }
             if(conversionService.canConvert(type, LabelAndValue.class)) {
                for(Object value : found) {
                   items.add(conversionService.convert(value, LabelAndValue.class));
@@ -66,6 +69,10 @@ public class ManyToOnePropertyMetadata extends AssociationMetadata {
          }
       }
       return null;
+   }
+
+   private static boolean shouldIncludeEmpty() {
+      return true;
    }
 
    private static Method getFindAllFinder(Class<?> entityClass) {

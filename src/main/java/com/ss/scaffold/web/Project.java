@@ -107,16 +107,28 @@ public class Project {
    private static final Logger logger = LoggerFactory.getLogger(Project.class);
 
    public static Project findProject(String key) {
+      if(key == null || key == "") {
+         return null;
+      }
       logger.info("Finding Project: " + key);
+      for(Project p : findAll()) {
+         if(p.getId().equals(Long.parseLong(key))) {
+            return p;
+         }
+      }
       return null;
    }
 
-   public static Collection<Project> findAll() {
-      List<Project> all = new ArrayList<Project>();
+   private static List<Project> all = new ArrayList<Project>();
+
+   static {
       all.add(new Project(1L, "A"));
       all.add(new Project(2L, "B"));
       all.add(new Project(3L, "C"));
       all.add(new Project(4L, "D"));
+   }
+
+   public static Collection<Project> findAll() {
       return all;
    }
 
