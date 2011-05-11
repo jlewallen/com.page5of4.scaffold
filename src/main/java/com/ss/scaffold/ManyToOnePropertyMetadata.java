@@ -43,16 +43,23 @@ public class ManyToOnePropertyMetadata extends AssociationMetadata {
       if(finder != null) {
          try {
             Collection<?> found = (Collection<?>)finder.invoke(null, new Object[0]);
+            List<LabelAndValue> items = new ArrayList<LabelAndValue>();
             if(conversionService.canConvert(type, LabelAndValue.class)) {
-               List<LabelAndValue> items = new ArrayList<LabelAndValue>();
                for(Object value : found) {
                   items.add(conversionService.convert(value, LabelAndValue.class));
                }
-               return new ManyToOnePropertyMetadata(property, items.toArray(new LabelAndValue[0]));
+            }
+            else if(LabelAndValue.class.isAssignableFrom(type)) {
+               for(Object value : found) {
+                  items.add((LabelAndValue)value);
+               }
             }
             else {
-               return new ManyToOnePropertyMetadata(property, found.toArray(new Object[0]));
+               for(Object value : found) {
+                  items.add(new FallbackLabelAndValue(value));
+               }
             }
+            return new ManyToOnePropertyMetadata(property, items.toArray(new LabelAndValue[0]));
          }
          catch(Exception e) {
             logger.error("Error invoking finder: " + finder, e);
