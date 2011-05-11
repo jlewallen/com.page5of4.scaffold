@@ -1,10 +1,11 @@
 package com.ss.scaffold.web;
 
-import java.util.Date;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -52,55 +53,18 @@ public class HomeController {
    }
 
    @RequestMapping(value = "/", method = RequestMethod.POST)
-   public String save(@ModelAttribute HomeModel model, Errors br) {
-      for(ObjectError error : br.getAllErrors()) {
-         logger.info(String.format("OE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
+   public ModelAndView save(@Valid @ModelAttribute("model") HomeModel model, Errors br, Model m) {
+      ModelAndView mav = new ModelAndView("home", "model", model);
+      if(br.hasErrors()) {
+         logger.info("Errors");
+         for(ObjectError error : br.getAllErrors()) {
+            logger.info(String.format("OE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
+         }
+         for(FieldError error : br.getFieldErrors()) {
+            logger.info(String.format("FE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
+         }
       }
-      for(FieldError error : br.getFieldErrors()) {
-         logger.info(String.format("FE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
-      }
-      return "redirect:/";
-   }
-
-   public static class HomeModel {
-      private Project project;
-      private Card card;
-
-      public Project getProject() {
-         return project;
-      }
-
-      public void setProject(Project project) {
-         this.project = project;
-      }
-
-      public Card getCard() {
-         return card;
-      }
-
-      public void setCard(Card card) {
-         this.card = card;
-      }
-
-      public HomeModel() {}
-
-      public HomeModel(Project project, Card card) {
-         this.project = project;
-         this.card = card;
-      }
-
-      public static HomeModel create() {
-         Project project = new Project();
-         project.setId(20L);
-         project.setName("Super Cool Project");
-         project.setDescription("A really nifty project that we're all working very hard on!");
-         project.setStartingAt(new Date());
-         Card card = new Card();
-         card.setTitle("Fix all the bugs!");
-         card.setStatus(Card.Status.BLOCKED);
-         card.setProject(project);
-         return new HomeModel(project, card);
-      }
+      return mav;
    }
 
 }

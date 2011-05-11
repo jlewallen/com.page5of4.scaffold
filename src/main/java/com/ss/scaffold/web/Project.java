@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,8 +18,10 @@ public class Project {
    @ScaffoldHidden
    private Long id;
 
+   @NotEmpty
    private String name;
 
+   @NotEmpty
    @ScaffoldTextArea
    private String description;
 
