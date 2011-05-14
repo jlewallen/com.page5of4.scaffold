@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.page5of4.scaffold.LabelAndValueAwarePropertyEditor;
+
 @Controller
 public class HomeController {
 
@@ -32,6 +34,7 @@ public class HomeController {
 
    @InitBinder
    public void initBinder(WebDataBinder binder) {
+      binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(Project.class));
       binder.setIgnoreUnknownFields(false);
    }
 
