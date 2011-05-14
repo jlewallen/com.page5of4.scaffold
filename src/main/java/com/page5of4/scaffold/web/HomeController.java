@@ -104,14 +104,14 @@ public class HomeController {
    }
 
    @RequestMapping(value = "/", method = RequestMethod.POST)
-   public ModelAndView save(@Valid @ModelAttribute("model") HomeModel model, Errors br, Model m) {
+   public ModelAndView save(@Valid @ModelAttribute("model") HomeModel model, Errors errors, Model m) {
       ModelAndView mav = new ModelAndView("home", "model", model);
-      if(br.hasErrors()) {
+      if(errors.hasErrors()) {
          logger.info("Errors");
-         for(ObjectError error : br.getAllErrors()) {
+         for(ObjectError error : errors.getAllErrors()) {
             logger.info(String.format("OE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
          }
-         for(FieldError error : br.getFieldErrors()) {
+         for(FieldError error : errors.getFieldErrors()) {
             logger.info(String.format("FE %s %s %s", error.getObjectName(), error.getDefaultMessage(), error));
          }
       }
