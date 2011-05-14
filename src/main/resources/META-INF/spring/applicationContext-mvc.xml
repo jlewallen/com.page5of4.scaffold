@@ -13,14 +13,14 @@
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean id="conversionService" class="com.ss.scaffold.spring.ScaffoldConversionServiceFactoryBean">
+	<bean id="conversionService" class="com.page5of4.scaffold.spring.ScaffoldConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
 			</list>
 		</property>
 	</bean>
 
-	<bean class="com.ss.scaffold.spring.ScaffoldMethodHandlerAdapter">
+	<bean class="com.page5of4.scaffold.spring.ScaffoldMethodHandlerAdapter">
 		<property name="webBindingInitializer">
 			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
 				<property name="conversionService" ref="conversionService" />
@@ -38,14 +38,14 @@
 		</property>
 		<property name="customArgumentResolvers">
 			<list>
-				<bean class="com.ss.scaffold.spring.ScaffoldArgumentResolver" />
+				<bean class="com.page5of4.scaffold.spring.ScaffoldArgumentResolver" />
 			</list>
 		</property>
 	</bean>
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
-	<context:component-scan base-package="com.ss.scaffold" />
+	<context:component-scan base-package="com.page5of4.scaffold" />
 
 	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">

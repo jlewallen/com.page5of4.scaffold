@@ -6,12 +6,12 @@
 
 	<description>Scaffold Tags</description>
 	<tlib-version>1.0</tlib-version>
-	<short-name>ss</short-name>
+	<short-name>jl</short-name>
 	<uri></uri>
 
 	<tag>
 		<name>display-for</name>
-		<tag-class>com.ss.scaffold.jsp.DisplayForTag</tag-class>
+		<tag-class>com.page5of4.scaffold.jsp.DisplayForTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description></description>
@@ -41,7 +41,7 @@
 
 	<tag>
 		<name>editor-for</name>
-		<tag-class>com.ss.scaffold.jsp.EditorForTag</tag-class>
+		<tag-class>com.page5of4.scaffold.jsp.EditorForTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description></description>
