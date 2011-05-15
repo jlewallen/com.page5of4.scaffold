@@ -100,7 +100,11 @@ public class HomeController {
             }
          }
       }
-      return new ModelAndView("home", "model", HomeModel.create());
+      HomeModel model = HomeModel.create();
+      ModelAndView mav = new ModelAndView("home", "model", model);
+      mav.addObject("project", model.getProject());
+      mav.addObject("card", model.getCard());
+      return mav;
    }
 
    @RequestMapping(value = "/", method = RequestMethod.POST)

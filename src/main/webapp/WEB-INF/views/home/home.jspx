@@ -46,12 +46,12 @@
 		<c:if test="${model.project != null}">
 			<div class="span-12">
 				<h2>Project</h2>
-				<form:form commandName="model.project">
+				<scaffold:form modelAttribute="project">
 					<scaffold:editor-for object="${model.project}" />
 					<div>
 						<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
 					</div>
-				</form:form>
+				</scaffold:form>
 			</div>
 
 			<div class="span-12 last">
@@ -63,12 +63,12 @@
 		<c:if test="${model.card != null}">
 			<div class="span-12">
 				<h2>Card</h2>
-				<form:form commandName="model.card">
+				<scaffold:form modelAttribute="card">
 					<scaffold:editor-for object="${model.card}" />
 					<div>
 						<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
 					</div>
-				</form:form>
+				</scaffold:form>
 			</div>
 
 			<div class="span-12 last">
