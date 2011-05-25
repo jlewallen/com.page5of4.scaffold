@@ -1,14 +1,13 @@
-package com.page5of4.scaffold.spring;
+package com.page5of4.scaffold.web;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
 import com.page5of4.scaffold.LabelAndValue;
 import com.page5of4.scaffold.LabelAndValueModel;
-import com.page5of4.scaffold.web.Project;
+import com.page5of4.scaffold.spring.ScaffoldConversionServiceFactoryBean;
 
-public class ScaffoldConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
+public class ApplicationConversionServiceFactoryBean extends ScaffoldConversionServiceFactoryBean {
 
    @Override
    protected void installFormatters(FormatterRegistry registry) {
