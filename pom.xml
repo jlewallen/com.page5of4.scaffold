@@ -182,6 +182,13 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.1.0.Final</version>
 		</dependency>
+
+		<!-- Inflector -->
+		<dependency>
+			<groupId>net.java.dev.inflector</groupId>
+			<artifactId>inflector</artifactId>
+			<version>0.7.0</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -201,6 +208,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+
 		<!-- For developing against latest Spring milestones -->
 		<repository>
 			<id>org.springframework.maven.milestone</id>
@@ -209,6 +217,12 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
+		</repository>
+
+		<repository>
+			<id>maven2-repository.java.net</id>
+			<url>http://download.java.net/maven/2/</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 	<build>
