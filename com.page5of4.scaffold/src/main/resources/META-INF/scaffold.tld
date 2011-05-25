@@ -7,7 +7,7 @@
 	<description>Scaffold Tags</description>
 	<tlib-version>1.0</tlib-version>
 	<short-name>jl</short-name>
-	<uri></uri>
+	<uri>http://www.page5of4.com/scaffold/tags</uri>
 
 	<tag>
 		<name>display-for</name>
