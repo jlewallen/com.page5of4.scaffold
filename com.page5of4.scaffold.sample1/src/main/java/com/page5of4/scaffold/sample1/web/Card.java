@@ -1,4 +1,4 @@
-package com.page5of4.scaffold.web;
+package com.page5of4.scaffold.sample1.web;
 
 import javax.validation.constraints.NotNull;
 

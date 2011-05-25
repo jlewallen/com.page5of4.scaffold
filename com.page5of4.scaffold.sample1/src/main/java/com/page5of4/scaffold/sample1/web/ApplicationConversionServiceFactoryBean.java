@@ -1,4 +1,4 @@
-package com.page5of4.scaffold.web;
+package com.page5of4.scaffold.sample1.web;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
