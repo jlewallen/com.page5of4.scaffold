@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:scaffold="urn:jsptld:/WEB-INF/tlds/scaffold.tld" version="2.0">
+
+	<spring:url value="/" var="homeUrl" />
+
+	<!-- 
+	<div>
+		<spring:bind path="model.project.name">
+			${status}
+			${status.expression}
+		</spring:bind>
+	</div>
+	<div>
+		<spring:bind path="model">
+			${status}
+		</spring:bind>
+	</div>
+	<div>
+		<spring:bind path="model.project">
+			${status}
+			${status.expression}
+		</spring:bind>
+	</div>
+	<div>
+		<spring:nestedPath path="model">
+			<spring:bind path="project">
+				${status}
+				${status.expression}
+			</spring:bind>
+		</spring:nestedPath>
+	</div>
+	-->
+
+	<div class="container">
+		<div class="span-24 last">
+			<h1>
+				<a href="${homeUrl}">Reload</a>
+			</h1>
+		</div>
+
+		<c:if test="${model.project != null}">
+			<div class="span-12">
+				<h2>Project</h2>
+				<scaffold:form modelAttribute="project">
+					<scaffold:editor-for object="${model.project}" />
+					<div>
+						<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
+					</div>
+				</scaffold:form>
+			</div>
+
+			<div class="span-12 last">
+				<h2>Project</h2>
+				<scaffold:display-for object="${model.project}" />
+			</div>
+		</c:if>
+
+		<c:if test="${model.card != null}">
+			<div class="span-12">
+				<h2>Card</h2>
+				<scaffold:form modelAttribute="card">
+					<scaffold:editor-for object="${model.card}" />
+					<div>
+						<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
+					</div>
+				</scaffold:form>
+			</div>
+
+			<div class="span-12 last">
+				<h2>Card</h2>
+				<scaffold:display-for object="${model.card}" />
+			</div>
+		</c:if>
+	</div>
+</jsp:root>
+
