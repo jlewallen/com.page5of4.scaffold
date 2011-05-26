@@ -4,8 +4,9 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:scaffold="http://www.page5of4.com/scaffold/tags" version="2.0">
+	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
+	
+	<scaffold:display-for object="${model}" />
 
-	<form:select path="${meta.name}" items="${meta.manyToOne.items}" />
-	<form:errors path="${meta.name}" cssClass="field-error" />
 </jsp:root>
+

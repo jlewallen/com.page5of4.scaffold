@@ -98,7 +98,7 @@ public class ScaffoldTilesProvider {
       Definition definition = findDefinition(definitionNames, container, tilesRequestContext);
 
       logger.trace("Rendering: {} = {}", definition.getName(), definition);
-      writer.write(String.format("<!-- Definition: %s, Searched: %s -->", definition.getName(), StringUtils.join(definitionNames, ", ")));
+      writer.write(String.format("<!-- %s -->", definition.getName()));
 
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);

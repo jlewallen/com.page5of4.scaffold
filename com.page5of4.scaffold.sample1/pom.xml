@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.page5of4.scaffold.samples</groupId>
 	<artifactId>com.page5of4.scaffold.sample1</artifactId>
@@ -20,15 +21,21 @@
 			<artifactId>com.page5of4.scaffold</artifactId>
 			<version>1.0.0-BUILD-SNAPSHOT</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.perf4j</groupId>
+			<artifactId>perf4j</artifactId>
+			<version>0.9.14</version>
+		</dependency>
+
 		<!-- Commons -->
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.5</version>
 		</dependency>
-		
-		<!--  Joda Time -->
+
+		<!-- Joda Time -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
@@ -202,7 +209,7 @@
 			<id>JBoss Repo</id>
 			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
 		</repository>
-	
+
 		<!-- For testing against latest Spring snapshots -->
 		<repository>
 			<id>org.springframework.maven.snapshot</id>
