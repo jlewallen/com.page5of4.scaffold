@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.page5of4.scaffold.samples</groupId>
-	<artifactId>com.page5of4.scaffold.sample1</artifactId>
-	<name>com.page5of4.scaffold.sample1</name>
+	<artifactId>scaffold-sample1</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -18,7 +16,7 @@
 		<!-- Commons -->
 		<dependency>
 			<groupId>com.page5of4.scaffold</groupId>
-			<artifactId>com.page5of4.scaffold</artifactId>
+			<artifactId>scaffold-core</artifactId>
 			<version>1.0.0-BUILD-SNAPSHOT</version>
 		</dependency>
 
@@ -346,4 +344,15 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>jlewallen-release</id>
+			<url>http://nexus.page5of4.com/nexus/content/repositories/jlewallen-release</url>
+		</repository>
+		<snapshotRepository>
+			<id>jlewallen-snapshot</id>
+			<url>http://nexus.page5of4.com/nexus/content/repositories/jlewallen-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
