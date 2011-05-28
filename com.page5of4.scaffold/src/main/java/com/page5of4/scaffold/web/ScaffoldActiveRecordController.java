@@ -5,7 +5,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.ScaffoldActiveRecord;
 
-public class ScaffoldActiveRecordController<I extends Object, T extends ScaffoldActiveRecord<I>> extends ScaffoldController<I, T> {
+public class ScaffoldActiveRecordController<I extends Object, T extends ScaffoldActiveRecord<I, T>> extends ScaffoldController<I, T> {
 
    @Override
    public ModelAndView create(T resource, Errors errors) {
