@@ -31,7 +31,7 @@
     	<div class="header">
         </div>
         
-		<div class="body">
+		<div class="container body">
 			<tiles:insertAttribute name="body" />   
         </div>
         
