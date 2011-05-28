@@ -11,6 +11,7 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -78,6 +79,7 @@ public class HomeController {
       }
    }
 
+   @Profiled
    @RequestMapping(value = "/", method = RequestMethod.GET)
    public ModelAndView home() {
       ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -104,6 +106,7 @@ public class HomeController {
       ModelAndView mav = new ModelAndView("home", "model", model);
       mav.addObject("project", model.getProject());
       mav.addObject("card", model.getCard());
+
       return mav;
    }
 
