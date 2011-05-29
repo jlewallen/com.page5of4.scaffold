@@ -42,7 +42,7 @@
 		<div class="span-12">
 			<h2>Project</h2>
 			<spring:url value="/projects" var="projectUrl" />
-			<scaffold:form modelAttribute="project" action="${projectUrl}">
+			<scaffold:form modelAttribute="project" action="${projectUrl}" cssClass="formtastic">
 				<scaffold:editor-for object="${model.project}" />
 				<div>
 					<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
@@ -60,7 +60,7 @@
 		<div class="span-12">
 			<h2>Card</h2>
 			<spring:url value="/cards" var="cardUrl" />
-			<scaffold:form modelAttribute="card" action="${cardUrl}">
+			<scaffold:form modelAttribute="card" action="${cardUrl}" cssClass="formtastic">
 				<scaffold:editor-for object="${model.card}" />
 				<div>
 					<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>

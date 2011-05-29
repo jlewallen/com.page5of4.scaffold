@@ -17,3 +17,25 @@
 
 .editor .check-box {
 }
+
+.scaffold,
+.scaffold ul,
+.scaffold ol,
+.scaffold li,
+.scaffold fieldset,
+.scaffold legend,
+.scaffold input,
+.scaffold textarea,
+.scaffold select,
+.scaffold p {
+  margin: 0;
+  padding: 0;
+}
+
+.scaffold ol {
+  	list-style: none;
+}
+
+.scaffold .field-error {
+	display: block;
+}

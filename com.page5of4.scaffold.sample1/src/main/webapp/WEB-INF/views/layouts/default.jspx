@@ -17,6 +17,7 @@
 		<spring:url value="/resources" var="resources" />
 		<link rel="stylesheet" href="${resources}/jquery/css/pepper-grinder/jquery-ui-1.8.12.custom.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/scaffold/css/scaffold.css" type="text/css" media="all" /> 	
+		<link rel="stylesheet" href="${resources}/scaffold/css/formtastic.css" type="text/css" media="all" /> 	
 
 		<link rel="stylesheet" href="${resources}/blueprint/grid.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/blueprint/typography.css" type="text/css" media="all" /> 	

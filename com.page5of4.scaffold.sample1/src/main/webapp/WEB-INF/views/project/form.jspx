@@ -15,7 +15,7 @@
 		</c:otherwise>
 	</c:choose>
 
-	<scaffold:form modelAttribute="model" action="${actionUrl}">
+	<scaffold:form modelAttribute="model" action="${actionUrl}" cssClass="formtastic">
 		<scaffold:editor-for object="${model}" />
 		<div>
 			<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
