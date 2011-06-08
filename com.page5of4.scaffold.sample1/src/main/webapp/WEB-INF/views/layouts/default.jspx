@@ -29,7 +29,13 @@
     </head>
     
     <body>
-    	<div class="header">
+    	<div class="container header">
+			<div class="span-24 last">
+				<h1>
+					<spring:url value="/" var="homeUrl" />
+					<a href="${homeUrl}">Reload</a>
+				</h1>
+			</div>
         </div>
         
 		<div class="container body">

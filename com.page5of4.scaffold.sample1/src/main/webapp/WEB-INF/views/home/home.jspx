@@ -2,42 +2,6 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<spring:url value="/" var="homeUrl" />
-
-	<!-- 
-	<div>
-		<spring:bind path="model.project.name">
-			${status}
-			${status.expression}
-		</spring:bind>
-	</div>
-	<div>
-		<spring:bind path="model">
-			${status}
-		</spring:bind>
-	</div>
-	<div>
-		<spring:bind path="model.project">
-			${status}
-			${status.expression}
-		</spring:bind>
-	</div>
-	<div>
-		<spring:nestedPath path="model">
-			<spring:bind path="project">
-				${status}
-				${status.expression}
-			</spring:bind>
-		</spring:nestedPath>
-	</div>
-	-->
-
-	<div class="span-24 last">
-		<h1>
-			<a href="${homeUrl}">Reload</a>
-		</h1>
-	</div>
-
 	<c:if test="${model.project != null}">
 		<div class="span-12">
 			<h2>Project</h2>
