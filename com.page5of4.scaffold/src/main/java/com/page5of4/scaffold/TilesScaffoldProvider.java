@@ -24,9 +24,9 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScaffoldTilesProvider {
+public class TilesScaffoldProvider {
 
-   private static final Logger logger = LoggerFactory.getLogger(ScaffoldTilesProvider.class);
+   private static final Logger logger = LoggerFactory.getLogger(TilesScaffoldProvider.class);
    private static final String META_VARIABLE_NAME = "meta";
    private static final String MODEL_VARIABLE_NAME = "scaffold";
    private TilesRequestContextFactory tilesRequestContextFactory;
@@ -35,7 +35,7 @@ public class ScaffoldTilesProvider {
 
    @Autowired
    @SuppressWarnings("deprecation")
-   public ScaffoldTilesProvider(ConversionService conversionService, MetadataResolver metadataResolver) {
+   public TilesScaffoldProvider(ConversionService conversionService, MetadataResolver metadataResolver) {
       super();
       this.conversionService = conversionService;
       this.metadataResolver = metadataResolver;

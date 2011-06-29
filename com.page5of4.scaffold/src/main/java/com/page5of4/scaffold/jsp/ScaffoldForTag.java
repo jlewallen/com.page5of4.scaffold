@@ -11,7 +11,7 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.page5of4.scaffold.ClassMetadata;
 import com.page5of4.scaffold.ScaffoldModel;
-import com.page5of4.scaffold.ScaffoldTilesProvider;
+import com.page5of4.scaffold.TilesScaffoldProvider;
 
 public abstract class ScaffoldForTag extends RequestContextAwareTag {
 
@@ -87,10 +87,10 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       return EVAL_BODY_INCLUDE;
    }
 
-   ScaffoldTilesProvider getProvider() {
+   TilesScaffoldProvider getProvider() {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       WebApplicationContext wac = RequestContextUtils.getWebApplicationContext(servletRequest, servletContext);
-      return wac.getBean(ScaffoldTilesProvider.class);
+      return wac.getBean(TilesScaffoldProvider.class);
    }
 }
