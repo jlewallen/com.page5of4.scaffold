@@ -5,10 +5,12 @@ import static org.jvnet.inflector.Noun.pluralOf;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,45 +21,56 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.Finders;
+import com.page5of4.scaffold.MetadataResolver;
 
 @SuppressWarnings("unchecked")
 public abstract class ScaffoldController<I extends Object, T extends Object> {
 
+   public static final String MODEL_KEY_NAME = "model";
+
+   @Autowired
+   private MetadataResolver metadataResolver;
+
+   @ModelAttribute("scaffoldViewModel")
+   public ViewModel getScaffoldViewModel(HttpServletRequest servletRequest) {
+      return new ViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
+   }
+
    @RequestMapping(method = RequestMethod.GET)
    public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int page) {
-      return new ModelAndView(getIndexView(), "model", findResourcesOnPage(page));
+      return new ModelAndView(getIndexView(), MODEL_KEY_NAME, findResourcesOnPage(page));
    }
 
    @RequestMapping(value = "/new", method = RequestMethod.GET)
    public ModelAndView createForm() {
       T resource = BeanUtils.instantiate(getResourceClass());
-      return new ModelAndView(getFormView(), "model", resource);
+      return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
    }
 
    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
    public ModelAndView show(@PathVariable I id) {
       T resource = findResource(id);
-      return new ModelAndView(getShowView(), "model", resource);
+      return new ModelAndView(getShowView(), MODEL_KEY_NAME, resource);
    }
 
    @RequestMapping(value = "/{id}/form", method = RequestMethod.GET)
    public ModelAndView updateForm(@PathVariable I id) {
       T resource = findResource(id);
-      return new ModelAndView(getFormView(), "model", resource);
+      return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
    }
 
    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-   public ModelAndView update(@PathVariable I id, @ModelAttribute("model") @Valid T resource, Errors errors, Model model) {
+   public ModelAndView update(@PathVariable I id, @ModelAttribute(MODEL_KEY_NAME) @Valid T resource, Errors errors, Model model) {
       if(errors.hasErrors()) {
-         return new ModelAndView(getFormView(), "model", resource);
+         return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
       }
       return update(id, resource, errors);
    }
 
    @RequestMapping(method = RequestMethod.POST)
-   public ModelAndView create(@ModelAttribute("model") @Valid T resource, Errors errors, Model model) {
+   public ModelAndView create(@ModelAttribute(MODEL_KEY_NAME) @Valid T resource, Errors errors, Model model) {
       if(errors.hasErrors()) {
-         return new ModelAndView(getFormView(), "model", resource);
+         return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
       }
       return create(resource, errors);
    }
@@ -106,14 +119,63 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    }
 
    public ModelAndView update(I id, T resource, Errors errors) {
-      return new ModelAndView(getShowView(), "model", resource);
+      return new ModelAndView(getShowView(), MODEL_KEY_NAME, resource);
    }
 
    public ModelAndView create(T resource, Errors errors) {
-      return new ModelAndView(getShowView(), "model", resource);
+      return new ModelAndView(getShowView(), MODEL_KEY_NAME, resource);
    }
 
    public ModelAndView delete(I id, T resource) {
       return index(1);
+   }
+
+   public static class ViewModel {
+      private final HttpServletRequest servletRequest;
+      private final String resourceName;
+      private final String collectionName;
+
+      public String getPathInfo() {
+         return servletRequest.getPathInfo();
+      }
+
+      public String getResourceName() {
+         return resourceName;
+      }
+
+      public String getResourceTitle() {
+         return com.page5of4.scaffold.StringUtils.titlize(resourceName);
+      }
+
+      public String getCollectionName() {
+         return collectionName;
+      }
+
+      public String getCollectionTitle() {
+         return com.page5of4.scaffold.StringUtils.titlize(collectionName);
+      }
+
+      public String getCreateUrl() {
+         return String.format("%s/new", getResourceName());
+      }
+
+      public String getShowUrl(Long id) {
+         return String.format("%s/%d", getResourceName(), id);
+      }
+
+      public String getEditUrl(Long id) {
+         return String.format("%s/%d/form", getResourceName(), id);
+      }
+
+      public String getDeleteUrl(Long id) {
+         return String.format("%s/%d", getResourceName(), id);
+      }
+
+      public ViewModel(String resourceName, String resourceCollectionName, HttpServletRequest servletRequest) {
+         super();
+         this.servletRequest = servletRequest;
+         this.resourceName = resourceName;
+         this.collectionName = resourceCollectionName;
+      }
    }
 }

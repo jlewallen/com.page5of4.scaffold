@@ -45,6 +45,10 @@ public class StringUtils {
       return join(tokens, separator);
    }
 
+   public static String titlize(String text) {
+      return humanize(text);
+   }
+
    public static String humanize(String text) {
       Pattern pattern = Pattern.compile("([A-Z]|[a-z])[a-z]*");
       Vector<String> tokens = new Vector<String>();

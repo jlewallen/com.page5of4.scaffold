@@ -8,7 +8,7 @@
 	
 	<spring:url value="/projects" var="resourceUrl" />
 	<spring:url value="/projects/new" var="createUrl" />
-	
+
 	<h3>
 	<a href="${createUrl}">Create</a>
 	</h3>

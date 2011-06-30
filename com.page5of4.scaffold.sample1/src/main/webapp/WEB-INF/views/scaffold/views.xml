@@ -20,4 +20,8 @@
     <definition name="scaffold/editor/hidden" template="/WEB-INF/views/scaffold/editor/spring/hidden.jspx" />
     <definition name="scaffold/editor/collection" template="/WEB-INF/views/scaffold/editor/spring/collection.jspx" />
 
+	<definition extends="default" name="*/index">
+		<put-attribute name="body" value="/WEB-INF/views/scaffold/index.jspx" />
+	</definition>
+
 </tiles-definitions>
