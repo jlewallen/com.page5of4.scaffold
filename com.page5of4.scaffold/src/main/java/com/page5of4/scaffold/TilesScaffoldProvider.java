@@ -47,10 +47,16 @@ public class TilesScaffoldProvider {
          throws IntrospectionException, ServletException {
       AbstractMetadata meta = resolve(model);
       model.setMeta(meta);
+      model.setTargetObject(model.getTargetObject());
 
       List<String> convertedNames = new ArrayList<String>();
-      for(String name : meta.getCandidateTemplateNames()) {
-         convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
+      if(model.getTargetCollection() != null) {
+         convertedNames.add("objects");
+      }
+      else {
+         for(String name : meta.getCandidateTemplateNames()) {
+            convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
+         }
       }
 
       List<String> definitionNames = new ArrayList<String>();
@@ -67,7 +73,12 @@ public class TilesScaffoldProvider {
 
    private AbstractMetadata resolve(ScaffoldModel model) throws IntrospectionException {
       if(model.getClassMetadata() == null) {
-         model.setClassMetadata(metadataResolver.resolve(model));
+         if(model.getObjectClass() != null) {
+            model.setClassMetadata(metadataResolver.resolve(model.getObjectClass(), model.getTargetCollection(), model.getFormPrefix()));
+         }
+         else {
+            model.setClassMetadata(metadataResolver.resolve(model.getTargetObject(), model.getFormPrefix()));
+         }
       }
       if(model.getPropertyName() == null) {
          return model.getClassMetadata();

@@ -5,15 +5,10 @@
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
-	
-	<spring:url value="${scaffoldViewModel.createUrl}" var="createUrl" />
-	
-	<h3>${scaffoldViewModel.collectionTitle}</h3>
 
-	<div>
-	<a href="${createUrl}">Create</a>
-	</div>
-	
-	<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" />
-
+	<c:choose>
+		<c:when test="${meta.displayValue == true}">True</c:when>
+		<c:when test="${meta.displayValue == false}">False</c:when>
+		<c:otherwise></c:otherwise>
+	</c:choose>
 </jsp:root>

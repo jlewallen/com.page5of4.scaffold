@@ -15,23 +15,6 @@
 	<a href="${createUrl}">Create</a>
 	</h3>
 
-	<table>
-		<tr>
-			<th> Name </th>
-			<th> Actions </th>
-		</tr>
-		<c:forEach items="${model.resources}" var="resource" varStatus="status">
-		<tr>
-			<td>
-				${resource.name}
-			</td>
-			<td>
-				<a href="${resourceUrl}/${resource.id}">Show</a> |
-				<a href="${resourceUrl}/${resource.id}/form">Edit</a> |
-				<a href="${resourceUrl}/${resource.id}">Delete</a>
-			</td>
-		</tr>
-		</c:forEach>
-	</table>	
+	<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" />
 
 </jsp:root>

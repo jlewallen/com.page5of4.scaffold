@@ -76,6 +76,36 @@
 	</tag>
 
 	<tag>
+		<name>table-for</name>
+		<tag-class>com.page5of4.scaffold.jsp.TableForTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description></description>
+			<name>objects</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>classMetadata</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>objectClass</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>templatePrefix</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<description>Renders an HTML 'select' element. Supports databinding to the selected option.</description>
 		<name>select</name>
 		<tag-class>com.ss.scaffold.jsp.SelectTag</tag-class>

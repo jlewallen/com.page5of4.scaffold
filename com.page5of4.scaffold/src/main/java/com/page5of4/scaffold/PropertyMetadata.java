@@ -21,6 +21,7 @@ public class PropertyMetadata extends AbstractMetadata {
    private boolean hidden;
    private String help;
    private ConversionService conversionService;
+   private final Class<?> targetClass;
 
    public boolean isHidden() {
       return hidden;
@@ -58,17 +59,25 @@ public class PropertyMetadata extends AbstractMetadata {
       return this.help;
    }
 
+   public Object getTargetObject() {
+      return target;
+   }
+
+   public void setObject(Object object) {
+      this.target = object;
+   }
+
    public Object getValue() {
       try {
-         return descriptor.getReadMethod().invoke(target);
+         return descriptor.getReadMethod().invoke(getTargetObject());
       }
       catch(Exception e) {
-         throw new RuntimeException(String.format("Error reading %s from %s", getName(), target), e);
+         throw new RuntimeException(String.format("Error reading %s from %s", getName(), getTargetObject()), e);
       }
    }
 
    public Object getDisplayValue() {
-      BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(target);
+      BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(getTargetObject());
       Object value = bw.getPropertyValue(getName());
       TypeDescriptor td = bw.getPropertyTypeDescriptor(getName());
       if(!conversionService.canConvert(TypeDescriptor.valueOf(String.class), td)) {
@@ -118,13 +127,13 @@ public class PropertyMetadata extends AbstractMetadata {
    public String[] getCandidateTemplateNames() {
       List<String> names = new ArrayList<String>();
       {
-         ScaffoldTemplate annotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTemplate.class, target.getClass(), descriptor);
+         ScaffoldTemplate annotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTemplate.class, targetClass, descriptor);
          if(annotation != null) {
             names.add(annotation.value());
          }
       }
       {
-         ScaffoldTemplate annotation = ReflectionUtils.getFirstAnnotationOnAnnotationsIn(ScaffoldTemplate.class, ReflectionUtils.getFieldOrMethodAnnotations(target.getClass(), descriptor));
+         ScaffoldTemplate annotation = ReflectionUtils.getFirstAnnotationOnAnnotationsIn(ScaffoldTemplate.class, ReflectionUtils.getFieldOrMethodAnnotations(targetClass, descriptor));
          if(annotation != null) {
             names.add(annotation.value());
          }
@@ -150,14 +159,15 @@ public class PropertyMetadata extends AbstractMetadata {
       return descriptor.getPropertyType();
    }
 
-   public PropertyMetadata(ConversionService conversionService, String formPrefix, PropertyDescriptor descriptor, Object target) {
+   public PropertyMetadata(ConversionService conversionService, String formPrefix, PropertyDescriptor descriptor, Class<?> targetClass, Object target) {
       super();
       this.conversionService = conversionService;
+      this.targetClass = targetClass;
       this.formName = formPrefix + "." + descriptor.getName();
       this.target = target;
       this.descriptor = descriptor;
-      this.hidden = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHidden.class, target.getClass(), descriptor) != null;
-      ScaffoldHelp helpAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHelp.class, target.getClass(), descriptor);
+      this.hidden = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHidden.class, targetClass, descriptor) != null;
+      ScaffoldHelp helpAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHelp.class, targetClass, descriptor);
       if(helpAnnotation != null) {
          this.help = helpAnnotation.value();
       }

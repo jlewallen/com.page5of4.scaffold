@@ -1,5 +1,9 @@
 package com.page5of4.scaffold.jsp;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.PageContext;
@@ -13,7 +17,7 @@ import com.page5of4.scaffold.ClassMetadata;
 import com.page5of4.scaffold.ScaffoldModel;
 import com.page5of4.scaffold.TilesScaffoldProvider;
 
-public abstract class ScaffoldForTag extends RequestContextAwareTag {
+public class TableForTag extends RequestContextAwareTag {
 
    private static final long serialVersionUID = 1L;
 
@@ -21,22 +25,26 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       return this.pageContext;
    }
 
-   private Object object;
-
-   private String propertyName;
+   private List<?> objects;
 
    private String templatePrefix;
 
-   private String formPrefix;
-
    private ClassMetadata classMetadata;
 
-   public Object getObject() {
-      return object;
+   private Class<?> objectClass;
+
+   public Collection<?> getObjects() {
+      return objects;
    }
 
-   public void setObject(Object object) {
-      this.object = object;
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   public void setObjects(Collection objects) {
+      if(objects == null) {
+         this.objects = new ArrayList<Object>();
+      }
+      else {
+         this.objects = new ArrayList<Object>(objects);
+      }
    }
 
    public ClassMetadata getClassMetadata() {
@@ -47,14 +55,6 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       this.classMetadata = classMetadata;
    }
 
-   public String getPropertyName() {
-      return propertyName;
-   }
-
-   public void setPropertyName(String propertyName) {
-      this.propertyName = propertyName;
-   }
-
    public String getTemplatePrefix() {
       return templatePrefix;
    }
@@ -63,33 +63,27 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       this.templatePrefix = templatePrefix;
    }
 
-   public String getFormPrefix() {
-      return formPrefix;
+   public void setObjectClass(Class<?> objectClass) {
+      this.objectClass = objectClass;
    }
 
-   public void setFormPrefix(String formPrefix) {
-      this.formPrefix = formPrefix;
+   public Class<?> getObjectClass() {
+      return objectClass;
    }
 
    public String getMode() {
-      return "scaffold";
+      return "table";
    }
 
-   public ScaffoldForTag() {}
+   public TableForTag() {}
 
    @Override
    protected int doStartTagInternal() throws Exception {
-      if(getObject() == null) throw new IllegalArgumentException("Object is required");
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata());
-      try {
-         getProvider().render(model, getClassMetadata(), new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
-      }
-      catch(Exception e) {
-         throw new RuntimeException(String.format("Error scaffolding for %s", model.getPropertyName()), e);
-      }
+      ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), null, getObjectClass(), objects, null, getClassMetadata());
+      getProvider().render(model, getClassMetadata(), new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }
 
@@ -99,4 +93,5 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       WebApplicationContext wac = RequestContextUtils.getWebApplicationContext(servletRequest, servletContext);
       return wac.getBean(TilesScaffoldProvider.class);
    }
+
 }

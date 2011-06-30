@@ -41,7 +41,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       return new ModelAndView(getIndexView(), MODEL_KEY_NAME, findResourcesOnPage(page));
    }
 
-   @RequestMapping(value = "/new", method = RequestMethod.GET)
+   @RequestMapping(value = "/form", method = RequestMethod.GET)
    public ModelAndView createForm() {
       T resource = BeanUtils.instantiate(getResourceClass());
       return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
@@ -82,7 +82,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    public Resources<T> findResourcesOnPage(int page) {
       Collection<T> all = (Collection<T>)Finders.findAndInvokeFindAll(getResourceClass());
-      return new Resources<T>(all, 1, 1);
+      return new Resources<T>(getResourceClass(), all, 1, 1);
    }
 
    public T findResource(I id) {
@@ -156,7 +156,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       }
 
       public String getCreateUrl() {
-         return String.format("%s/new", getResourceName());
+         return String.format("%s/form", getResourceName());
       }
 
       public String getShowUrl(Long id) {
