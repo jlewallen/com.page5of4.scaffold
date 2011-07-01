@@ -3,6 +3,8 @@ package com.page5of4.scaffold;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.Assert;
+
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class TemplateMetadata {
@@ -43,6 +45,7 @@ public class TemplateMetadata {
 
    public TemplateMetadata(ClassMetadata classMetadata, AbstractMetadata currentMetadata, Object targetObject, List<?> targetCollection, ScaffoldViewModel scaffoldViewModel) {
       super();
+      Assert.isTrue(targetObject != null || targetCollection != null);
       this.classMetadata = classMetadata;
       this.currentMetadata = currentMetadata;
       this.targetObject = targetObject;
@@ -50,16 +53,28 @@ public class TemplateMetadata {
       this.scaffoldViewModel = scaffoldViewModel;
    }
 
+   public TemplateMetadata(ClassMetadata classMetadata, AbstractMetadata currentMetadata, Object targetObject, ScaffoldViewModel scaffoldViewModel) {
+      this(classMetadata, currentMetadata, targetObject, null, scaffoldViewModel);
+   }
+
+   public TemplateMetadata(ClassMetadata classMetadata, AbstractMetadata currentMetadata, List<?> targetCollection, ScaffoldViewModel scaffoldViewModel) {
+      this(classMetadata, currentMetadata, null, targetCollection, scaffoldViewModel);
+   }
+
    public Object getDisplayValue() {
       return getCurrentPropertyMetadata().getDisplayValue(targetObject);
+   }
+
+   public String getIndexUrl() {
+      return scaffoldViewModel.getIndexUrl();
    }
 
    public String getCreateUrl() {
       return scaffoldViewModel.getCreateUrl();
    }
 
-   public String getIndexUrl() {
-      return scaffoldViewModel.getIndexUrl();
+   public String getCreateFormUrl() {
+      return scaffoldViewModel.getCreateFormUrl();
    }
 
    public String getShowUrl() {
@@ -68,6 +83,10 @@ public class TemplateMetadata {
 
    public String getUpdateUrl() {
       return scaffoldViewModel.getUpdateUrl(targetObject);
+   }
+
+   public String getUpdateFormUrl() {
+      return scaffoldViewModel.getUpdateFormUrl(targetObject);
    }
 
    public String getDeleteUrl() {

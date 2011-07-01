@@ -30,7 +30,7 @@
 					</c:forEach>
 					<td>
 						<a href="${row.showUrl}">Show</a> |
-						<a href="${row.updateUrl}">Update</a> |
+						<a href="${row.updateFormUrl}">Update</a> |
 						<a href="${row.deleteUrl}">Delete</a>
 					</td>
 				</tr>

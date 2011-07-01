@@ -33,23 +33,19 @@ public class TilesScaffoldProvider {
    private static final String INTERNAL_VIEW_PREFIX = "scaffold/";
    private TilesRequestContextFactory tilesRequestContextFactory;
    private MetadataResolver metadataResolver;
-   private ConversionService conversionService;
 
    @Autowired
    @SuppressWarnings("deprecation")
    public TilesScaffoldProvider(ConversionService conversionService, MetadataResolver metadataResolver) {
       super();
-      this.conversionService = conversionService;
       this.metadataResolver = metadataResolver;
       tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }
 
-   public void render(ScaffoldModel model, ClassMetadata classMetadata, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems)
-         throws IntrospectionException, ServletException {
+   public void render(ScaffoldModel model, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException, ServletException {
       AbstractMetadata meta = resolve(model);
       model.setMeta(meta);
-      model.setTargetObject(model.getTargetObject());
 
       List<String> convertedNames = new ArrayList<String>();
       if(model.getTargetCollection() != null) {

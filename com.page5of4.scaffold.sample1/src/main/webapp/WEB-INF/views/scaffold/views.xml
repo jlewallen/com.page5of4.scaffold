@@ -34,4 +34,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/scaffold/index.jspx" />
 	</definition>
 
+	<definition extends="default" name="*/form">
+		<put-attribute name="body" value="/WEB-INF/views/scaffold/form.jspx" />
+	</definition>
+
+	<definition extends="default" name="*/show">
+		<put-attribute name="body" value="/WEB-INF/views/scaffold/show.jspx" />
+	</definition>
 </tiles-definitions>

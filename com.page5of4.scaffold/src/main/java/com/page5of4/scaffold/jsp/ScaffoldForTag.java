@@ -85,7 +85,7 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       Object[] requestItems = new Object[] { getPageContext() };
       ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata(), null);
       try {
-         getProvider().render(model, getClassMetadata(), new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
+         getProvider().render(model, new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       }
       catch(Exception e) {
          throw new RuntimeException(String.format("Error scaffolding for %s", model.getPropertyName()), e);

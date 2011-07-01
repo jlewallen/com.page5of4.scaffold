@@ -8,10 +8,10 @@
 
 	<c:choose>
 		<c:when test="${model.id != null}">
-			<spring:url value="/cards/${model.id}" var="actionUrl" />
+			<spring:url value="${templateMetadata.updateUrl}" var="actionUrl" />
 		</c:when>
 		<c:otherwise>
-			<spring:url value="/cards" var="actionUrl" />
+			<spring:url value="${templateMetadata.createUrl}" var="actionUrl" />
 		</c:otherwise>
 	</c:choose>
 

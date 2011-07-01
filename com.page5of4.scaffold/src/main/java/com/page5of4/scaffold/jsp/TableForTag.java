@@ -94,7 +94,7 @@ public class TableForTag extends RequestContextAwareTag {
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
       ScaffoldModel model = new ScaffoldModel(getMode(), templatePrefix, null, objectClass, targetCollection, null, classMetadata, scaffoldViewModel);
-      getProvider().render(model, getClassMetadata(), new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
+      getProvider().render(model, new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }
 

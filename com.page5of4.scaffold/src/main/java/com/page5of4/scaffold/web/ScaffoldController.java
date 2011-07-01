@@ -3,6 +3,7 @@ package com.page5of4.scaffold.web;
 import static org.jvnet.inflector.Noun.pluralOf;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.Finders;
-import com.page5of4.scaffold.MetadataResolver;
+import com.page5of4.scaffold.TemplateMetadataFactory;
 
 @SuppressWarnings("unchecked")
 public abstract class ScaffoldController<I extends Object, T extends Object> {
@@ -29,40 +30,38 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    public static final String MODEL_KEY_NAME = "model";
 
    @Autowired
-   private MetadataResolver metadataResolver;
+   private TemplateMetadataFactory templateMetadataFactory;
 
-   @ModelAttribute("scaffoldViewModel")
-   public ScaffoldViewModel getScaffoldViewModel(HttpServletRequest servletRequest) {
-      return new ScaffoldViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
-   }
+   @Autowired
+   private HttpServletRequest servletRequest;
 
    @RequestMapping(method = RequestMethod.GET)
    public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int page) {
-      return new ModelAndView(getIndexView(), MODEL_KEY_NAME, findResourcesOnPage(page));
+      return newModelAndView(getIndexView(), findResourcesOnPage(page));
    }
 
    @RequestMapping(value = "/form", method = RequestMethod.GET)
    public ModelAndView createForm() {
       T resource = BeanUtils.instantiate(getResourceClass());
-      return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
+      return newModelAndView(getFormView(), resource, null);
    }
 
    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
    public ModelAndView show(@PathVariable I id) {
       T resource = findResource(id);
-      return new ModelAndView(getShowView(), MODEL_KEY_NAME, resource);
+      return newModelAndView(getShowView(), resource, null);
    }
 
    @RequestMapping(value = "/{id}/form", method = RequestMethod.GET)
    public ModelAndView updateForm(@PathVariable I id) {
       T resource = findResource(id);
-      return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
+      return newModelAndView(getFormView(), resource, null);
    }
 
    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
    public ModelAndView update(@PathVariable I id, @ModelAttribute(MODEL_KEY_NAME) @Valid T resource, Errors errors, Model model) {
       if(errors.hasErrors()) {
-         return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
+         return newModelAndView(getFormView(), resource, errors);
       }
       return update(id, resource, errors);
    }
@@ -70,7 +69,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    @RequestMapping(method = RequestMethod.POST)
    public ModelAndView create(@ModelAttribute(MODEL_KEY_NAME) @Valid T resource, Errors errors, Model model) {
       if(errors.hasErrors()) {
-         return new ModelAndView(getFormView(), MODEL_KEY_NAME, resource);
+         return newModelAndView(getFormView(), resource, errors);
       }
       return create(resource, errors);
    }
@@ -82,6 +81,9 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    public Resources<T> findResourcesOnPage(int page) {
       Collection<T> all = (Collection<T>)Finders.findAndInvokeFindAll(getResourceClass());
+      if(all == null) {
+         all = new ArrayList<T>();
+      }
       return new Resources<T>(getResourceClass(), all, 1, 1);
    }
 
@@ -119,11 +121,27 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    }
 
    public ModelAndView update(I id, T resource, Errors errors) {
-      return new ModelAndView(getShowView(), MODEL_KEY_NAME, resource);
+      return newModelAndView(getShowView(), resource, errors);
    }
 
    public ModelAndView create(T resource, Errors errors) {
-      return new ModelAndView(getShowView(), MODEL_KEY_NAME, resource);
+      return newModelAndView(getShowView(), resource, errors);
+   }
+
+   private ModelAndView newModelAndView(String viewName, T resource, Errors errors) {
+      ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resource);
+      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
+      mav.addObject("scaffoldViewModel", scaffoldViewModel);
+      mav.addObject("templateMetadata", templateMetadataFactory.createTemplateMetadata(resource, scaffoldViewModel));
+      return mav;
+   }
+
+   private ModelAndView newModelAndView(String viewName, Resources<T> resources) {
+      ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resources);
+      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
+      mav.addObject("scaffoldViewModel", scaffoldViewModel);
+      mav.addObject("templateMetadata", templateMetadataFactory.createTemplateMetadata(resources.getResourceClass(), new ArrayList<T>(resources.getResources()), scaffoldViewModel));
+      return mav;
    }
 
    public ModelAndView delete(I id, T resource) {

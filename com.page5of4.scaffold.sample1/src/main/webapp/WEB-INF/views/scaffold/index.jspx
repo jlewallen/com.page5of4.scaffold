@@ -6,12 +6,12 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 	
-	<spring:url value="${scaffoldViewModel.createUrl}" var="createUrl" />
+	<spring:url value="${scaffoldViewModel.createFormUrl}" var="createFormUrl" />
 	
 	<h3>${scaffoldViewModel.collectionTitle}</h3>
 
 	<div>
-	<a href="${createUrl}">Create</a>
+	<a href="${createFormUrl}">Create</a>
 	</div>
 	
 	<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${scaffoldViewModel}" />
