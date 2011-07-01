@@ -6,15 +6,15 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<div class="scaffold display ${meta.cssClassName}">
+	<div class="scaffold display ${meta.classMetadata.cssClassName}">
 		<ol>
-			<c:forEach items="${meta.properties}" var="property">
+			<c:forEach items="${meta.classMetadata.properties}" var="property">
 				<c:choose>
 					<c:when test="${property.visible}">
 						<li class="${property.cssClassName}">
 							<div class="label">${property.displayName}</div>
 							<div class="field">
-								<scaffold:display-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" />
+								<scaffold:display-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
 							</div>
 						</li>
 					</c:when>

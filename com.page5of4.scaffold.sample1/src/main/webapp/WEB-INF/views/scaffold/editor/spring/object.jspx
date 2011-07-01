@@ -6,18 +6,18 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<div class="scaffold editor inputs ${meta.cssClassName}">
+	<div class="scaffold editor inputs ${meta.classMetadata.cssClassName}">
 		<ol>
-			<c:forEach items="${meta.properties}" var="property">
+			<c:forEach items="${meta.classMetadata.properties}" var="property">
 				<c:choose>
 					<c:when test="${property.visible}">
 						<li class="input ${property.cssClassName}">
 							<form:label path="${property.name}">${property.displayName}</form:label>
-							<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
+							<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
 						</li>
 					</c:when>
 					<c:otherwise>
-						<scaffold:editor-for object="${meta.object}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
+						<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>

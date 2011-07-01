@@ -29,6 +29,8 @@ public class TilesScaffoldProvider {
    private static final Logger logger = LoggerFactory.getLogger(TilesScaffoldProvider.class);
    private static final String META_VARIABLE_NAME = "meta";
    private static final String MODEL_VARIABLE_NAME = "scaffold";
+   private static final String OBJECT_COLLECTION_NAME = "objects";
+   private static final String INTERNAL_VIEW_PREFIX = "scaffold/";
    private TilesRequestContextFactory tilesRequestContextFactory;
    private MetadataResolver metadataResolver;
    private ConversionService conversionService;
@@ -51,7 +53,7 @@ public class TilesScaffoldProvider {
 
       List<String> convertedNames = new ArrayList<String>();
       if(model.getTargetCollection() != null) {
-         convertedNames.add("objects");
+         convertedNames.add(OBJECT_COLLECTION_NAME);
       }
       else {
          for(String name : meta.getCandidateTemplateNames()) {
@@ -73,12 +75,7 @@ public class TilesScaffoldProvider {
 
    private AbstractMetadata resolve(ScaffoldModel model) throws IntrospectionException {
       if(model.getClassMetadata() == null) {
-         if(model.getObjectClass() != null) {
-            model.setClassMetadata(metadataResolver.resolve(model.getObjectClass(), model.getTargetCollection(), model.getFormPrefix()));
-         }
-         else {
-            model.setClassMetadata(metadataResolver.resolve(model.getTargetObject(), model.getFormPrefix()));
-         }
+         model.setClassMetadata(metadataResolver.resolve(model.determineObjectClass()));
       }
       if(model.getPropertyName() == null) {
          return model.getClassMetadata();
@@ -94,7 +91,7 @@ public class TilesScaffoldProvider {
          }
          paths.add(prefix);
       }
-      paths.add("scaffold/" + mode + "/");
+      paths.add(INTERNAL_VIEW_PREFIX + mode + "/");
       return paths.toArray(new String[0]);
    }
 
@@ -111,10 +108,12 @@ public class TilesScaffoldProvider {
       logger.trace("Rendering: {} = {}", definition.getName(), definition);
       writer.write(String.format("<!-- %s -->", definition.getName()));
 
+      TemplateMetadata meta = new TemplateMetadata(model.getClassMetadata(), model.getMeta(), model.getTargetObject(), model.getTargetCollection());
+
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);
       servletRequest.setAttribute(MODEL_VARIABLE_NAME, model);
-      servletRequest.setAttribute(META_VARIABLE_NAME, model.getMeta());
+      servletRequest.setAttribute(META_VARIABLE_NAME, meta);
 
       container.startContext(requestItems).inheritCascadedAttributes(definition);
       container.render(definition.getName(), requestItems);

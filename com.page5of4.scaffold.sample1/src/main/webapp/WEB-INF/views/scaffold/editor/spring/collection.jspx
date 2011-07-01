@@ -7,13 +7,13 @@
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
 	<c:choose>
-		<c:when test="${meta.isManyToOne}">
-			<form:select path="${meta.name}" cssClass="collection-field" cssErrorClass="collection-field error" items="${meta.manyToOne.items}" itemLabel="label" itemValue="value" />
+		<c:when test="${meta.currentMetadata.isManyToOne}">
+			<form:select path="${meta.currentMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" items="${meta.currentMetadata.manyToOne.items}" itemLabel="label" itemValue="value" />
 		</c:when>
 		<c:otherwise>
-			<form:input path="${meta.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
+			<form:input path="${meta.currentMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
 		</c:otherwise>
 	</c:choose>
 
-	<form:errors path="${meta.name}" cssClass="field-error" />
+	<form:errors path="${meta.currentMetadata.name}" cssClass="field-error" />
 </jsp:root>

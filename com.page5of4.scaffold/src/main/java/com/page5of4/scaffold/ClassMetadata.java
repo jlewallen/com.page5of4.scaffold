@@ -19,22 +19,17 @@ import org.springframework.core.convert.ConversionService;
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
 
-   public static ClassMetadata create(ConversionService conversionService, String formPrefix, Class<? extends Object> objectClass, List<?> objects) throws IntrospectionException {
-      List<PropertyMetadata> properties = getProperties(conversionService, formPrefix, objectClass, null);
-      return new ClassMetadata(objectClass, properties, null, objects);
+   public static ClassMetadata create(ConversionService conversionService, Class<? extends Object> objectClass) throws IntrospectionException {
+      List<PropertyMetadata> properties = getProperties(conversionService, objectClass);
+      return new ClassMetadata(objectClass, properties);
    }
 
-   public static ClassMetadata create(ConversionService conversionService, String formPrefix, Class<? extends Object> objectClass, Object target) throws IntrospectionException {
-      List<PropertyMetadata> properties = getProperties(conversionService, formPrefix, objectClass, target);
-      return new ClassMetadata(objectClass, properties, target, new ArrayList<Object>());
-   }
-
-   private static List<PropertyMetadata> getProperties(ConversionService conversionService, String formPrefix, Class<? extends Object> objectClass, Object target) throws IntrospectionException {
+   private static List<PropertyMetadata> getProperties(ConversionService conversionService, Class<? extends Object> objectClass) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
          if(!shouldSkip(descriptor)) {
-            properties.add(new PropertyMetadata(conversionService, formPrefix, descriptor, objectClass, target));
+            properties.add(new PropertyMetadata(conversionService, descriptor, objectClass));
          }
       }
       Collections.sort(properties, new Comparator<PropertyMetadata>() {
@@ -53,8 +48,6 @@ public class ClassMetadata extends AbstractMetadata {
 
    private Class<? extends Object> objectClass;
    private List<PropertyMetadata> properties;
-   private Object object;
-   private final List<?> objects;
 
    public List<PropertyMetadata> getProperties() {
       return properties;
@@ -70,18 +63,6 @@ public class ClassMetadata extends AbstractMetadata {
 
    public String getCssClassName() {
       return StringUtils.lowercaseFirstLetter(ClassUtils.getShortClassName(objectClass));
-   }
-
-   public Object getObject() {
-      return object;
-   }
-
-   public List<?> getObjects() {
-      return objects;
-   }
-
-   public void setObject(Object object) {
-      this.object = object;
    }
 
    @Override
@@ -100,11 +81,9 @@ public class ClassMetadata extends AbstractMetadata {
       return names.toArray(new String[0]);
    }
 
-   public ClassMetadata(Class<? extends Object> klass, Collection<PropertyMetadata> properties, Object object, List<?> objects) {
+   public ClassMetadata(Class<? extends Object> klass, Collection<PropertyMetadata> properties) {
       super();
       this.objectClass = klass;
-      this.object = object;
-      this.objects = objects;
       this.properties = new ArrayList<PropertyMetadata>(properties);
    }
 

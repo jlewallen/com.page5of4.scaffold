@@ -98,9 +98,10 @@ public class Project {
       System.getenv();
    }
 
-   public Project(Long id, String name, String description, Date startingAt, Date endingAt) {
+   public Project(Long id, String code, String name, String description, Date startingAt, Date endingAt) {
       super();
       this.id = id;
+      this.code = code;
       this.name = name;
       this.description = description;
       this.startingAt = startingAt;
@@ -125,10 +126,10 @@ public class Project {
    private static List<Project> all = new ArrayList<Project>();
 
    static {
-      all.add(new Project(1L, "A", "A simple description of A", new Date(), new Date()));
-      all.add(new Project(2L, "B", "A simple description of B", new Date(), new Date()));
-      all.add(new Project(3L, "C", "A simple description of C", new Date(), new Date()));
-      all.add(new Project(4L, "D", "A simple description of D", new Date(), new Date()));
+      all.add(new Project(1L, "ABC", "A", "A simple description of A", new Date(), new Date()));
+      all.add(new Project(2L, "DEF", "B", "A simple description of B", new Date(), new Date()));
+      all.add(new Project(3L, "XYZ", "C", "A simple description of C", new Date(), new Date()));
+      all.add(new Project(4L, "QRS", "D", "A simple description of D", new Date(), new Date()));
    }
 
    public static Collection<Project> findAll() {

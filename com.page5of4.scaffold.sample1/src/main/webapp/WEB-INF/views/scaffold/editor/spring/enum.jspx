@@ -6,6 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<form:select path="${meta.name}" items="${meta.manyToOne.items}" />
-	<form:errors path="${meta.name}" cssClass="field-error" />
+	<form:select path="${meta.currentMetadata.name}" items="${meta.currentMetadata.manyToOne.items}" />
+	<form:errors path="${meta.currentMetadata.name}" cssClass="field-error" />
 </jsp:root>

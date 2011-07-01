@@ -4,6 +4,4 @@ public abstract class AbstractMetadata {
 
    abstract String[] getCandidateTemplateNames();
 
-   abstract void setObject(Object object);
-
 }

@@ -1,7 +1,6 @@
 package com.page5of4.scaffold;
 
 import java.beans.IntrospectionException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +21,9 @@ public class MetadataResolver {
       this.conversionService = conversionService;
    }
 
-   public ClassMetadata resolve(Object targetObject, String formPrefix) throws IntrospectionException {
-      if(targetObject == null) throw new IllegalArgumentException("Cannot resolve NULL object.");
-      Class<? extends Object> objectClass = targetObject.getClass();
-      return ClassMetadata.create(conversionService, formPrefix, objectClass, targetObject);
-   }
-
-   public ClassMetadata resolve(Class<?> objectClass, List<?> targetObjects, String formPrefix) throws IntrospectionException {
-      if(targetObjects == null) throw new IllegalArgumentException("Cannot resolve NULL object.");
+   public ClassMetadata resolve(Class<?> objectClass) throws IntrospectionException {
       if(objectClass == null) throw new IllegalArgumentException("Cannot resolve NULL object class.");
-      return ClassMetadata.create(conversionService, formPrefix, objectClass, targetObjects);
+      return ClassMetadata.create(conversionService, objectClass);
    }
 
 }

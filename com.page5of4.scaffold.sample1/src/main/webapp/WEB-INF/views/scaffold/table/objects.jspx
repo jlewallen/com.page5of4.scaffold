@@ -8,19 +8,19 @@
 
 	<table>
 		<tr>
-			<c:forEach items="${meta.properties}" var="property">
+			<c:forEach items="${meta.classMetadata.properties}" var="property">
 				<c:if test="${property.visible}">
 					<th>${property.displayName}</th>
 				</c:if>
 			</c:forEach>
 		</tr>
-			<c:forEach items="${meta.objects}" var="row">
+			<c:forEach items="${meta.targetCollection}" var="row">
 				<tr>
-					<c:forEach items="${meta.properties}" var="property">
+					<c:forEach items="${meta.classMetadata.properties}" var="property">
 						<c:choose>
 							<c:when test="${property.visible}">
 								<td class="${property.cssClassName}">
-									<scaffold:display-for object="${row}" propertyName="${property.name}" classMetadata="${meta}" templatePrefix="${scaffold.templatePrefix}" />
+									<scaffold:display-for object="${row}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
 								</td>
 							</c:when>
 							<c:otherwise>

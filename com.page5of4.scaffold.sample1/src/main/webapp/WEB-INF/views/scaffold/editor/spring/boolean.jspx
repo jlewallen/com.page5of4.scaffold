@@ -6,6 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<form:checkbox path="${meta.name}" cssClass="check-box" cssErrorClass="check-box field-error" />
-	<form:errors path="${meta.name}" cssClass="field-error" />
+	<form:checkbox path="${meta.currentMetadata.name}" cssClass="check-box" cssErrorClass="check-box field-error" />
+	<form:errors path="${meta.currentMetadata.name}" cssClass="field-error" />
 </jsp:root>

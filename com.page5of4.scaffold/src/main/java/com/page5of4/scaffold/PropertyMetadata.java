@@ -15,8 +15,6 @@ import com.page5of4.scaffold.spring.ValueFormatter;
 
 public class PropertyMetadata extends AbstractMetadata {
    private static final String HIDDEN_TEMPLATE_NAME = "Hidden";
-   private String formName;
-   private Object target;
    private PropertyDescriptor descriptor;
    private boolean hidden;
    private String help;
@@ -39,10 +37,6 @@ public class PropertyMetadata extends AbstractMetadata {
       return getName();
    }
 
-   public String getFormName() {
-      return this.formName;
-   }
-
    public String getDisplayName() {
       return StringUtils.humanize(descriptor.getDisplayName());
    }
@@ -59,25 +53,17 @@ public class PropertyMetadata extends AbstractMetadata {
       return this.help;
    }
 
-   public Object getTargetObject() {
-      return target;
-   }
-
-   public void setObject(Object object) {
-      this.target = object;
-   }
-
-   public Object getValue() {
+   public Object getValue(Object object) {
       try {
-         return descriptor.getReadMethod().invoke(getTargetObject());
+         return descriptor.getReadMethod().invoke(object);
       }
       catch(Exception e) {
-         throw new RuntimeException(String.format("Error reading %s from %s", getName(), getTargetObject()), e);
+         throw new RuntimeException(String.format("Error reading %s from %s", getName(), object), e);
       }
    }
 
-   public Object getDisplayValue() {
-      BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(getTargetObject());
+   public Object getDisplayValue(Object object) {
+      BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(object);
       Object value = bw.getPropertyValue(getName());
       TypeDescriptor td = bw.getPropertyTypeDescriptor(getName());
       if(!conversionService.canConvert(TypeDescriptor.valueOf(String.class), td)) {
@@ -159,12 +145,10 @@ public class PropertyMetadata extends AbstractMetadata {
       return descriptor.getPropertyType();
    }
 
-   public PropertyMetadata(ConversionService conversionService, String formPrefix, PropertyDescriptor descriptor, Class<?> targetClass, Object target) {
+   public PropertyMetadata(ConversionService conversionService, PropertyDescriptor descriptor, Class<?> targetClass) {
       super();
       this.conversionService = conversionService;
       this.targetClass = targetClass;
-      this.formName = formPrefix + "." + descriptor.getName();
-      this.target = target;
       this.descriptor = descriptor;
       this.hidden = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHidden.class, targetClass, descriptor) != null;
       ScaffoldHelp helpAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHelp.class, targetClass, descriptor);
