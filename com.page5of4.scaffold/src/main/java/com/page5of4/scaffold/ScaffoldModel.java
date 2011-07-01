@@ -6,16 +6,15 @@ import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class ScaffoldModel {
 
-   private ClassMetadata classMetadata;
-   private String formPrefix;
-   private AbstractMetadata meta;
+   private final String formPrefix;
    private final String mode;
+   private final String templatePrefix;
+   private final ScaffoldViewModel scaffoldViewModel;
+   private ClassMetadata classMetadata;
    private Class<?> objectClass;
    private String propertyName;
    private List<?> targetCollection;
    private Object targetObject;
-   private String templatePrefix;
-   private final ScaffoldViewModel scaffoldViewModel;
 
    public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata,
          ScaffoldViewModel scaffoldViewModel) {
@@ -49,10 +48,6 @@ public class ScaffoldModel {
       return formPrefix;
    }
 
-   public AbstractMetadata getMeta() {
-      return meta;
-   }
-
    public String getMode() {
       return mode;
    }
@@ -81,24 +76,12 @@ public class ScaffoldModel {
       this.classMetadata = classMetadata;
    }
 
-   public void setFormPrefix(String formPrefix) {
-      this.formPrefix = formPrefix;
-   }
-
-   public void setMeta(AbstractMetadata meta) {
-      this.meta = meta;
-   }
-
    public void setPropertyName(String propertyName) {
       this.propertyName = propertyName;
    }
 
    public void setTargetObject(Object targetObject) {
       this.targetObject = targetObject;
-   }
-
-   public void setTemplatePrefix(String templatePrefix) {
-      this.templatePrefix = templatePrefix;
    }
 
    public ScaffoldViewModel getScaffoldViewModel() {

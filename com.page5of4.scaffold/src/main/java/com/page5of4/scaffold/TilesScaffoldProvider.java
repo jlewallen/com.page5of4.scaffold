@@ -46,15 +46,15 @@ public class TilesScaffoldProvider {
    }
 
    public void render(ScaffoldModel model, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException, ServletException {
-      AbstractMetadata meta = resolve(model);
-      model.setMeta(meta);
+      AbstractMetadata currentMetadata = resolveCurrentMetadata(model);
+      TemplateMetadata templateMetadata = new TemplateMetadata(model.getClassMetadata(), currentMetadata, model.getTargetObject(), model.getTargetCollection(), model.getScaffoldViewModel());
 
       List<String> convertedNames = new ArrayList<String>();
       if(model.getTargetCollection() != null) {
          convertedNames.add(OBJECT_COLLECTION_NAME);
       }
       else {
-         for(String name : meta.getCandidateTemplateNames()) {
+         for(String name : currentMetadata.getCandidateTemplateNames()) {
             convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
          }
       }
@@ -68,10 +68,10 @@ public class TilesScaffoldProvider {
       }
 
       logger.trace("Searching: {}", StringUtils.join(definitionNames, ", "));
-      renderDefinition(definitionNames, model, writer, servletRequest, servletContext, requestItems);
+      renderDefinition(definitionNames, model, templateMetadata, writer, servletRequest, servletContext, requestItems);
    }
 
-   private AbstractMetadata resolve(ScaffoldModel model) throws IntrospectionException {
+   private AbstractMetadata resolveCurrentMetadata(ScaffoldModel model) throws IntrospectionException {
       if(model.getClassMetadata() == null) {
          model.setClassMetadata(metadataResolver.resolve(model.determineObjectClass()));
       }
@@ -93,8 +93,8 @@ public class TilesScaffoldProvider {
       return paths.toArray(new String[0]);
    }
 
-   private void renderDefinition(Collection<String> definitionNames, ScaffoldModel model, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems)
-         throws ServletException {
+   private void renderDefinition(Collection<String> definitionNames, ScaffoldModel model, TemplateMetadata templateMetadata, PrintWriter writer, ServletRequest servletRequest,
+         ServletContext servletContext, Object[] requestItems) throws ServletException {
       BasicTilesContainer container = (BasicTilesContainer)ServletUtil.getCurrentContainer(servletRequest, servletContext);
       if(container == null) {
          throw new ServletException("Tiles container is not initialized. Have you added a TilesConfigurer to your web application context?");
@@ -106,12 +106,10 @@ public class TilesScaffoldProvider {
       logger.trace("Rendering: {} = {}", definition.getName(), definition);
       writer.write(String.format("<!-- %s -->", definition.getName()));
 
-      TemplateMetadata meta = new TemplateMetadata(model.getClassMetadata(), model.getMeta(), model.getTargetObject(), model.getTargetCollection(), model.getScaffoldViewModel());
-
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);
       servletRequest.setAttribute(MODEL_VARIABLE_NAME, model);
-      servletRequest.setAttribute(META_VARIABLE_NAME, meta);
+      servletRequest.setAttribute(META_VARIABLE_NAME, templateMetadata);
 
       container.startContext(requestItems).inheritCascadedAttributes(definition);
       container.render(definition.getName(), requestItems);
