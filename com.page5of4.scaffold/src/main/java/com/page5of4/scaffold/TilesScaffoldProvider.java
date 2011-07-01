@@ -108,7 +108,7 @@ public class TilesScaffoldProvider {
       logger.trace("Rendering: {} = {}", definition.getName(), definition);
       writer.write(String.format("<!-- %s -->", definition.getName()));
 
-      TemplateMetadata meta = new TemplateMetadata(model.getClassMetadata(), model.getMeta(), model.getTargetObject(), model.getTargetCollection());
+      TemplateMetadata meta = new TemplateMetadata(model.getClassMetadata(), model.getMeta(), model.getTargetObject(), model.getTargetCollection(), model.getScaffoldViewModel());
 
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);

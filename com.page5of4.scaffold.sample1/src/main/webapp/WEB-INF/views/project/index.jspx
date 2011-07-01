@@ -6,15 +6,14 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 	
-	<spring:url value="/projects" var="resourceUrl" />
-	<spring:url value="/projects/new" var="createUrl" />
+	<spring:url value="${scaffoldViewModel.createUrl}" var="createUrl" />
+	
+	<h3>${scaffoldViewModel.collectionTitle}</h3>
 
-	<h2>Projects</h2>	
-
-	<h3>
+	<div>
 	<a href="${createUrl}">Create</a>
-	</h3>
-
-	<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" />
+	</div>
+	
+	<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${scaffoldViewModel}" />
 
 </jsp:root>

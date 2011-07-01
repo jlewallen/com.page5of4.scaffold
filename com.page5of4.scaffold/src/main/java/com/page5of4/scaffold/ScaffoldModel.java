@@ -2,19 +2,23 @@ package com.page5of4.scaffold;
 
 import java.util.List;
 
+import com.page5of4.scaffold.web.ScaffoldViewModel;
+
 public class ScaffoldModel {
 
    private ClassMetadata classMetadata;
    private String formPrefix;
    private AbstractMetadata meta;
-   private String mode;
+   private final String mode;
    private Class<?> objectClass;
    private String propertyName;
    private List<?> targetCollection;
    private Object targetObject;
    private String templatePrefix;
+   private final ScaffoldViewModel scaffoldViewModel;
 
-   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata) {
+   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata,
+         ScaffoldViewModel scaffoldViewModel) {
       super();
       this.mode = mode;
       this.templatePrefix = templatePrefix;
@@ -23,9 +27,10 @@ public class ScaffoldModel {
       this.targetCollection = targetCollection;
       this.propertyName = propertyName;
       this.classMetadata = classMetadata;
+      this.scaffoldViewModel = scaffoldViewModel;
    }
 
-   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Object targetObject, String propertyName, ClassMetadata classMetadata) {
+   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Object targetObject, String propertyName, ClassMetadata classMetadata, ScaffoldViewModel scaffoldViewModel) {
       super();
       this.mode = mode;
       this.templatePrefix = templatePrefix;
@@ -33,6 +38,7 @@ public class ScaffoldModel {
       this.targetObject = targetObject;
       this.propertyName = propertyName;
       this.classMetadata = classMetadata;
+      this.scaffoldViewModel = scaffoldViewModel;
    }
 
    public ClassMetadata getClassMetadata() {
@@ -83,10 +89,6 @@ public class ScaffoldModel {
       this.meta = meta;
    }
 
-   public void setMode(String mode) {
-      this.mode = mode;
-   }
-
    public void setPropertyName(String propertyName) {
       this.propertyName = propertyName;
    }
@@ -97,6 +99,10 @@ public class ScaffoldModel {
 
    public void setTemplatePrefix(String templatePrefix) {
       this.templatePrefix = templatePrefix;
+   }
+
+   public ScaffoldViewModel getScaffoldViewModel() {
+      return scaffoldViewModel;
    }
 
    public Class<?> determineObjectClass() {

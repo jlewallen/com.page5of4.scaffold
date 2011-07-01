@@ -13,20 +13,26 @@
 					<th>${property.displayName}</th>
 				</c:if>
 			</c:forEach>
+			<th>Actions</th>
 		</tr>
-			<c:forEach items="${meta.targetCollection}" var="row">
+			<c:forEach items="${meta.targetCollectionMetas}" var="row">
 				<tr>
 					<c:forEach items="${meta.classMetadata.properties}" var="property">
 						<c:choose>
 							<c:when test="${property.visible}">
 								<td class="${property.cssClassName}">
-									<scaffold:display-for object="${row}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
+									<scaffold:display-for object="${row.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
 								</td>
 							</c:when>
 							<c:otherwise>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
+					<td>
+						<a href="${row.showUrl}">Show</a> |
+						<a href="${row.updateUrl}">Update</a> |
+						<a href="${row.deleteUrl}">Delete</a>
+					</td>
 				</tr>
 			</c:forEach>
 	</table>

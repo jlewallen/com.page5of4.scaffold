@@ -16,6 +16,7 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import com.page5of4.scaffold.ClassMetadata;
 import com.page5of4.scaffold.ScaffoldModel;
 import com.page5of4.scaffold.TilesScaffoldProvider;
+import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class TableForTag extends RequestContextAwareTag {
 
@@ -25,7 +26,7 @@ public class TableForTag extends RequestContextAwareTag {
       return this.pageContext;
    }
 
-   private List<?> objects;
+   private List<?> targetCollection;
 
    private String templatePrefix;
 
@@ -33,17 +34,19 @@ public class TableForTag extends RequestContextAwareTag {
 
    private Class<?> objectClass;
 
+   private ScaffoldViewModel scaffoldViewModel;
+
    public Collection<?> getObjects() {
-      return objects;
+      return targetCollection;
    }
 
    @SuppressWarnings({ "rawtypes", "unchecked" })
    public void setObjects(Collection objects) {
       if(objects == null) {
-         this.objects = new ArrayList<Object>();
+         this.targetCollection = new ArrayList<Object>();
       }
       else {
-         this.objects = new ArrayList<Object>(objects);
+         this.targetCollection = new ArrayList<Object>(objects);
       }
    }
 
@@ -75,6 +78,14 @@ public class TableForTag extends RequestContextAwareTag {
       return "table";
    }
 
+   public ScaffoldViewModel getScaffoldViewModel() {
+      return scaffoldViewModel;
+   }
+
+   public void setScaffoldViewModel(ScaffoldViewModel scaffoldViewModel) {
+      this.scaffoldViewModel = scaffoldViewModel;
+   }
+
    public TableForTag() {}
 
    @Override
@@ -82,7 +93,7 @@ public class TableForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), null, getObjectClass(), objects, null, getClassMetadata());
+      ScaffoldModel model = new ScaffoldModel(getMode(), templatePrefix, null, objectClass, targetCollection, null, classMetadata, scaffoldViewModel);
       getProvider().render(model, getClassMetadata(), new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }

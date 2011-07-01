@@ -9,11 +9,11 @@ import org.springframework.util.ClassUtils;
 public class Finders {
 
    public static Method getFindAllFinder(Class<?> entityClass) {
-      String finderMethod = "findAll";
+      String methodName = "findAll";
       Method[] methods = entityClass.getDeclaredMethods();
       for(Method method : methods) {
          if(Modifier.isStatic(method.getModifiers()) && method.getParameterTypes().length == 0 && method.getReturnType().equals(Collection.class)) {
-            if(method.getName().equals(finderMethod)) {
+            if(method.getName().equals(methodName)) {
                return method;
             }
          }
@@ -22,11 +22,11 @@ public class Finders {
    }
 
    public static Method getFindByIdFinder(Class<?> entityClass) {
-      String finderMethod = "find" + getEntityName(entityClass);
+      String methodName = "find" + getEntityName(entityClass);
       Method[] methods = entityClass.getDeclaredMethods();
       for(Method method : methods) {
          if(Modifier.isStatic(method.getModifiers()) && method.getParameterTypes().length == 1 && method.getReturnType().equals(entityClass)) {
-            if(method.getName().equals(finderMethod)) {
+            if(method.getName().equals(methodName)) {
                return method;
             }
          }
@@ -66,6 +66,19 @@ public class Finders {
          }
          catch(Exception error) {
             throw new RuntimeException("Error invoking " + finder, error);
+         }
+      }
+      return null;
+   }
+
+   public static Method findIdGetter(Class<?> entityClass) {
+      String methodName = "getId";
+      Method[] methods = entityClass.getDeclaredMethods();
+      for(Method method : methods) {
+         if(method.getName().equals(methodName)) {
+            if(!Modifier.isStatic(method.getModifiers()) && method.getParameterTypes().length == 0) {
+               return method;
+            }
          }
       }
       return null;

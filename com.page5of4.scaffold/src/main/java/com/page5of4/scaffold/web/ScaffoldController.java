@@ -32,8 +32,8 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    private MetadataResolver metadataResolver;
 
    @ModelAttribute("scaffoldViewModel")
-   public ViewModel getScaffoldViewModel(HttpServletRequest servletRequest) {
-      return new ViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
+   public ScaffoldViewModel getScaffoldViewModel(HttpServletRequest servletRequest) {
+      return new ScaffoldViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
    }
 
    @RequestMapping(method = RequestMethod.GET)
@@ -128,54 +128,5 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    public ModelAndView delete(I id, T resource) {
       return index(1);
-   }
-
-   public static class ViewModel {
-      private final HttpServletRequest servletRequest;
-      private final String resourceName;
-      private final String collectionName;
-
-      public String getPathInfo() {
-         return servletRequest.getPathInfo();
-      }
-
-      public String getResourceName() {
-         return resourceName;
-      }
-
-      public String getResourceTitle() {
-         return com.page5of4.scaffold.StringUtils.titlize(resourceName);
-      }
-
-      public String getCollectionName() {
-         return collectionName;
-      }
-
-      public String getCollectionTitle() {
-         return com.page5of4.scaffold.StringUtils.titlize(collectionName);
-      }
-
-      public String getCreateUrl() {
-         return String.format("%s/form", getResourceName());
-      }
-
-      public String getShowUrl(Long id) {
-         return String.format("%s/%d", getResourceName(), id);
-      }
-
-      public String getEditUrl(Long id) {
-         return String.format("%s/%d/form", getResourceName(), id);
-      }
-
-      public String getDeleteUrl(Long id) {
-         return String.format("%s/%d", getResourceName(), id);
-      }
-
-      public ViewModel(String resourceName, String resourceCollectionName, HttpServletRequest servletRequest) {
-         super();
-         this.servletRequest = servletRequest;
-         this.resourceName = resourceName;
-         this.collectionName = resourceCollectionName;
-      }
    }
 }
