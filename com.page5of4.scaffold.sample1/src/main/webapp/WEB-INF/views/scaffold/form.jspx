@@ -2,21 +2,20 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
 	<c:choose>
 		<c:when test="${model.id != null}">
-			<spring:url value="${templateMetadata.updateUrl}" var="actionUrl" />
+			<spring:url value="${meta.updateUrl}" var="actionUrl" />
 		</c:when>
 		<c:otherwise>
-			<spring:url value="${templateMetadata.createUrl}" var="actionUrl" />
+			<spring:url value="${meta.createUrl}" var="actionUrl" />
 		</c:otherwise>
 	</c:choose>
 
 	<scaffold:form modelAttribute="model" action="${actionUrl}" cssClass="formtastic">
-		<scaffold:editor-for object="${model}" />
+		<scaffold:editor-for object="${model}" classMetadata="${meta.classMetadata}" />
 		<div>
 			<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
 		</div>

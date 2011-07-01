@@ -43,6 +43,10 @@ public class TemplateMetadata {
       return collection;
    }
 
+   public ScaffoldViewModel getViewModel() {
+      return scaffoldViewModel;
+   }
+
    public TemplateMetadata(ClassMetadata classMetadata, AbstractMetadata currentMetadata, Object targetObject, List<?> targetCollection, ScaffoldViewModel scaffoldViewModel) {
       super();
       Assert.isTrue(targetObject != null || targetCollection != null);

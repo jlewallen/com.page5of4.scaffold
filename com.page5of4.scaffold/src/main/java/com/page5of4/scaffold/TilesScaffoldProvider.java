@@ -31,14 +31,16 @@ public class TilesScaffoldProvider {
    private static final String MODEL_VARIABLE_NAME = "scaffold";
    private static final String OBJECT_COLLECTION_NAME = "objects";
    private static final String INTERNAL_VIEW_PREFIX = "scaffold/";
-   private TilesRequestContextFactory tilesRequestContextFactory;
-   private MetadataResolver metadataResolver;
+   private final TilesRequestContextFactory tilesRequestContextFactory;
+   private final MetadataResolver metadataResolver;
+   private final TemplateMetadataFactory templateMetadataFactory;
 
    @Autowired
    @SuppressWarnings("deprecation")
-   public TilesScaffoldProvider(ConversionService conversionService, MetadataResolver metadataResolver) {
+   public TilesScaffoldProvider(ConversionService conversionService, MetadataResolver metadataResolver, TemplateMetadataFactory templateMetadataFactory) {
       super();
       this.metadataResolver = metadataResolver;
+      this.templateMetadataFactory = templateMetadataFactory;
       tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       tilesRequestContextFactory.init(new HashMap<String, String>());
    }

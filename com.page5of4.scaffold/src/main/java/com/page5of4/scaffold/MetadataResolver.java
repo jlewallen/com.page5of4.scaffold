@@ -23,6 +23,7 @@ public class MetadataResolver {
 
    public ClassMetadata resolve(Class<?> objectClass) throws IntrospectionException {
       if(objectClass == null) throw new IllegalArgumentException("Cannot resolve NULL object class.");
+      logger.debug("Resolving {}", objectClass);
       return ClassMetadata.create(conversionService, objectClass);
    }
 

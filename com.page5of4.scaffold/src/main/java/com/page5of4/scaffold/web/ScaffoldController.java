@@ -28,6 +28,7 @@ import com.page5of4.scaffold.TemplateMetadataFactory;
 public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    public static final String MODEL_KEY_NAME = "model";
+   public static final String META_KEY_NAME = "meta";
 
    @Autowired
    private TemplateMetadataFactory templateMetadataFactory;
@@ -130,17 +131,15 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    private ModelAndView newModelAndView(String viewName, T resource, Errors errors) {
       ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resource);
-      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
-      mav.addObject("scaffoldViewModel", scaffoldViewModel);
-      mav.addObject("templateMetadata", templateMetadataFactory.createTemplateMetadata(resource, scaffoldViewModel));
+      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName());
+      mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resource, scaffoldViewModel));
       return mav;
    }
 
    private ModelAndView newModelAndView(String viewName, Resources<T> resources) {
       ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resources);
-      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName(), servletRequest);
-      mav.addObject("scaffoldViewModel", scaffoldViewModel);
-      mav.addObject("templateMetadata", templateMetadataFactory.createTemplateMetadata(resources.getResourceClass(), new ArrayList<T>(resources.getResources()), scaffoldViewModel));
+      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName());
+      mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resources.getResourceClass(), new ArrayList<T>(resources.getResources()), scaffoldViewModel));
       return mav;
    }
 

@@ -2,8 +2,6 @@ package com.page5of4.scaffold.web;
 
 import java.lang.reflect.Method;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.page5of4.scaffold.Finders;
 
 public class ScaffoldViewModel {
@@ -64,7 +62,7 @@ public class ScaffoldViewModel {
       }
    }
 
-   public ScaffoldViewModel(String resourceName, String resourceCollectionName, HttpServletRequest servletRequest) {
+   public ScaffoldViewModel(String resourceName, String resourceCollectionName) {
       super();
       this.resourceName = resourceName;
       this.collectionName = resourceCollectionName;
