@@ -101,8 +101,8 @@ public class HomeController {
                }
             }
             for(ConstraintDescriptor<?> cd : property.getConstraintDescriptors()) {
-               logger.info(String.format("%s %s %s", klass, cd.getAnnotation(), cd.getAttributes()));
-               logger.info(String.format("%s", cd));
+               // logger.info(String.format("%s %s %s", klass, cd.getAnnotation(), cd.getAttributes()));
+               // logger.info(String.format("%s", cd));
             }
          }
       }

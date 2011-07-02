@@ -52,7 +52,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       this.repository = repository;
       ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
       this.resourceClass = (Class<T>)((ParameterizedType)superclass).getActualTypeArguments()[1];
-      this.primaryKeyClass = (Class<I>)Long.class; // HACK
+      this.primaryKeyClass = (Class<I>)Object.class; // HACK
       this.scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(getResourceClass());
    }
 
@@ -66,7 +66,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    @RequestMapping(method = RequestMethod.GET)
    public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int page) {
-      return newModelAndView(getScaffoldViewModel().getIndexView(), findResourcesOnPage(page));
+      return newModelAndView(getScaffoldViewModel().getIndexView(), findResources(page));
    }
 
    @RequestMapping(value = "/form", method = RequestMethod.GET)
@@ -108,7 +108,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       return delete(id, findResource(id));
    }
 
-   public Resources<T> findResourcesOnPage(int page) {
+   public Resources<T> findResources(int page) {
       Collection<T> all = (Collection<T>)repository.findAll(getResourceClass(), page);
       if(all == null) {
          all = new ArrayList<T>();
