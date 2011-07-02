@@ -34,7 +34,7 @@ public class TemplateMetadataFactory {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
          if(currentMetadata == null) currentMetadata = classMetadata;
-         return new TemplateMetadata(classMetadata, currentMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+         return new InstanceMetadata(classMetadata, currentMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -48,7 +48,7 @@ public class TemplateMetadataFactory {
          for(Object item : targetCollection) {
             targetCollectionMetas.add(createTemplateMetadata(item, classMetadata, scaffoldViewModel));
          }
-         return new TemplateMetadata(classMetadata, classMetadata, targetCollection, targetCollectionMetas, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, objectClass));
+         return new CollectionMetadata(classMetadata, targetCollection, targetCollectionMetas, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, objectClass));
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
