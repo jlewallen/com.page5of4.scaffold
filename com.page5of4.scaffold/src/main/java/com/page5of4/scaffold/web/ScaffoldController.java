@@ -1,7 +1,5 @@
 package com.page5of4.scaffold.web;
 
-import static org.jvnet.inflector.Noun.pluralOf;
-
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.Finders;
 import com.page5of4.scaffold.TemplateMetadataFactory;
+import com.page5of4.scaffold.domain.Repository;
 
 @SuppressWarnings("unchecked")
 public abstract class ScaffoldController<I extends Object, T extends Object> {
@@ -35,6 +34,9 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    @Autowired
    private HttpServletRequest servletRequest;
+
+   @Autowired
+   private Repository repository;
 
    @RequestMapping(method = RequestMethod.GET)
    public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int page) {
@@ -117,10 +119,6 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       return StringUtils.uncapitalize(getResourceClass().getSimpleName());
    }
 
-   public String getResourceCollectionName() {
-      return pluralOf(getResourceName());
-   }
-
    public ModelAndView update(I id, T resource, Errors errors) {
       return newModelAndView(getShowView(), resource, errors);
    }
@@ -131,14 +129,14 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    private ModelAndView newModelAndView(String viewName, T resource, Errors errors) {
       ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resource);
-      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName());
-      mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resource, scaffoldViewModel));
+      ScaffoldViewModel scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(getResourceClass());
+      mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resource, null, scaffoldViewModel));
       return mav;
    }
 
    private ModelAndView newModelAndView(String viewName, Resources<T> resources) {
       ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resources);
-      ScaffoldViewModel scaffoldViewModel = new ScaffoldViewModel(getResourceName(), getResourceCollectionName());
+      ScaffoldViewModel scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(getResourceClass());
       mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resources.getResourceClass(), new ArrayList<T>(resources.getResources()), scaffoldViewModel));
       return mav;
    }

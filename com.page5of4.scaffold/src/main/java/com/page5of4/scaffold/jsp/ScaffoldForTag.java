@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.page5of4.scaffold.ClassMetadata;
-import com.page5of4.scaffold.ScaffoldModel;
+import com.page5of4.scaffold.ScaffoldTagModel;
 import com.page5of4.scaffold.TilesScaffoldProvider;
 
 public abstract class ScaffoldForTag extends RequestContextAwareTag {
@@ -83,12 +83,18 @@ public abstract class ScaffoldForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      ScaffoldModel model = new ScaffoldModel(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata(), null);
+      ScaffoldTagModel model = new ScaffoldTagModel(getMode(), getTemplatePrefix(), getFormPrefix(), getObject(), getPropertyName(), getClassMetadata(), null);
       try {
          getProvider().render(model, new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       }
       catch(Exception e) {
-         throw new RuntimeException(String.format("Error scaffolding for %s", model.getPropertyName()), e);
+         StringBuilder sb = new StringBuilder();
+         sb.append("Error scaffolding '").append(model.determineObjectClass().getSimpleName());
+         if(model.getPropertyName() != null) {
+            sb.append(".").append(model.getPropertyName());
+         }
+         sb.append("' for ").append(getMode());
+         throw new RuntimeException(sb.toString(), e);
       }
       return EVAL_BODY_INCLUDE;
    }

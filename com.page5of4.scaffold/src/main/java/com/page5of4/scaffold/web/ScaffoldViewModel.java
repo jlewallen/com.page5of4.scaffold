@@ -1,8 +1,5 @@
 package com.page5of4.scaffold.web;
 
-import java.lang.reflect.Method;
-
-import com.page5of4.scaffold.Finders;
 
 public class ScaffoldViewModel {
    private final String resourceName;
@@ -22,44 +19,6 @@ public class ScaffoldViewModel {
 
    public String getCollectionTitle() {
       return com.page5of4.scaffold.StringUtils.titlize(collectionName);
-   }
-
-   public String getIndexUrl() {
-      return String.format("/%s", getCollectionName());
-   }
-
-   public String getCreateUrl() {
-      return String.format("/%s", getCollectionName());
-   }
-
-   public String getCreateFormUrl() {
-      return String.format("/%s/form", getCollectionName());
-   }
-
-   public String getShowUrl(Object object) {
-      return String.format("/%s/%s", getCollectionName(), getId(object));
-   }
-
-   public String getUpdateUrl(Object object) {
-      return String.format("/%s/%s", getCollectionName(), getId(object));
-   }
-
-   public String getUpdateFormUrl(Object object) {
-      return String.format("/%s/%s/form", getCollectionName(), getId(object));
-   }
-
-   public String getDeleteUrl(Object object) {
-      return String.format("/%s/%s", getCollectionName(), getId(object));
-   }
-
-   private Object getId(Object object) {
-      try {
-         Method idGetter = Finders.findIdGetter(object.getClass());
-         return idGetter.invoke(object);
-      }
-      catch(Exception error) {
-         throw new RuntimeException("Error getting Id: " + object, error);
-      }
    }
 
    public ScaffoldViewModel(String resourceName, String resourceCollectionName) {

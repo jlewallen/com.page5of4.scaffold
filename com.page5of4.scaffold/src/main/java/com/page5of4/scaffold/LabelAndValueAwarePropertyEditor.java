@@ -5,12 +5,16 @@ import java.beans.PropertyEditorSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.page5of4.scaffold.domain.Repository;
+
 public class LabelAndValueAwarePropertyEditor extends PropertyEditorSupport {
 
    private static final Logger logger = LoggerFactory.getLogger(LabelAndValueAwarePropertyEditor.class);
-   private Class<?> targetClass;
+   private final Repository repository;
+   private final Class<?> targetClass;
 
-   public LabelAndValueAwarePropertyEditor(Class<?> targetClass) {
+   public LabelAndValueAwarePropertyEditor(Repository repository, Class<?> targetClass) {
+      this.repository = repository;
       this.targetClass = targetClass;
    }
 

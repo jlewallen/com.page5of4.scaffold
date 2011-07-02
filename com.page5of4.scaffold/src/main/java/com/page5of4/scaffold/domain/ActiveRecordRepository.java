@@ -1,10 +1,11 @@
-package com.page5of4.scaffold.sample1.web;
+package com.page5of4.scaffold.domain;
 
 import java.util.Collection;
 
-import com.page5of4.scaffold.domain.Repository;
+import org.springframework.stereotype.Service;
 
-public class DefaultRepository<T> implements Repository {
+@Service
+public class ActiveRecordRepository implements Repository {
 
    @Override
    public Object findById(Class<?> entityClass, Object id) {

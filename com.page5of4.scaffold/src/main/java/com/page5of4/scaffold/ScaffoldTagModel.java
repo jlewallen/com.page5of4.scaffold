@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
-public class ScaffoldModel {
+public class ScaffoldTagModel {
 
    private final String formPrefix;
    private final String mode;
@@ -16,7 +16,7 @@ public class ScaffoldModel {
    private List<?> targetCollection;
    private Object targetObject;
 
-   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata,
+   public ScaffoldTagModel(String mode, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata,
          ScaffoldViewModel scaffoldViewModel) {
       super();
       this.mode = mode;
@@ -29,7 +29,7 @@ public class ScaffoldModel {
       this.scaffoldViewModel = scaffoldViewModel;
    }
 
-   public ScaffoldModel(String mode, String templatePrefix, String formPrefix, Object targetObject, String propertyName, ClassMetadata classMetadata, ScaffoldViewModel scaffoldViewModel) {
+   public ScaffoldTagModel(String mode, String templatePrefix, String formPrefix, Object targetObject, String propertyName, ClassMetadata classMetadata, ScaffoldViewModel scaffoldViewModel) {
       super();
       this.mode = mode;
       this.templatePrefix = templatePrefix;

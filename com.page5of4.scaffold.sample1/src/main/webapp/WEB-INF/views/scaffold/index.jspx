@@ -9,7 +9,7 @@
 	<h3>${meta.viewModel.collectionTitle}</h3>
 
 	<div>
-		<spring:url value="${meta.viewModel.createFormUrl}" var="createFormUrl" />
+		<spring:url value="${meta.urls.createFormUrl}" var="createFormUrl" />
 		<a href="${createFormUrl}">Create</a>
 	</div>
 	

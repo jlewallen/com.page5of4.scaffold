@@ -19,6 +19,9 @@ import org.springframework.core.convert.ConversionService;
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
 
+   private Class<? extends Object> objectClass;
+   private List<PropertyMetadata> properties;
+
    public static ClassMetadata create(ConversionService conversionService, Class<? extends Object> objectClass) throws IntrospectionException {
       List<PropertyMetadata> properties = getProperties(conversionService, objectClass);
       return new ClassMetadata(objectClass, properties);
@@ -45,9 +48,6 @@ public class ClassMetadata extends AbstractMetadata {
       String[] skip = new String[] { "class" };
       return ArrayUtils.contains(skip, descriptor.getName());
    }
-
-   private Class<? extends Object> objectClass;
-   private List<PropertyMetadata> properties;
 
    public List<PropertyMetadata> getProperties() {
       return properties;

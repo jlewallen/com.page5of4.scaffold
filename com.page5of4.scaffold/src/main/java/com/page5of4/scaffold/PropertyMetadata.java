@@ -10,15 +10,18 @@ import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.support.ConvertingPropertyEditorAdapter;
+import org.springframework.util.Assert;
 
 import com.page5of4.scaffold.spring.ValueFormatter;
 
 public class PropertyMetadata extends AbstractMetadata {
    private static final String HIDDEN_TEMPLATE_NAME = "Hidden";
-   private PropertyDescriptor descriptor;
-   private boolean hidden;
-   private String help;
-   private ConversionService conversionService;
+   private final PropertyDescriptor descriptor;
+   private final boolean hidden;
+   private final String help;
+   private final ConversionService conversionService;
+   private final OneToManyPropertyMetadata oneToManyMetadata;
+   private final ManyToOnePropertyMetadata manyToOneMetadata;
    private final Class<?> targetClass;
 
    public boolean isHidden() {
@@ -77,35 +80,21 @@ public class PropertyMetadata extends AbstractMetadata {
       return conversionService.convert(getPropertyType(), String.class);
    }
 
-   private OneToManyPropertyMetadata oneToManyMetadata;
-
    public boolean getIsOneToMany() {
-      if(oneToManyMetadata == null) {
-         oneToManyMetadata = OneToManyPropertyMetadata.tryCreate(this);
-      }
       return oneToManyMetadata != null;
    }
 
    public OneToManyPropertyMetadata getOneToMany() {
-      if(oneToManyMetadata == null) {
-         oneToManyMetadata = OneToManyPropertyMetadata.create(this);
-      }
+      Assert.notNull(oneToManyMetadata);
       return oneToManyMetadata;
    }
 
-   private ManyToOnePropertyMetadata manyToOneMetadata;
-
    public boolean getIsManyToOne() {
-      if(manyToOneMetadata == null) {
-         manyToOneMetadata = ManyToOnePropertyMetadata.tryCreate(conversionService, this);
-      }
       return manyToOneMetadata != null;
    }
 
    public ManyToOnePropertyMetadata getManyToOne() {
-      if(manyToOneMetadata == null) {
-         manyToOneMetadata = ManyToOnePropertyMetadata.create(conversionService, this);
-      }
+      Assert.notNull(manyToOneMetadata);
       return manyToOneMetadata;
    }
 
@@ -124,7 +113,6 @@ public class PropertyMetadata extends AbstractMetadata {
             names.add(annotation.value());
          }
       }
-
       names.add(getPropertyNameTemplateName());
       if(hidden) {
          names.add(HIDDEN_TEMPLATE_NAME);
@@ -155,5 +143,10 @@ public class PropertyMetadata extends AbstractMetadata {
       if(helpAnnotation != null) {
          this.help = helpAnnotation.value();
       }
+      else {
+         this.help = "";
+      }
+      this.oneToManyMetadata = OneToManyPropertyMetadata.tryCreate(this);
+      this.manyToOneMetadata = ManyToOnePropertyMetadata.tryCreate(conversionService, this);
    }
 }

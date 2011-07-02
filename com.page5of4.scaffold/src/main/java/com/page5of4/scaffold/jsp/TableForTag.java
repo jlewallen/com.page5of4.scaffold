@@ -14,7 +14,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.page5of4.scaffold.ClassMetadata;
-import com.page5of4.scaffold.ScaffoldModel;
+import com.page5of4.scaffold.ScaffoldTagModel;
 import com.page5of4.scaffold.TilesScaffoldProvider;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
@@ -93,7 +93,7 @@ public class TableForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      ScaffoldModel model = new ScaffoldModel(getMode(), templatePrefix, null, objectClass, targetCollection, null, classMetadata, scaffoldViewModel);
+      ScaffoldTagModel model = new ScaffoldTagModel(getMode(), templatePrefix, null, objectClass, targetCollection, null, classMetadata, scaffoldViewModel);
       getProvider().render(model, new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }

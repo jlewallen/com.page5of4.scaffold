@@ -14,6 +14,7 @@ import javax.validation.metadata.PropertyDescriptor;
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -27,15 +28,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.LabelAndValueAwarePropertyEditor;
+import com.page5of4.scaffold.domain.Repository;
 
 @Controller
 public class HomeController {
 
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+   @Autowired
+   private Repository repository;
 
    @InitBinder
    public void initBinder(WebDataBinder binder) {
-      binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(Project.class));
+      binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(repository, Project.class));
       binder.setIgnoreUnknownFields(false);
    }
 

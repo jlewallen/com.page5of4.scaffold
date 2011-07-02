@@ -28,9 +28,9 @@
 						</c:choose>
 					</c:forEach>
 					<td>
-						<spring:url value="${row.showUrl}" var="showUrl" />
-						<spring:url value="${row.updateFormUrl}" var="updateFormUrl" />
-						<spring:url value="${row.deleteUrl}" var="deleteUrl" />
+						<spring:url value="${row.urls.showUrl}" var="showUrl" />
+						<spring:url value="${row.urls.updateFormUrl}" var="updateFormUrl" />
+						<spring:url value="${row.urls.deleteUrl}" var="deleteUrl" />
 
 						<a href="${showUrl}">Show</a> |
 						<a href="${updateFormUrl}">Update</a> |

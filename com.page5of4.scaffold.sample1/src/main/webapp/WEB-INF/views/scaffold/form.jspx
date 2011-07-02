@@ -7,10 +7,10 @@
 
 	<c:choose>
 		<c:when test="${model.id != null}">
-			<spring:url value="${meta.updateUrl}" var="actionUrl" />
+			<spring:url value="${meta.urls.updateUrl}" var="actionUrl" />
 		</c:when>
 		<c:otherwise>
-			<spring:url value="${meta.createUrl}" var="actionUrl" />
+			<spring:url value="${meta.urls.createUrl}" var="actionUrl" />
 		</c:otherwise>
 	</c:choose>
 
