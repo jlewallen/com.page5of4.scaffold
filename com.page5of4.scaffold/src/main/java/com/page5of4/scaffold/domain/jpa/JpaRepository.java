@@ -1,4 +1,4 @@
-package com.page5of4.scaffold.jpa;
+package com.page5of4.scaffold.domain.jpa;
 
 import java.util.List;
 
