@@ -11,18 +11,11 @@
 	</appender>
 
 	<appender name="CoalescingStatistics" class="org.perf4j.log4j.AsyncCoalescingStatisticsAppender">
-        <!--
-          The TimeSlice option is used to determine the time window for which
-          all received StopWatch logs are aggregated to create a single
-          GroupedTimingStatistics log. Here we set it to 10 seconds, overriding
-          the default of 30000 ms
-        -->
 		<param name="TimeSlice" value="10000" />
 		<appender-ref ref="fileAppender" />
-
-		<appender-ref ref="graphExecutionTimes"/>
-        <appender-ref ref="graphExecutionTPS"/>
-        <appender-ref ref="graphExecutionCounts"/>
+		<appender-ref ref="graphExecutionTimes" />
+		<appender-ref ref="graphExecutionTPS" />
+		<appender-ref ref="graphExecutionCounts" />
 	</appender>
 
 	<appender name="fileAppender" class="org.apache.log4j.FileAppender">
@@ -37,19 +30,17 @@
 		<appender-ref ref="CoalescingStatistics" />
 	</logger>
 
-   <!--
-      This first GraphingStatisticsAppender graphs Mean execution times for the
-      firstBlock and secondBlock tags
-    -->
+	<!-- This first GraphingStatisticsAppender graphs Mean execution times for 
+		the firstBlock and secondBlock tags -->
 	<appender name="graphExecutionTimes" class="org.perf4j.log4j.GraphingStatisticsAppender">
-        <!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
+		<!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
 		<param name="GraphType" value="Mean" />
 		<param name="TagNamesToGraph" value="firstBlock,secondBlock" />
 		<appender-ref ref="graphsFileAppender" />
 	</appender>
 
 	<appender name="graphExecutionCounts" class="org.perf4j.log4j.GraphingStatisticsAppender">
-        <!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
+		<!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
 		<param name="GraphType" value="Count" />
 		<param name="TagNamesToGraph" value="firstBlock,secondBlock" />
 		<appender-ref ref="graphsFileAppender" />
@@ -67,12 +58,12 @@
 			<param name="ConversionPattern" value="%m%n" />
 		</layout>
 	</appender>
-    	
+
 	<!-- Application Loggers -->
 	<logger name="com.page5of4.scaffold">
 		<level value="debug" />
 	</logger>
-	
+
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
@@ -88,6 +79,14 @@
 
 	<logger name="org.springframework.web">
 		<level value="info" />
+	</logger>
+
+	<logger name="org.hibernate.engine.jdbc.spi.SqlStatementLogger">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.springframework.test.context.transaction.TransactionalTestExecutionListener">
+		<level value="debug" />
 	</logger>
 
 	<!-- Root Logger -->

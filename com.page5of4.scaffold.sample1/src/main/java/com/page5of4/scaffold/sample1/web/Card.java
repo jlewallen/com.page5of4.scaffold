@@ -1,5 +1,8 @@
 package com.page5of4.scaffold.sample1.web;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -8,6 +11,7 @@ import com.page5of4.scaffold.ScaffoldCollection;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTemplate;
 
+@Entity
 @ScaffoldTemplate("projectCard")
 public class Card {
 
@@ -15,6 +19,7 @@ public class Card {
       NEW, WORKING, BLOCKED, DONE
    }
 
+   @Id
    @ScaffoldHidden
    private Long id;
 
@@ -22,6 +27,7 @@ public class Card {
    private String title;
 
    @NotNull
+   @ManyToOne
    @ScaffoldCollection
    private Project project;
 

@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -15,8 +17,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTextArea;
 
+@Entity
 public class Project {
 
+   @Id
    @ScaffoldHidden
    private Long id;
 

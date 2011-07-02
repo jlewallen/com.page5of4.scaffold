@@ -1,11 +1,15 @@
 package com.page5of4.scaffold.sample1.web;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import com.page5of4.scaffold.ScaffoldCollection;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTemplate;
 
+@Entity
 @ScaffoldTemplate("projectRelease")
 public class Release {
 
@@ -13,9 +17,11 @@ public class Release {
       MILESTONE, BETA, ALPHA, STABLE
    }
 
+   @Id
    @ScaffoldHidden
    private Long id;
 
+   @ManyToOne
    @NotNull
    @ScaffoldCollection
    private Project project;
