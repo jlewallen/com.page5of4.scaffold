@@ -31,7 +31,7 @@ public class TemplateMetadataFactory {
       if(targetObject != null) {
          return createTemplateMetadata(targetObject, currentMetadata, scaffoldViewModel);
       }
-      return createTemplateMetadata(objectClass, targetCollection, scaffoldViewModel);
+      return createCollectionTemplateMetadata(objectClass, targetCollection, scaffoldViewModel);
    }
 
    public TemplateMetadata createTemplateMetadata(Object targetObject, AbstractMetadata currentMetadata, ScaffoldViewModel scaffoldViewModel) {
@@ -45,7 +45,7 @@ public class TemplateMetadataFactory {
       }
    }
 
-   public TemplateMetadata createTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
+   public TemplateMetadata createInstanceTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
          return new InstanceMetadata(classMetadata, classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
@@ -55,7 +55,7 @@ public class TemplateMetadataFactory {
       }
    }
 
-   public TemplateMetadata createTemplateMetadata(Class<?> objectClass, List<?> targetCollection, ScaffoldViewModel scaffoldViewModel) {
+   public TemplateMetadata createCollectionTemplateMetadata(Class<?> objectClass, List<?> targetCollection, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(objectClass);
          List<TemplateMetadata> targetCollectionMetas = new ArrayList<TemplateMetadata>();

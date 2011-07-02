@@ -130,13 +130,13 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
 
    private ModelAndView newModelAndView(String viewName, T resource, Errors errors) {
       ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resource);
-      mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resource, scaffoldViewModel));
+      mav.addObject(META_KEY_NAME, templateMetadataFactory.createInstanceTemplateMetadata(resource, scaffoldViewModel));
       return mav;
    }
 
    private ModelAndView newModelAndView(String viewName, Resources<T> resources) {
       ModelAndView mav = new ModelAndView(viewName, MODEL_KEY_NAME, resources);
-      mav.addObject(META_KEY_NAME, templateMetadataFactory.createTemplateMetadata(resources.getResourceClass(), new ArrayList<T>(resources.getResources()), scaffoldViewModel));
+      mav.addObject(META_KEY_NAME, templateMetadataFactory.createCollectionTemplateMetadata(resources.getResourceClass(), new ArrayList<T>(resources.getResources()), scaffoldViewModel));
       return mav;
    }
 

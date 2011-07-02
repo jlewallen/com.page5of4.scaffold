@@ -65,15 +65,6 @@ public class PropertyMetadata extends AbstractMetadata {
       return this.help;
    }
 
-   public Object getValue(Object object) {
-      try {
-         return descriptor.getReadMethod().invoke(object);
-      }
-      catch(Exception e) {
-         throw new RuntimeException(String.format("Error reading %s from %s", getName(), object), e);
-      }
-   }
-
    public Object getDisplayValue(Object object) {
       BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(object);
       Object value = bw.getPropertyValue(getName());
