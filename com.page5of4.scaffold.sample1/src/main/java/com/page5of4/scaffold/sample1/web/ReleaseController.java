@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.page5of4.scaffold.LabelAndValueAwarePropertyEditor;
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldController;
 
 @Controller
@@ -15,12 +16,14 @@ import com.page5of4.scaffold.web.ScaffoldController;
 public class ReleaseController extends ScaffoldController<String, Release> {
 
    @Autowired
-   private Repository repository;
+   public ReleaseController(TemplateMetadataFactory templateMetadataFactory, Repository repository) {
+      super(templateMetadataFactory, repository);
+   }
 
    @InitBinder
    public void initBinder(WebDataBinder binder) {
-      binder.registerCustomEditor(Card.class, new LabelAndValueAwarePropertyEditor(repository, Card.class));
-      binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(repository, Project.class));
+      binder.registerCustomEditor(Card.class, new LabelAndValueAwarePropertyEditor(getRepository(), Card.class));
+      binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(getRepository(), Project.class));
       binder.setIgnoreUnknownFields(false);
    }
 
