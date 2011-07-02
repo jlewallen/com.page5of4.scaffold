@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.persistence.ManyToOne;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import com.page5of4.scaffold.FallbackLabelAndValue;
 import com.page5of4.scaffold.LabelAndValue;
 import com.page5of4.scaffold.LabelAndValueModel;
+import com.page5of4.scaffold.ReflectionUtils;
 import com.page5of4.scaffold.domain.Repository;
 
 @Service
@@ -61,9 +64,14 @@ public class CachingMetadataResolver implements MetadataResolver {
       BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
          if(!shouldSkip(descriptor)) {
-            OneToManyPropertyMetadata oneToMany = createOneToMany(objectClass, descriptor);
-            ManyToOnePropertyMetadata manyToOne = createManyToOne(objectClass, descriptor);
-            properties.add(new PropertyMetadata(conversionService, objectClass, descriptor, oneToMany, manyToOne));
+            try {
+               OneToManyPropertyMetadata oneToMany = createOneToMany(objectClass, descriptor);
+               ManyToOnePropertyMetadata manyToOne = createManyToOne(objectClass, descriptor);
+               properties.add(new PropertyMetadata(conversionService, objectClass, descriptor, oneToMany, manyToOne));
+            }
+            catch(Exception error) {
+               throw new RuntimeException(String.format("Error resolving property metadata for: '%s'", descriptor.getName()), error);
+            }
          }
       }
       Collections.sort(properties, new Comparator<PropertyMetadata>() {
@@ -85,7 +93,11 @@ public class CachingMetadataResolver implements MetadataResolver {
       if(type.isEnum()) {
          return new ManyToOnePropertyMetadata(descriptor, type.getEnumConstants());
       }
-      Collection<?> found = repository.findAll(objectClass);
+      ManyToOne manyToOneAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ManyToOne.class, objectClass, descriptor);
+      if(manyToOneAnnotation == null) {
+         return null;
+      }
+      Collection<?> found = repository.findAll(type);
       if(found != null) {
          List<LabelAndValue> items = new ArrayList<LabelAndValue>();
          if(shouldIncludeEmpty()) {
