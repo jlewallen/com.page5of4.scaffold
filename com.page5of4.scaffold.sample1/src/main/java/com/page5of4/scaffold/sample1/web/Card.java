@@ -69,4 +69,14 @@ public class Card {
       this.status = status;
    }
 
+   public Card() {
+
+   }
+
+   public Card(Project project, String title) {
+      this.project = project;
+      this.title = title;
+      this.status = Status.NEW;
+   }
+
 }

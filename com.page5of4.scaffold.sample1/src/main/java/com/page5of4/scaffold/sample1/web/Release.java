@@ -56,4 +56,13 @@ public class Release {
       this.status = status;
    }
 
+   public Release() {
+
+   }
+
+   public Release(Project project) {
+      this.project = project;
+      this.status = Status.STABLE;
+   }
+
 }

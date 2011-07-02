@@ -40,6 +40,8 @@ public class HomeController {
    @InitBinder
    public void initBinder(WebDataBinder binder) {
       binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(repository, Project.class));
+      binder.registerCustomEditor(Card.class, new LabelAndValueAwarePropertyEditor(repository, Card.class));
+      binder.registerCustomEditor(Release.class, new LabelAndValueAwarePropertyEditor(repository, Release.class));
       binder.setIgnoreUnknownFields(false);
    }
 

@@ -27,6 +27,18 @@ public class ApplicationConversionServiceFactoryBean extends ScaffoldConversionS
             return new LabelAndValueModel(source.getName(), source.getId(), source);
          }
       });
+      registry.addConverter(new Converter<Card, LabelAndValue>() {
+         @Override
+         public LabelAndValue convert(Card source) {
+            return new LabelAndValueModel(source.getTitle(), source.getId(), source);
+         }
+      });
+      registry.addConverter(new Converter<Release, LabelAndValue>() {
+         @Override
+         public LabelAndValue convert(Release source) {
+            return new LabelAndValueModel(source.getStatus().toString(), source.getId(), source);
+         }
+      });
    }
 
    @Override
