@@ -1,4 +1,4 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.metadata;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
@@ -12,6 +12,11 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.support.ConvertingPropertyEditorAdapter;
 import org.springframework.util.Assert;
 
+import com.page5of4.scaffold.ReflectionUtils;
+import com.page5of4.scaffold.ScaffoldHelp;
+import com.page5of4.scaffold.ScaffoldHidden;
+import com.page5of4.scaffold.ScaffoldTemplate;
+import com.page5of4.scaffold.StringUtils;
 import com.page5of4.scaffold.spring.ValueFormatter;
 
 public class PropertyMetadata extends AbstractMetadata {

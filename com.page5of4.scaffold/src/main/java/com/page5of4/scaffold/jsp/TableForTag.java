@@ -13,9 +13,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
-import com.page5of4.scaffold.ClassMetadata;
 import com.page5of4.scaffold.ScaffoldTagModel;
 import com.page5of4.scaffold.TilesScaffoldProvider;
+import com.page5of4.scaffold.metadata.ClassMetadata;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class TableForTag extends RequestContextAwareTag {

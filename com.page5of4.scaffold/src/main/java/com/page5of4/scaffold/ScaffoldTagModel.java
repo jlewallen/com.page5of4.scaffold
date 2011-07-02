@@ -2,6 +2,7 @@ package com.page5of4.scaffold;
 
 import java.util.List;
 
+import com.page5of4.scaffold.metadata.ClassMetadata;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class ScaffoldTagModel {

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.page5of4.scaffold.TemplateMetadataFactory;
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 
 @SuppressWarnings("unchecked")
 public abstract class ScaffoldController<I extends Object, T extends Object> {

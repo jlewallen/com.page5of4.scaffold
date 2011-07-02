@@ -1,4 +1,4 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.metadata;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.commons.lang.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.page5of4.scaffold.ScaffoldTemplate;
+import com.page5of4.scaffold.StringUtils;
 
 public class ClassMetadata extends AbstractMetadata {
    private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.page5of4.scaffold.Finders;
 
 @Service
 public class ActiveRecordRepository implements Repository {

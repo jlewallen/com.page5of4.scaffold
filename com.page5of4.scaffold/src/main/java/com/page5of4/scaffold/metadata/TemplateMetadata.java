@@ -1,5 +1,6 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.metadata;
 
+import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class TemplateMetadata {

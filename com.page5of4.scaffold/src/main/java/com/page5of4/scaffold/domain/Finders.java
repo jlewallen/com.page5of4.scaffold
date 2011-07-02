@@ -1,4 +1,4 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.domain;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

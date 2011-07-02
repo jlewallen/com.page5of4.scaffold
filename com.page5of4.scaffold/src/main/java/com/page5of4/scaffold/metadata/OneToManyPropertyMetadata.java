@@ -1,4 +1,4 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.metadata;
 
 import java.beans.PropertyDescriptor;
 

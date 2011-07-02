@@ -1,4 +1,4 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.metadata;
 
 import static org.jvnet.inflector.Noun.pluralOf;
 
@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.StringUtils;
+import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.domain.Repository;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 

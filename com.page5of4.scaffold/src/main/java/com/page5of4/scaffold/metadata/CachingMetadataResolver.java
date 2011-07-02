@@ -1,4 +1,4 @@
-package com.page5of4.scaffold;
+package com.page5of4.scaffold.metadata;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.FallbackLabelAndValue;
+import com.page5of4.scaffold.LabelAndValue;
+import com.page5of4.scaffold.LabelAndValueModel;
 import com.page5of4.scaffold.domain.Repository;
 
 @Service

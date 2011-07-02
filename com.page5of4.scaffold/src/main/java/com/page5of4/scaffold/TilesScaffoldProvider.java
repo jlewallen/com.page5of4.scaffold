@@ -23,6 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.metadata.AbstractMetadata;
+import com.page5of4.scaffold.metadata.MetadataResolver;
+import com.page5of4.scaffold.metadata.TemplateMetadata;
+import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 @Service
