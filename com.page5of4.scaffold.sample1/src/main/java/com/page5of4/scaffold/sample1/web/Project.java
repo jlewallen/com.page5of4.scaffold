@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
@@ -22,6 +24,7 @@ public class Project {
 
    @Id
    @ScaffoldHidden
+   @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
 
    @NotEmpty

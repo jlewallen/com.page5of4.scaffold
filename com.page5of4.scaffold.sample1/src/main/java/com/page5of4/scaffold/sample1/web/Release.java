@@ -1,6 +1,8 @@
 package com.page5of4.scaffold.sample1.web;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -19,6 +21,7 @@ public class Release {
 
    @Id
    @ScaffoldHidden
+   @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
 
    @ManyToOne

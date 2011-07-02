@@ -32,6 +32,14 @@
 		<level value="info" />
 	</logger>
 
+	<logger name="org.hibernate.engine.jdbc.spi.SqlStatementLogger">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.springframework.test.context.transaction.TransactionalTestExecutionListener">
+		<level value="debug" />
+	</logger>
+
 	<!-- Root Logger -->
 	<root>
 		<priority value="info" />
