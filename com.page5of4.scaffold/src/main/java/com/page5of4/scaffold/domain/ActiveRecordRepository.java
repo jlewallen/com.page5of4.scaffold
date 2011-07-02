@@ -2,10 +2,10 @@ package com.page5of4.scaffold.domain;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class ActiveRecordRepository implements Repository {
@@ -22,7 +22,11 @@ public class ActiveRecordRepository implements Repository {
 
    @Override
    public List<?> findAll(Class<?> entityClass) {
-      return new ArrayList<Object>(Finders.findAndInvokeFindAll(entityClass));
+      Collection<?> found = Finders.findAndInvokeFindAll(entityClass);
+      if(found == null) {
+         return new ArrayList<Object>();
+      }
+      return new ArrayList<Object>(found);
    }
 
    @Override
