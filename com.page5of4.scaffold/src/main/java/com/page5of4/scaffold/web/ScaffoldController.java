@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.page5of4.scaffold.Finders;
 import com.page5of4.scaffold.TemplateMetadataFactory;
 import com.page5of4.scaffold.domain.Repository;
 
@@ -83,7 +82,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    }
 
    public Resources<T> findResourcesOnPage(int page) {
-      Collection<T> all = (Collection<T>)Finders.findAndInvokeFindAll(getResourceClass());
+      Collection<T> all = (Collection<T>)repository.findAll(getResourceClass(), page);
       if(all == null) {
          all = new ArrayList<T>();
       }
@@ -91,7 +90,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    }
 
    public T findResource(I id) {
-      return (T)Finders.findAndInvokeFindById(getResourceClass(), id);
+      return (T)repository.findById(getResourceClass(), id);
    }
 
    public String getViewsRoot() {

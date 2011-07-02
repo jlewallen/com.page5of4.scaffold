@@ -4,7 +4,6 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -83,34 +82,28 @@ public class CachingMetadataResolver implements MetadataResolver {
       if(type.isEnum()) {
          return new ManyToOnePropertyMetadata(descriptor, type.getEnumConstants());
       }
-      Method finder = Finders.getFindAllFinder(type);
-      if(finder != null) {
-         try {
-            Collection<?> found = (Collection<?>)finder.invoke(null, new Object[0]);
-            List<LabelAndValue> items = new ArrayList<LabelAndValue>();
-            if(shouldIncludeEmpty()) {
-               items.add(new LabelAndValueModel("", "", null));
-            }
-            if(conversionService.canConvert(type, LabelAndValue.class)) {
-               for(Object value : found) {
-                  items.add(conversionService.convert(value, LabelAndValue.class));
-               }
-            }
-            else if(LabelAndValue.class.isAssignableFrom(type)) {
-               for(Object value : found) {
-                  items.add((LabelAndValue)value);
-               }
-            }
-            else {
-               for(Object value : found) {
-                  items.add(new FallbackLabelAndValue(value));
-               }
-            }
-            return new ManyToOnePropertyMetadata(descriptor, items.toArray(new LabelAndValue[0]));
+      Collection<?> found = repository.findAll(objectClass);
+      if(found != null) {
+         List<LabelAndValue> items = new ArrayList<LabelAndValue>();
+         if(shouldIncludeEmpty()) {
+            items.add(new LabelAndValueModel("", "", null));
          }
-         catch(Exception e) {
-            logger.error("Error invoking finder: " + finder, e);
+         if(conversionService.canConvert(type, LabelAndValue.class)) {
+            for(Object value : found) {
+               items.add(conversionService.convert(value, LabelAndValue.class));
+            }
          }
+         else if(LabelAndValue.class.isAssignableFrom(type)) {
+            for(Object value : found) {
+               items.add((LabelAndValue)value);
+            }
+         }
+         else {
+            for(Object value : found) {
+               items.add(new FallbackLabelAndValue(value));
+            }
+         }
+         return new ManyToOnePropertyMetadata(descriptor, items.toArray(new LabelAndValue[0]));
       }
       return null;
    }

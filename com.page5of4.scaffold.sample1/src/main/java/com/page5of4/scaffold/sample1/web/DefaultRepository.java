@@ -1,6 +1,6 @@
 package com.page5of4.scaffold.sample1.web;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.page5of4.scaffold.domain.Repository;
 
@@ -13,9 +13,21 @@ public class DefaultRepository<T> implements Repository {
    }
 
    @Override
-   public Collection<?> findAll(Class<?> entityClass) {
+   public List<?> findAll(Class<?> entityClass) {
       // TODO Auto-generated method stub
       return null;
+   }
+
+   @Override
+   public List<?> findAll(Class<?> entityClass, int page) {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   public long countAll(Class<?> entityClass) {
+      // TODO Auto-generated method stub
+      return 0;
    }
 
    @Override

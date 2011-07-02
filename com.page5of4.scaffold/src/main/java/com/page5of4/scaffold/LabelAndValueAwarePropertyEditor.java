@@ -20,7 +20,7 @@ public class LabelAndValueAwarePropertyEditor extends PropertyEditorSupport {
 
    @Override
    public void setAsText(String text) throws IllegalArgumentException {
-      setValue(Finders.findAndInvokeFindById(targetClass, text));
+      setValue(repository.findById(targetClass, text));
    }
 
    @Override

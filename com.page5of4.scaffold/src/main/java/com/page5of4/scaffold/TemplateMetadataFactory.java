@@ -3,24 +3,26 @@ package com.page5of4.scaffold;
 import static org.jvnet.inflector.Noun.pluralOf;
 
 import java.beans.IntrospectionException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.domain.Repository;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 @Service
 public class TemplateMetadataFactory {
 
-   private MetadataResolver metadataResolver;
+   private final MetadataResolver metadataResolver;
+   private final Repository repository;
 
    @Autowired
-   public TemplateMetadataFactory(MetadataResolver metadataResolver) {
+   public TemplateMetadataFactory(MetadataResolver metadataResolver, Repository repository) {
       super();
       this.metadataResolver = metadataResolver;
+      this.repository = repository;
    }
 
    public TemplateMetadata createTemplateMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, AbstractMetadata currentMetadata, ScaffoldViewModel scaffoldViewModel) {
@@ -92,13 +94,7 @@ public class TemplateMetadataFactory {
    }
 
    private Object getId(Object object) {
-      try {
-         Method idGetter = Finders.findIdGetter(object.getClass());
-         return idGetter.invoke(object);
-      }
-      catch(Exception error) {
-         throw new RuntimeException("Error getting Id: " + object, error);
-      }
+      return repository.getIdOf(object);
    }
 
 }
