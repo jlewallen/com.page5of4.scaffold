@@ -1,27 +1,41 @@
 package com.page5of4.scaffold;
 
+import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.domain.Repository;
+
 @Service
 public class CachingMetadataResolver implements MetadataResolver {
 
    private static final Logger logger = LoggerFactory.getLogger(CachingMetadataResolver.class);
 
-   private final ConversionService conversionService;
    private final Map<Class<?>, ClassMetadata> cache = new ConcurrentHashMap<Class<?>, ClassMetadata>();
+   private final ConversionService conversionService;
+   private final Repository repository;
 
    @Autowired
-   public CachingMetadataResolver(ConversionService conversionService) {
+   public CachingMetadataResolver(ConversionService conversionService, Repository repository) {
       super();
       this.conversionService = conversionService;
+      this.repository = repository;
    }
 
    public ClassMetadata resolve(Class<?> objectClass) throws IntrospectionException {
@@ -29,10 +43,84 @@ public class CachingMetadataResolver implements MetadataResolver {
       ClassMetadata metadata = cache.get(objectClass);
       if(metadata == null) {
          logger.debug("Resolving {}", objectClass);
-         metadata = ClassMetadata.create(conversionService, objectClass);
+         metadata = create(objectClass);
          cache.put(objectClass, metadata);
       }
       return metadata;
+   }
+
+   private ClassMetadata create(Class<?> objectClass) throws IntrospectionException {
+      List<PropertyMetadata> properties = getProperties(objectClass);
+      return new ClassMetadata(objectClass, properties);
+   }
+
+   private List<PropertyMetadata> getProperties(Class<? extends Object> objectClass) throws IntrospectionException {
+      List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
+      BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
+      for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
+         if(!shouldSkip(descriptor)) {
+            OneToManyPropertyMetadata oneToMany = createOneToMany(objectClass, descriptor);
+            ManyToOnePropertyMetadata manyToOne = createManyToOne(objectClass, descriptor);
+            properties.add(new PropertyMetadata(conversionService, objectClass, descriptor, oneToMany, manyToOne));
+         }
+      }
+      Collections.sort(properties, new Comparator<PropertyMetadata>() {
+         @Override
+         public int compare(PropertyMetadata o1, PropertyMetadata o2) {
+            return o1.getName().compareTo(o2.getName());
+         }
+      });
+      return properties;
+   }
+
+   public static boolean shouldSkip(PropertyDescriptor descriptor) {
+      String[] skip = new String[] { "class" };
+      return ArrayUtils.contains(skip, descriptor.getName());
+   }
+
+   public ManyToOnePropertyMetadata createManyToOne(Class<? extends Object> objectClass, PropertyDescriptor descriptor) {
+      Class<? extends Object> type = descriptor.getPropertyType();
+      if(type.isEnum()) {
+         return new ManyToOnePropertyMetadata(descriptor, type.getEnumConstants());
+      }
+      Method finder = Finders.getFindAllFinder(type);
+      if(finder != null) {
+         try {
+            Collection<?> found = (Collection<?>)finder.invoke(null, new Object[0]);
+            List<LabelAndValue> items = new ArrayList<LabelAndValue>();
+            if(shouldIncludeEmpty()) {
+               items.add(new LabelAndValueModel("", "", null));
+            }
+            if(conversionService.canConvert(type, LabelAndValue.class)) {
+               for(Object value : found) {
+                  items.add(conversionService.convert(value, LabelAndValue.class));
+               }
+            }
+            else if(LabelAndValue.class.isAssignableFrom(type)) {
+               for(Object value : found) {
+                  items.add((LabelAndValue)value);
+               }
+            }
+            else {
+               for(Object value : found) {
+                  items.add(new FallbackLabelAndValue(value));
+               }
+            }
+            return new ManyToOnePropertyMetadata(descriptor, items.toArray(new LabelAndValue[0]));
+         }
+         catch(Exception e) {
+            logger.error("Error invoking finder: " + finder, e);
+         }
+      }
+      return null;
+   }
+
+   private static boolean shouldIncludeEmpty() {
+      return true;
+   }
+
+   public OneToManyPropertyMetadata createOneToMany(Class<? extends Object> objectClass, PropertyDescriptor descriptor) {
+      return null;
    }
 
 }

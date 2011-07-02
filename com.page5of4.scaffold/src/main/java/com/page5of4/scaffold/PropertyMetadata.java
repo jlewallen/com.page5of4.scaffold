@@ -40,6 +40,10 @@ public class PropertyMetadata extends AbstractMetadata {
       return getName();
    }
 
+   public Class<? extends Object> getPropertyType() {
+      return descriptor.getPropertyType();
+   }
+
    public String getDisplayName() {
       return StringUtils.humanize(descriptor.getDisplayName());
    }
@@ -74,10 +78,6 @@ public class PropertyMetadata extends AbstractMetadata {
       }
       ConvertingPropertyEditorAdapter editor = new ConvertingPropertyEditorAdapter(conversionService, td);
       return ValueFormatter.getDisplayString(value, editor, true);
-   }
-
-   public Object getConvertedStringValue() {
-      return conversionService.convert(getPropertyType(), String.class);
    }
 
    public boolean getIsOneToMany() {
@@ -129,11 +129,8 @@ public class PropertyMetadata extends AbstractMetadata {
       return names.toArray(new String[0]);
    }
 
-   public Class<? extends Object> getPropertyType() {
-      return descriptor.getPropertyType();
-   }
-
-   public PropertyMetadata(ConversionService conversionService, PropertyDescriptor descriptor, Class<?> targetClass) {
+   public PropertyMetadata(ConversionService conversionService, Class<?> targetClass, PropertyDescriptor descriptor, OneToManyPropertyMetadata oneToManyPropertyMetadata,
+         ManyToOnePropertyMetadata manyToOnePropertyMetadata) {
       super();
       this.conversionService = conversionService;
       this.targetClass = targetClass;
@@ -146,7 +143,7 @@ public class PropertyMetadata extends AbstractMetadata {
       else {
          this.help = "";
       }
-      this.oneToManyMetadata = OneToManyPropertyMetadata.tryCreate(this);
-      this.manyToOneMetadata = ManyToOnePropertyMetadata.tryCreate(conversionService, this);
+      this.oneToManyMetadata = oneToManyPropertyMetadata;
+      this.manyToOneMetadata = manyToOnePropertyMetadata;
    }
 }

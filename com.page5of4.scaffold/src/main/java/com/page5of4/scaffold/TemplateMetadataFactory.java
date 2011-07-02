@@ -41,6 +41,16 @@ public class TemplateMetadataFactory {
       }
    }
 
+   public TemplateMetadata createTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
+      try {
+         ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
+         return new InstanceMetadata(classMetadata, classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+      }
+      catch(IntrospectionException e) {
+         throw new RuntimeException("Error creating template metadata", e);
+      }
+   }
+
    public TemplateMetadata createTemplateMetadata(Class<?> objectClass, List<?> targetCollection, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(objectClass);

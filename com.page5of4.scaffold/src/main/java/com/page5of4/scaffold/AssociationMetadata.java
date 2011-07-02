@@ -1,22 +1,22 @@
 package com.page5of4.scaffold;
 
+import java.beans.PropertyDescriptor;
+
 public abstract class AssociationMetadata {
 
-   private final PropertyMetadata property;
-   private final Class<? extends Object> propertyType;
+   private final PropertyDescriptor property;
 
-   public PropertyMetadata getProperty() {
+   public PropertyDescriptor getProperty() {
       return property;
    }
 
    public Class<? extends Object> getPropertyType() {
-      return propertyType;
+      return property.getPropertyType();
    }
 
-   public AssociationMetadata(PropertyMetadata property, Class<? extends Object> propertyType) {
+   public AssociationMetadata(PropertyDescriptor property) {
       super();
       this.property = property;
-      this.propertyType = propertyType;
    }
 
 }

@@ -1,5 +1,7 @@
 package com.page5of4.scaffold;
 
+import java.beans.PropertyDescriptor;
+
 public class OneToManyPropertyMetadata extends AssociationMetadata {
 
    private Object[] items;
@@ -8,22 +10,9 @@ public class OneToManyPropertyMetadata extends AssociationMetadata {
       return items;
    }
 
-   public OneToManyPropertyMetadata(PropertyMetadata property, Object[] items) {
-      super(property, property.getPropertyType());
+   public OneToManyPropertyMetadata(PropertyDescriptor property, Object[] items) {
+      super(property);
       this.items = items;
-   }
-
-   public static OneToManyPropertyMetadata create(PropertyMetadata property) {
-      OneToManyPropertyMetadata metadata = tryCreate(property);
-      if(metadata != null) {
-         return metadata;
-      }
-      throw new RuntimeException("Invalid OneToMany property type: " + property);
-   }
-
-   public static OneToManyPropertyMetadata tryCreate(PropertyMetadata property) {
-      Class<? extends Object> type = property.getPropertyType();
-      return null;
    }
 
 }
