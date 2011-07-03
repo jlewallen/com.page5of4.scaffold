@@ -92,6 +92,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       if(errors.hasErrors()) {
          return newModelAndView(getScaffoldViewModel().getFormView(), resource, errors);
       }
+      repository.update(getResourceClass(), resource);
       return update(id, resource, errors);
    }
 
@@ -100,6 +101,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       if(errors.hasErrors()) {
          return newModelAndView(getScaffoldViewModel().getFormView(), resource, errors);
       }
+      repository.add(getResourceClass(), resource);
       return create(resource, errors);
    }
 
@@ -141,6 +143,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    }
 
    public ModelAndView delete(I id, T resource) {
+      repository.delete(getResourceClass(), resource);
       return index(1);
    }
 }

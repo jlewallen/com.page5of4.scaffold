@@ -46,4 +46,19 @@ public class ActiveRecordRepository implements Repository {
       }
    }
 
+   @Override
+   public Object add(Class<?> entityClass, Object entity) {
+      return entity;
+   }
+
+   @Override
+   public Object update(Class<?> entityClass, Object entity) {
+      return entity;
+   }
+
+   @Override
+   public void delete(Class<?> entityClass, Object entity) {
+
+   }
+
 }

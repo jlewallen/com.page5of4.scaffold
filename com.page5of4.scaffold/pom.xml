@@ -52,6 +52,16 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 
 		<!-- Tiles -->
 		<dependency>
@@ -304,6 +314,12 @@
 				</executions>
 				<configuration>
 					<outxml>true</outxml>
+					<aspectLibraries>
+						<aspectLibrary>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-aspects</artifactId>
+						</aspectLibrary>
+					</aspectLibraries>
 					<source>${java-version}</source>
 					<target>${java-version}</target>
 				</configuration>
@@ -314,9 +330,19 @@
 				<version>2.5</version>
 				<configuration>
 					<junitArtifactName>junit:junit</junitArtifactName>
+					<includes>
+						<include>**/*Spec.java</include>
+						<include>**/*Specs.java</include>
+					</includes>
 					<excludes>
+						<exclude>*TestConfiguration*</exclude>
 						<exclude>**/*_Roo_*</exclude>
 					</excludes>
+					<excludes>
+						<exclude>**/selenium/**/*.java</exclude>
+						<exclude>**/integration/**/*.java</exclude>
+					</excludes>
+					<argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=512M</argLine>
 				</configuration>
 			</plugin>
 			<plugin>

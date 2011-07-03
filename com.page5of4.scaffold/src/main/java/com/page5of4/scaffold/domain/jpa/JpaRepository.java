@@ -9,6 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.page5of4.scaffold.domain.Finders;
 import com.page5of4.scaffold.domain.Repository;
 
@@ -22,6 +24,7 @@ public class JpaRepository implements Repository {
    }
 
    @Override
+   @Transactional
    public Object findById(Class<?> entityClass, Object id) {
       if(id instanceof String) {
          if(id.toString().length() == 0) {
@@ -33,6 +36,7 @@ public class JpaRepository implements Repository {
    }
 
    @Override
+   @Transactional
    public List<?> findAll(Class<?> entityClass) {
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
       CriteriaQuery<?> query = cb.createQuery(entityClass);
@@ -41,6 +45,7 @@ public class JpaRepository implements Repository {
    }
 
    @Override
+   @Transactional
    public List<?> findAll(Class<?> entityClass, int page) {
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
       CriteriaQuery<?> query = cb.createQuery(entityClass);
@@ -49,6 +54,7 @@ public class JpaRepository implements Repository {
    }
 
    @Override
+   @Transactional
    public long countAll(Class<?> entityClass) {
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
       CriteriaQuery<Long> cq = cb.createQuery(Long.class);
@@ -65,6 +71,25 @@ public class JpaRepository implements Repository {
       catch(Exception error) {
          throw new RuntimeException("Error getting Id: " + entity, error);
       }
+   }
+
+   @Override
+   @Transactional
+   public Object add(Class<?> entityClass, Object entity) {
+      entityManager.persist(entity);
+      return entity;
+   }
+
+   @Override
+   @Transactional
+   public Object update(Class<?> entityClass, Object entity) {
+      return entityManager.merge(entity);
+   }
+
+   @Override
+   @Transactional
+   public void delete(Class<?> entityClass, Object entity) {
+      entityManager.remove(entity);
    }
 
 }

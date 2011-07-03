@@ -14,4 +14,10 @@ public interface Repository {
 
    Object getIdOf(Object entity);
 
+   Object add(Class<?> entityClass, Object entity);
+
+   Object update(Class<?> entityClass, Object entity);
+
+   void delete(Class<?> entityClass, Object entity);
+
 }

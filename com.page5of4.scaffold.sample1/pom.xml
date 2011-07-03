@@ -448,9 +448,19 @@
 				<version>2.5</version>
 				<configuration>
 					<junitArtifactName>junit:junit</junitArtifactName>
+					<includes>
+						<include>**/*Spec.java</include>
+						<include>**/*Specs.java</include>
+					</includes>
 					<excludes>
+						<exclude>*TestConfiguration*</exclude>
 						<exclude>**/*_Roo_*</exclude>
 					</excludes>
+					<excludes>
+						<exclude>**/selenium/**/*.java</exclude>
+						<exclude>**/integration/**/*.java</exclude>
+					</excludes>
+					<argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=512M</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
