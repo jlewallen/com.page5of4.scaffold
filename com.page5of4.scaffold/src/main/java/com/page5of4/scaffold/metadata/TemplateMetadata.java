@@ -3,7 +3,7 @@ package com.page5of4.scaffold.metadata;
 import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
-public class TemplateMetadata {
+public abstract class TemplateMetadata {
 
    private final ClassMetadata classMetadata;
    private final ScaffoldViewModel scaffoldViewModel;
@@ -26,6 +26,10 @@ public class TemplateMetadata {
       this.classMetadata = classMetadata;
       this.scaffoldViewModel = scaffoldViewModel;
       this.urlsViewModel = urlsViewModel;
+   }
+
+   public String[] getCandidateTemplateNames() {
+      return getClassMetadata().getCandidateTemplateNames();
    }
 
 }

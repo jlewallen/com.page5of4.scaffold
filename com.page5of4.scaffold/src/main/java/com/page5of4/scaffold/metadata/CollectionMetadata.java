@@ -6,6 +6,7 @@ import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 public class CollectionMetadata extends TemplateMetadata {
+   private static final String OBJECT_COLLECTION_NAME = "objects";
    private final List<?> targetCollection;
    private final List<TemplateMetadata> targetCollectionMetas;
 
@@ -21,5 +22,10 @@ public class CollectionMetadata extends TemplateMetadata {
       super(classMetadata, scaffoldViewModel, urlsViewModel);
       this.targetCollection = targetCollection;
       this.targetCollectionMetas = targetCollectionMetas;
+   }
+
+   @Override
+   public String[] getCandidateTemplateNames() {
+      return new String[] { OBJECT_COLLECTION_NAME };
    }
 }

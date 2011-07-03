@@ -23,8 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import com.page5of4.scaffold.metadata.AbstractMetadata;
-import com.page5of4.scaffold.metadata.MetadataResolver;
 import com.page5of4.scaffold.metadata.TemplateMetadata;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
@@ -35,24 +33,20 @@ public class TilesScaffoldProvider {
    private static final Logger logger = LoggerFactory.getLogger(TilesScaffoldProvider.class);
    private static final String META_VARIABLE_NAME = "meta";
    private static final String MODEL_VARIABLE_NAME = "scaffold";
-   private static final String OBJECT_COLLECTION_NAME = "objects";
    private static final String INTERNAL_VIEW_PREFIX = "scaffold/";
    private final TilesRequestContextFactory tilesRequestContextFactory;
-   private final MetadataResolver metadataResolver;
    private final TemplateMetadataFactory templateMetadataFactory;
 
    @Autowired
    @SuppressWarnings("deprecation")
-   public TilesScaffoldProvider(ConversionService conversionService, MetadataResolver metadataResolver, TemplateMetadataFactory templateMetadataFactory) {
+   public TilesScaffoldProvider(ConversionService conversionService, TemplateMetadataFactory templateMetadataFactory) {
       super();
-      this.metadataResolver = metadataResolver;
       this.templateMetadataFactory = templateMetadataFactory;
       this.tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       this.tilesRequestContextFactory.init(new HashMap<String, String>());
    }
 
    public void render(ScaffoldTagModel model, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException, ServletException {
-      AbstractMetadata currentMetadata = resolveCurrentMetadata(model);
       ScaffoldViewModel scaffoldViewModel = model.getScaffoldViewModel();
       if(scaffoldViewModel == null) {
          scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(model.determineObjectClass());
@@ -61,15 +55,9 @@ public class TilesScaffoldProvider {
             templateMetadataFactory.createTemplateMetadata(model.getTargetObject(), model.getObjectClass(), model.getTargetCollection(), model.getPropertyName(), scaffoldViewModel);
 
       List<String> convertedNames = new ArrayList<String>();
-      if(model.getTargetCollection() != null) {
-         convertedNames.add(OBJECT_COLLECTION_NAME);
+      for(String name : templateMetadata.getCandidateTemplateNames()) {
+         convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
       }
-      else {
-         for(String name : currentMetadata.getCandidateTemplateNames()) {
-            convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
-         }
-      }
-
       List<String> definitionNames = new ArrayList<String>();
       for(String path : getSearchPaths(model.getMode(), model.getTemplatePrefix())) {
          for(String name : convertedNames) {
@@ -80,16 +68,6 @@ public class TilesScaffoldProvider {
 
       logger.trace("Searching: {}", StringUtils.join(definitionNames, ", "));
       renderDefinition(definitionNames, model, templateMetadata, writer, servletRequest, servletContext, requestItems);
-   }
-
-   private AbstractMetadata resolveCurrentMetadata(ScaffoldTagModel model) throws IntrospectionException {
-      if(model.getClassMetadata() == null) {
-         model.setClassMetadata(metadataResolver.resolve(model.determineObjectClass()));
-      }
-      if(model.getPropertyName() == null) {
-         return model.getClassMetadata();
-      }
-      return model.getClassMetadata().findProperty(model.getPropertyName());
    }
 
    private String[] getSearchPaths(String mode, String prefix) {

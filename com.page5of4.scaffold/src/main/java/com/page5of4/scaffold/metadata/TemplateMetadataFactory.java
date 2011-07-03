@@ -37,14 +37,6 @@ public class TemplateMetadataFactory {
       return createCollectionTemplateMetadata(objectClass, targetCollection, scaffoldViewModel);
    }
 
-   private AbstractMetadata resolveCurrentMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, String propertyName) throws IntrospectionException {
-      ClassMetadata classMetadata = metadataResolver.resolve(objectClass);
-      if(propertyName == null) {
-         return classMetadata;
-      }
-      return classMetadata.findProperty(propertyName);
-   }
-
    public TemplateMetadata createTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());

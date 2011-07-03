@@ -18,4 +18,5 @@ public class InstanceMetadata extends TemplateMetadata {
       super(classMetadata, scaffoldViewModel, urlsViewModel);
       this.targetObject = targetObject;
    }
+
 }

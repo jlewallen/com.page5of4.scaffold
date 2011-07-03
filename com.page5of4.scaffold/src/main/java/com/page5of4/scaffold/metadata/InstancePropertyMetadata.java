@@ -26,4 +26,8 @@ public class InstancePropertyMetadata extends TemplateMetadata {
       this.propertyMetadata = propertyMetadata;
    }
 
+   @Override
+   public String[] getCandidateTemplateNames() {
+      return getPropertyMetadata().getCandidateTemplateNames();
+   }
 }
