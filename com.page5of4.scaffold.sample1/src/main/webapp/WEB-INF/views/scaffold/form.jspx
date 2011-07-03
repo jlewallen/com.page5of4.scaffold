@@ -5,6 +5,19 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
+	<div class='block' id='block-tables'> 
+	<div class='content'> 
+	<div class='inner'> 
+
+	<div class="control">
+		<spring:url value="${meta.urls.showUrl}" var="showUrl" />
+		<a href="${showUrl}">Show</a> |
+		<spring:url value="${meta.urls.indexUrl}" var="indexUrl" />
+		<a href="${indexUrl}">List</a>
+	</div>
+
+	<h2 class='title'>Form</h2> 
+
 	<c:choose>
 		<c:when test="${model.id != null}">
 			<spring:url value="${meta.urls.updateUrl}" var="actionUrl" />
@@ -14,12 +27,16 @@
 		</c:otherwise>
 	</c:choose>
 
-	<scaffold:form modelAttribute="model" action="${actionUrl}" cssClass="formtastic">
+	<scaffold:form modelAttribute="model" action="${actionUrl}" cssClass="form formtastic">
 		<scaffold:editor-for object="${model}" classMetadata="${meta.classMetadata}" />
 		<div>
 			<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
 		</div>
 	</scaffold:form>
+
+	</div>
+	</div>
+	</div>
 
 </jsp:root>
 

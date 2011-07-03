@@ -5,7 +5,24 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 	
+	<div class='block' id='block-tables'> 
+	<div class='content'> 
+	<div class='inner'> 
+	
+	<div class="control">
+		<spring:url value="${meta.urls.updateFormUrl}" var="updateFormUrl" />
+		<a href="${updateFormUrl}">Update</a> |
+		<spring:url value="${meta.urls.indexUrl}" var="indexUrl" />
+		<a href="${indexUrl}">List</a>
+	</div>
+
+	<h2 class='title'>Show</h2> 
+
 	<scaffold:display-for object="${model}" classMetadata="${meta.classMetadata}" />
+	
+	</div>
+	</div>
+	</div>
 
 </jsp:root>
 

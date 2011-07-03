@@ -2,14 +2,10 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<spring:url value="/projects" var="projectsUrl" />
-	<spring:url value="/cards" var="cardsUrl" />
-	<spring:url value="/releases" var="releasesUrl" />
-	<ul>
-		<li><a href="${projectsUrl}">Projects</a></li>
-		<li><a href="${cardsUrl}">Cards</a></li>
-		<li><a href="${releasesUrl}">Releases</a></li>
-	</ul>
+	<div class='block' id='block-tables'> 
+	<div class='content'> 
+	<div class='inner'> 
+	<h2 class='title'>Home</h2> 
 
 	<c:if test="${model.project != null}">
 		<div class="span-12">
@@ -46,5 +42,9 @@
 			<scaffold:display-for object="${model.card}" />
 		</div>
 	</c:if>
+
+	</div>
+	</div>
+	</div>
 </jsp:root>
 

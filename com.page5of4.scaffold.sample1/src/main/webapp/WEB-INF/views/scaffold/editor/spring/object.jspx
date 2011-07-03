@@ -6,7 +6,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<div class="scaffold editor inputs ${meta.classMetadata.cssClassName}">
+	<fieldset class="scaffold editor inputs ${meta.classMetadata.cssClassName}">
 		<ol>
 			<c:forEach items="${meta.classMetadata.properties}" var="property">
 				<c:choose>
@@ -22,7 +22,7 @@
 				</c:choose>
 			</c:forEach>
 		</ol>
-	</div>
+	</fieldset>
 
 </jsp:root>
 

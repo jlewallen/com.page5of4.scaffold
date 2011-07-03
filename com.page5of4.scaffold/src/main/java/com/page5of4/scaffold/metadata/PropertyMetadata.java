@@ -2,7 +2,10 @@ package com.page5of4.scaffold.metadata;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang.ClassUtils;
 import org.springframework.beans.BeanWrapper;
@@ -15,6 +18,7 @@ import com.page5of4.scaffold.ReflectionUtils;
 import com.page5of4.scaffold.ScaffoldHelp;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTemplate;
+import com.page5of4.scaffold.ScaffoldTextArea;
 import com.page5of4.scaffold.StringUtils;
 import com.page5of4.scaffold.spring.ValueFormatter;
 
@@ -43,7 +47,24 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public String getCssClassName() {
-      return getName();
+      List<String> names = new ArrayList<String>();
+      names.add(getName());
+      if(ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTextArea.class, targetClass, descriptor) != null) {
+         names.add("text");
+      }
+      else if(getPropertyType().equals(Date.class)) {
+         names.add("datepicker");
+      }
+      else if(getPropertyType().isEnum()) {
+         names.add("select");
+      }
+      else if(ReflectionUtils.getFieldOrMethodAnnotation(ManyToOne.class, targetClass, descriptor) != null) {
+         names.add("select");
+      }
+      else {
+         names.add("string");
+      }
+      return StringUtils.join(names, " ");
    }
 
    public Class<? extends Object> getPropertyType() {
