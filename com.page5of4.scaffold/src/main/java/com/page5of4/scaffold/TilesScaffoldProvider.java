@@ -58,7 +58,7 @@ public class TilesScaffoldProvider {
          scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(model.determineObjectClass());
       }
       TemplateMetadata templateMetadata =
-            templateMetadataFactory.createTemplateMetadata(model.getTargetObject(), model.getObjectClass(), model.getTargetCollection(), currentMetadata, scaffoldViewModel);
+            templateMetadataFactory.createTemplateMetadata(model.getTargetObject(), model.getObjectClass(), model.getTargetCollection(), model.getPropertyName(), scaffoldViewModel);
 
       List<String> convertedNames = new ArrayList<String>();
       if(model.getTargetCollection() != null) {

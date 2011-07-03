@@ -4,5 +4,5 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<form:hidden path="${meta.currentMetadata.name}" />
+	<form:hidden path="${meta.propertyMetadata.name}" />
 </jsp:root>

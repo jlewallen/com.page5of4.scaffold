@@ -6,6 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<form:textarea path="${meta.currentMetadata.name}" cssClass="text-field multi-line" cssErrorClass="text-field multi-line field-error" />
-	<form:errors path="${meta.currentMetadata.name}" cssClass="field-error" />
+	<form:textarea path="${meta.propertyMetadata.name}" cssClass="text-field multi-line" cssErrorClass="text-field multi-line field-error" />
+	<form:errors path="${meta.propertyMetadata.name}" cssClass="field-error" />
 </jsp:root>

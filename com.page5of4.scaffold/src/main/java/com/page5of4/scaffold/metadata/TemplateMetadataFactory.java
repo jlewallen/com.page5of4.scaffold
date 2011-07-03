@@ -27,18 +27,28 @@ public class TemplateMetadataFactory {
       this.repository = repository;
    }
 
-   public TemplateMetadata createTemplateMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, AbstractMetadata currentMetadata, ScaffoldViewModel scaffoldViewModel) {
+   public TemplateMetadata createTemplateMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, String propertyName, ScaffoldViewModel scaffoldViewModel) {
+      if(propertyName != null) {
+         return createInstancePropertyMetadata(targetObject, propertyName, scaffoldViewModel);
+      }
       if(targetObject != null) {
-         return createTemplateMetadata(targetObject, currentMetadata, scaffoldViewModel);
+         return createTemplateMetadata(targetObject, scaffoldViewModel);
       }
       return createCollectionTemplateMetadata(objectClass, targetCollection, scaffoldViewModel);
    }
 
-   public TemplateMetadata createTemplateMetadata(Object targetObject, AbstractMetadata currentMetadata, ScaffoldViewModel scaffoldViewModel) {
+   private AbstractMetadata resolveCurrentMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, String propertyName) throws IntrospectionException {
+      ClassMetadata classMetadata = metadataResolver.resolve(objectClass);
+      if(propertyName == null) {
+         return classMetadata;
+      }
+      return classMetadata.findProperty(propertyName);
+   }
+
+   public TemplateMetadata createTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
-         if(currentMetadata == null) currentMetadata = classMetadata;
-         return new InstanceMetadata(classMetadata, currentMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+         return new InstanceMetadata(classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -48,7 +58,18 @@ public class TemplateMetadataFactory {
    public TemplateMetadata createInstanceTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
-         return new InstanceMetadata(classMetadata, classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+         return new InstanceMetadata(classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+      }
+      catch(IntrospectionException e) {
+         throw new RuntimeException("Error creating template metadata", e);
+      }
+   }
+
+   public TemplateMetadata createInstancePropertyMetadata(Object targetObject, String propertyName, ScaffoldViewModel scaffoldViewModel) {
+      try {
+         ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
+         PropertyMetadata property = classMetadata.findProperty(propertyName);
+         return new InstancePropertyMetadata(classMetadata, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject), targetObject, property);
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -60,7 +81,7 @@ public class TemplateMetadataFactory {
          ClassMetadata classMetadata = metadataResolver.resolve(objectClass);
          List<TemplateMetadata> targetCollectionMetas = new ArrayList<TemplateMetadata>();
          for(Object item : targetCollection) {
-            targetCollectionMetas.add(createTemplateMetadata(item, classMetadata, scaffoldViewModel));
+            targetCollectionMetas.add(createTemplateMetadata(item, scaffoldViewModel));
          }
          return new CollectionMetadata(classMetadata, targetCollection, targetCollectionMetas, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, objectClass));
       }

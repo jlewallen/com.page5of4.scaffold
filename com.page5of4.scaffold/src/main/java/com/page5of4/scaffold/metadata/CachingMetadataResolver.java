@@ -49,17 +49,18 @@ public class CachingMetadataResolver implements MetadataResolver {
       if(metadata == null) {
          logger.debug("Resolving {}", objectClass);
          metadata = create(objectClass);
+         logger.debug("Done resolving {}", objectClass);
          cache.put(objectClass, metadata);
       }
       return metadata;
    }
 
    private ClassMetadata create(Class<?> objectClass) throws IntrospectionException {
-      List<PropertyMetadata> properties = getProperties(objectClass);
+      List<PropertyMetadata> properties = createProperties(objectClass);
       return new ClassMetadata(objectClass, properties);
    }
 
-   private List<PropertyMetadata> getProperties(Class<? extends Object> objectClass) throws IntrospectionException {
+   private List<PropertyMetadata> createProperties(Class<? extends Object> objectClass) throws IntrospectionException {
       List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
       BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
