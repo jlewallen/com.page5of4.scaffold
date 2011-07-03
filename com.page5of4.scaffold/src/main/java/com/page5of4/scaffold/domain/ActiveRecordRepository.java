@@ -13,7 +13,7 @@ public class ActiveRecordRepository implements Repository {
    }
 
    @Override
-   public List<?> findAll(Class<?> entityClass, int page) {
+   public List<?> findAll(Class<?> entityClass, int firstRow, int maximumRows) {
       Collection<?> found = Finders.findAndInvokeFindAll(entityClass);
       if(found == null) {
          return new ArrayList<Object>();

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -46,11 +47,14 @@ public class JpaRepository implements Repository {
 
    @Override
    @Transactional
-   public List<?> findAll(Class<?> entityClass, int page) {
+   public List<?> findAll(Class<?> entityClass, int firstRow, int maximumRows) {
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
       CriteriaQuery<?> query = cb.createQuery(entityClass);
       Root<?> from = query.from(entityClass);
-      return entityManager.createQuery(query).getResultList();
+      TypedQuery<?> q = entityManager.createQuery(query);
+      q.setFirstResult(firstRow);
+      q.setMaxResults(maximumRows);
+      return q.getResultList();
    }
 
    @Override

@@ -5,8 +5,8 @@ import java.util.Collection;
 public class Resources<T extends Object> {
    private final Collection<T> resources;
    private final Class<T> resourceClass;
+   private final int numberOfPages;
    private final int page;
-   private final int pages;
 
    public Class<T> getResourceClass() {
       return resourceClass;
@@ -16,19 +16,19 @@ public class Resources<T extends Object> {
       return resources;
    }
 
+   public int getNumberOfPages() {
+      return numberOfPages;
+   }
+
    public int getPage() {
       return page;
    }
 
-   public int getPages() {
-      return pages;
-   }
-
-   public Resources(Class<T> resourceClass, Collection<T> resources, int page, int pages) {
+   public Resources(Class<T> resourceClass, Collection<T> resources, int numberOfPages, int page) {
       super();
       this.resourceClass = resourceClass;
       this.resources = resources;
+      this.numberOfPages = numberOfPages;
       this.page = page;
-      this.pages = pages;
    }
 }

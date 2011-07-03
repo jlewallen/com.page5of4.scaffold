@@ -8,7 +8,7 @@ public interface Repository {
 
    List<?> findAll(Class<?> entityClass);
 
-   List<?> findAll(Class<?> entityClass, int page);
+   List<?> findAll(Class<?> entityClass, int firstRow, int maximumRows);
 
    long countAll(Class<?> entityClass);
 

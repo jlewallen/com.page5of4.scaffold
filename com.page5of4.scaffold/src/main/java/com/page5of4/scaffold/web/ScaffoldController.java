@@ -65,7 +65,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    }
 
    @RequestMapping(method = RequestMethod.GET)
-   public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int page) {
+   public ModelAndView index(@RequestParam(value = "page", defaultValue = "0") int page) {
       return newModelAndView(getScaffoldViewModel().getIndexView(), findResources(page));
    }
 
@@ -110,12 +110,16 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       return delete(id, findResource(id));
    }
 
+   public int getPageSize() {
+      return 25;
+   }
+
    public Resources<T> findResources(int page) {
-      Collection<T> all = (Collection<T>)repository.findAll(getResourceClass(), page);
-      if(all == null) {
-         all = new ArrayList<T>();
-      }
-      return new Resources<T>(getResourceClass(), all, 1, 1);
+      int pageSize = getPageSize();
+      Collection<T> all = (Collection<T>)repository.findAll(getResourceClass(), page * pageSize, pageSize);
+      long total = repository.countAll(getResourceClass());
+      if(all == null) all = new ArrayList<T>();
+      return new Resources<T>(getResourceClass(), all, (int)(total / pageSize), page);
    }
 
    public T findResource(I id) {
