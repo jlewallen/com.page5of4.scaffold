@@ -114,7 +114,7 @@
 	<tag>
 		<description>Renders an HTML 'select' element. Supports databinding to the selected option.</description>
 		<name>select</name>
-		<tag-class>com.ss.scaffold.jsp.SelectTag</tag-class>
+		<tag-class>com.page5of4.scaffold.jsp.SelectTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>Path to property for data binding</description>
