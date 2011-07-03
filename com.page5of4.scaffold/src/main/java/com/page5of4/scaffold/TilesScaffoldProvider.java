@@ -34,6 +34,7 @@ public class TilesScaffoldProvider {
    private static final String META_VARIABLE_NAME = "meta";
    private static final String MODEL_VARIABLE_NAME = "scaffold";
    private static final String INTERNAL_VIEW_PREFIX = "scaffold/";
+   private static final String APPLICATION_VIEW_PREFIX = "application/";
    private final TilesRequestContextFactory tilesRequestContextFactory;
    private final TemplateMetadataFactory templateMetadataFactory;
 
@@ -62,7 +63,9 @@ public class TilesScaffoldProvider {
       for(String path : getSearchPaths(model.getMode(), model.getTemplatePrefix())) {
          for(String name : convertedNames) {
             String url = path + name;
-            definitionNames.add(url);
+            if(!definitionNames.contains(url)) {
+               definitionNames.add(url);
+            }
          }
       }
 
@@ -78,6 +81,7 @@ public class TilesScaffoldProvider {
          }
          paths.add(prefix);
       }
+      paths.add(APPLICATION_VIEW_PREFIX + mode + "/");
       paths.add(INTERNAL_VIEW_PREFIX + mode + "/");
       return paths.toArray(new String[0]);
    }
@@ -93,7 +97,7 @@ public class TilesScaffoldProvider {
       Definition definition = findDefinition(definitionNames, container, tilesRequestContext);
 
       logger.trace("Rendering: {} = {}", definition.getName(), definition);
-      writer.write(String.format("<!-- %s -->", definition.getName()));
+      writer.write(String.format("<!-- %s (%s) -->", definition.getName(), StringUtils.join(definitionNames, ", ")));
 
       Object existingModel = servletRequest.getAttribute(MODEL_VARIABLE_NAME);
       Object existingMeta = servletRequest.getAttribute(META_VARIABLE_NAME);
