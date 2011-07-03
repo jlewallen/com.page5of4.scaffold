@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -10,14 +12,21 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<filter>
+		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<servlet>
 		<servlet-name>perf4j</servlet-name>
 		<servlet-class>org.perf4j.log4j.servlet.GraphingServlet</servlet-class>
-        <!--
-          The graphNames parameter determines which graphs to expose. The
-          param-value should be a comma-separated list of the
-          appender NAMES as defined in the log4j.xml file.
-        -->
+		<!-- The graphNames parameter determines which graphs to expose. The param-value 
+			should be a comma-separated list of the appender NAMES as defined in the 
+			log4j.xml file. -->
 		<init-param>
 			<param-name>graphNames</param-name>
 			<param-value>graphExecutionTimes,graphExecutionTPS,graphExecutionCounts</param-value>
@@ -44,10 +53,6 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!--
-	<taglib>
-		<taglib-uri>/spring</taglib-uri>
-		<taglib-location>/WEB-INF/tlds/spring.tld</taglib-location>
-	</taglib>
-  	-->
+	<!-- <taglib> <taglib-uri>/spring</taglib-uri> <taglib-location>/WEB-INF/tlds/spring.tld</taglib-location> 
+		</taglib> -->
 </web-app>
