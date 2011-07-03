@@ -10,7 +10,6 @@ import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.support.ConvertingPropertyEditorAdapter;
-import org.springframework.util.Assert;
 
 import com.page5of4.scaffold.ReflectionUtils;
 import com.page5of4.scaffold.ScaffoldHelp;
@@ -25,9 +24,11 @@ public class PropertyMetadata extends AbstractMetadata {
    private final boolean hidden;
    private final String help;
    private final ConversionService conversionService;
-   private final OneToManyPropertyMetadata oneToManyMetadata;
-   private final ManyToOnePropertyMetadata manyToOneMetadata;
    private final Class<?> targetClass;
+
+   public PropertyDescriptor getPropertyDescriptor() {
+      return descriptor;
+   }
 
    public boolean isHidden() {
       return hidden;
@@ -76,24 +77,6 @@ public class PropertyMetadata extends AbstractMetadata {
       return ValueFormatter.getDisplayString(value, editor, true);
    }
 
-   public boolean getIsOneToMany() {
-      return oneToManyMetadata != null;
-   }
-
-   public OneToManyPropertyMetadata getOneToMany() {
-      Assert.notNull(oneToManyMetadata);
-      return oneToManyMetadata;
-   }
-
-   public boolean getIsManyToOne() {
-      return manyToOneMetadata != null;
-   }
-
-   public ManyToOnePropertyMetadata getManyToOne() {
-      Assert.notNull(manyToOneMetadata);
-      return manyToOneMetadata;
-   }
-
    @Override
    public String[] getCandidateTemplateNames() {
       List<String> names = new ArrayList<String>();
@@ -125,8 +108,7 @@ public class PropertyMetadata extends AbstractMetadata {
       return names.toArray(new String[0]);
    }
 
-   public PropertyMetadata(ConversionService conversionService, Class<?> targetClass, PropertyDescriptor descriptor, OneToManyPropertyMetadata oneToManyPropertyMetadata,
-         ManyToOnePropertyMetadata manyToOnePropertyMetadata) {
+   public PropertyMetadata(ConversionService conversionService, Class<?> targetClass, PropertyDescriptor descriptor) {
       super();
       this.conversionService = conversionService;
       this.targetClass = targetClass;
@@ -139,7 +121,5 @@ public class PropertyMetadata extends AbstractMetadata {
       else {
          this.help = "";
       }
-      this.oneToManyMetadata = oneToManyPropertyMetadata;
-      this.manyToOneMetadata = manyToOnePropertyMetadata;
    }
 }

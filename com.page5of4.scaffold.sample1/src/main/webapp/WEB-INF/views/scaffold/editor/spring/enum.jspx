@@ -6,6 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<form:select path="${meta.propertyMetadata.name}" items="${meta.propertyMetadata.manyToOne.items}" />
+	<form:select path="${meta.propertyMetadata.name}" items="${meta.manyToOne.items}" />
 	<form:errors path="${meta.propertyMetadata.name}" cssClass="field-error" />
 </jsp:root>

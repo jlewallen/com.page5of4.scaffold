@@ -3,12 +3,21 @@ package com.page5of4.scaffold.metadata;
 import static org.jvnet.inflector.Noun.pluralOf;
 
 import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.ManyToOne;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.FallbackLabelAndValue;
+import com.page5of4.scaffold.LabelAndValue;
+import com.page5of4.scaffold.LabelAndValueModel;
+import com.page5of4.scaffold.ReflectionUtils;
 import com.page5of4.scaffold.StringUtils;
 import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.domain.Repository;
@@ -19,12 +28,14 @@ public class TemplateMetadataFactory {
 
    private final MetadataResolver metadataResolver;
    private final Repository repository;
+   private final ConversionService conversionService;
 
    @Autowired
-   public TemplateMetadataFactory(MetadataResolver metadataResolver, Repository repository) {
+   public TemplateMetadataFactory(MetadataResolver metadataResolver, Repository repository, ConversionService conversionService) {
       super();
       this.metadataResolver = metadataResolver;
       this.repository = repository;
+      this.conversionService = conversionService;
    }
 
    public TemplateMetadata createTemplateMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, String propertyName, ScaffoldViewModel scaffoldViewModel) {
@@ -61,7 +72,9 @@ public class TemplateMetadataFactory {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
          PropertyMetadata property = classMetadata.findProperty(propertyName);
-         return new InstancePropertyMetadata(classMetadata, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject), targetObject, property);
+         OneToManyPropertyMetadata oneToMany = createOneToMany(classMetadata.getObjectClass(), property);
+         ManyToOnePropertyMetadata manyToOne = createManyToOne(classMetadata.getObjectClass(), property);
+         return new InstancePropertyMetadata(classMetadata, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject), targetObject, property, oneToMany, manyToOne);
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -110,6 +123,50 @@ public class TemplateMetadataFactory {
 
    private Object getId(Object object) {
       return repository.getIdOf(object);
+   }
+
+   public ManyToOnePropertyMetadata createManyToOne(Class<?> objectClass, PropertyMetadata property) {
+      PropertyDescriptor descriptor = property.getPropertyDescriptor();
+      Class<? extends Object> type = property.getPropertyType();
+      if(type.isEnum()) {
+         return new ManyToOnePropertyMetadata(descriptor, type.getEnumConstants());
+      }
+      ManyToOne manyToOneAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ManyToOne.class, objectClass, descriptor);
+      if(manyToOneAnnotation == null) {
+         return null;
+      }
+      Collection<?> found = repository.findAll(type);
+      if(found != null) {
+         List<LabelAndValue> items = new ArrayList<LabelAndValue>();
+         if(shouldIncludeEmpty()) {
+            items.add(new LabelAndValueModel("", "", null));
+         }
+         if(conversionService.canConvert(type, LabelAndValue.class)) {
+            for(Object value : found) {
+               items.add(conversionService.convert(value, LabelAndValue.class));
+            }
+         }
+         else if(LabelAndValue.class.isAssignableFrom(type)) {
+            for(Object value : found) {
+               items.add((LabelAndValue)value);
+            }
+         }
+         else {
+            for(Object value : found) {
+               items.add(new FallbackLabelAndValue(value));
+            }
+         }
+         return new ManyToOnePropertyMetadata(descriptor, items.toArray(new LabelAndValue[0]));
+      }
+      return null;
+   }
+
+   private static boolean shouldIncludeEmpty() {
+      return true;
+   }
+
+   public OneToManyPropertyMetadata createOneToMany(Class<?> objectClass, PropertyMetadata property) {
+      return null;
    }
 
 }

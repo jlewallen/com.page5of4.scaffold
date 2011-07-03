@@ -7,8 +7,8 @@
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
 	<c:choose>
-		<c:when test="${meta.propertyMetadata.isManyToOne}">
-			<form:select path="${meta.propertyMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" items="${meta.propertyMetadata.manyToOne.items}" itemLabel="label" itemValue="value" />
+		<c:when test="${meta.isManyToOne}">
+			<form:select path="${meta.propertyMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" items="${meta.manyToOne.items}" itemLabel="label" itemValue="value" />
 		</c:when>
 		<c:otherwise>
 			<form:input path="${meta.propertyMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
