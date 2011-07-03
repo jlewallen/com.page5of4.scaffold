@@ -9,15 +9,14 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import com.page5of4.scaffold.FallbackLabelAndValue;
-import com.page5of4.scaffold.LabelAndValue;
-import com.page5of4.scaffold.LabelAndValueModel;
 import com.page5of4.scaffold.ReflectionUtils;
+import com.page5of4.scaffold.ScaffoldCollection;
 import com.page5of4.scaffold.StringUtils;
 import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.domain.Repository;
@@ -128,35 +127,24 @@ public class TemplateMetadataFactory {
    public ManyToOnePropertyMetadata createManyToOne(Class<?> objectClass, PropertyMetadata property) {
       PropertyDescriptor descriptor = property.getPropertyDescriptor();
       Class<? extends Object> type = property.getPropertyType();
+      NotNull notNullAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(NotNull.class, objectClass, descriptor);
+      boolean nullable = notNullAnnotation == null;
       if(type.isEnum()) {
-         return new ManyToOnePropertyMetadata(descriptor, type.getEnumConstants());
+         return new ManyToOnePropertyMetadata(descriptor, type.getEnumConstants(), nullable);
       }
       ManyToOne manyToOneAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ManyToOne.class, objectClass, descriptor);
       if(manyToOneAnnotation == null) {
          return null;
       }
+      ScaffoldCollection collectionAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldCollection.class, objectClass, descriptor);
       Collection<?> found = repository.findAll(type);
       if(found != null) {
-         List<LabelAndValue> items = new ArrayList<LabelAndValue>();
-         if(shouldIncludeEmpty()) {
-            items.add(new LabelAndValueModel("", "", null));
+         List<Object> items = new ArrayList<Object>();
+         items.addAll(found);
+         if(collectionAnnotation == null) {
+            return new ManyToOnePropertyMetadata(descriptor, items.toArray(), nullable);
          }
-         if(conversionService.canConvert(type, LabelAndValue.class)) {
-            for(Object value : found) {
-               items.add(conversionService.convert(value, LabelAndValue.class));
-            }
-         }
-         else if(LabelAndValue.class.isAssignableFrom(type)) {
-            for(Object value : found) {
-               items.add((LabelAndValue)value);
-            }
-         }
-         else {
-            for(Object value : found) {
-               items.add(new FallbackLabelAndValue(value));
-            }
-         }
-         return new ManyToOnePropertyMetadata(descriptor, items.toArray(new LabelAndValue[0]));
+         return new ManyToOnePropertyMetadata(descriptor, items.toArray(), nullable, collectionAnnotation.label(), collectionAnnotation.value());
       }
       return null;
    }

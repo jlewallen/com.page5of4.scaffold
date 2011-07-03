@@ -10,4 +10,8 @@ import java.lang.annotation.Target;
 @ScaffoldTemplate("Collection")
 public @interface ScaffoldCollection {
 
+   String value();
+
+   String label();
+
 }

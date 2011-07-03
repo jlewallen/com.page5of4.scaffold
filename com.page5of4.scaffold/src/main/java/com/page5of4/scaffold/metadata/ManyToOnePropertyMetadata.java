@@ -4,15 +4,37 @@ import java.beans.PropertyDescriptor;
 
 public class ManyToOnePropertyMetadata extends AssociationMetadata {
 
-   private Object[] items;
+   private final Object[] items;
+   private final String itemLabelExpression;
+   private final String itemValueExpression;
+   private final boolean nullable;
 
    public Object[] getItems() {
       return items;
    }
 
-   public ManyToOnePropertyMetadata(PropertyDescriptor property, Object[] items) {
+   public boolean isNullable() {
+      return nullable;
+   }
+
+   public String getItemLabelExpression() {
+      return itemLabelExpression;
+   }
+
+   public String getItemValueExpression() {
+      return itemValueExpression;
+   }
+
+   public ManyToOnePropertyMetadata(PropertyDescriptor property, Object[] items, boolean nullable) {
+      this(property, items, nullable, null, null);
+   }
+
+   public ManyToOnePropertyMetadata(PropertyDescriptor property, Object[] items, boolean nullable, String itemLabelExpression, String itemValueExpression) {
       super(property);
       this.items = items;
+      this.nullable = nullable;
+      this.itemLabelExpression = itemLabelExpression;
+      this.itemValueExpression = itemValueExpression;
    }
 
 }

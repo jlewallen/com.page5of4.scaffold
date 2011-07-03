@@ -26,7 +26,7 @@ public class Release {
 
    @ManyToOne
    @NotNull
-   @ScaffoldCollection
+   @ScaffoldCollection(value = "id", label = "name")
    private Project project;
 
    @NotNull

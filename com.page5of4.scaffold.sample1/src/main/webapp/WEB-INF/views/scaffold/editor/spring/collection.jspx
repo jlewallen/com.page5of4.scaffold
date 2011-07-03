@@ -8,7 +8,28 @@
 
 	<c:choose>
 		<c:when test="${meta.isManyToOne}">
-			<form:select path="${meta.propertyMetadata.name}" cssClass="collection-field uniform" cssErrorClass="collection-field error" items="${meta.manyToOne.items}" itemLabel="label" itemValue="value" />
+			<!--
+			<spring:bind path="${meta.propertyMetadata.name}">
+				<c:choose>
+					<c:when test="${status.error}"><c:set value="collection-field uniform error" var="cssClass" /></c:when>
+					<c:otherwise><c:set value="collection-field uniform" var="cssClass" /></c:otherwise>
+				</c:choose>
+				<select name="${status.expression}" class="collection-field uniform">
+					<c:forEach items="${meta.manyToOne.items}" var="item">
+					    <c:choose>
+						    <c:when test="${status.value.id == item.id}"><option selected="true" value="${item.id}">${item}</option></c:when>
+						    <c:otherwise><option value="${item.id}">${item.name}</option></c:otherwise>
+					    </c:choose>
+					</c:forEach>
+				</select>
+			</spring:bind>
+			-->
+			<form:select path="${meta.propertyMetadata.name}" cssClass="collection-field uniform" cssErrorClass="collection-field uniform error">
+				<c:if test="${meta.manyToOne.nullable}">
+  					<form:option value=""></form:option>
+				</c:if>
+  				<form:options items="${meta.manyToOne.items}" itemLabel="${meta.manyToOne.itemLabelExpression}" itemValue="${meta.manyToOne.itemValueExpression}"/>	
+  			</form:select>
 		</c:when>
 		<c:otherwise>
 			<form:input path="${meta.propertyMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" />

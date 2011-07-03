@@ -31,7 +31,7 @@ public class Card {
 
    @NotNull
    @ManyToOne
-   @ScaffoldCollection
+   @ScaffoldCollection(value = "id", label = "name")
    private Project project;
 
    @NotNull
