@@ -48,5 +48,6 @@ html {
 
 #header { background: #333; }
 #header h1 { padding: 0em; }
+#main-navigation { background-image: none; }
 
 /* EOF */
