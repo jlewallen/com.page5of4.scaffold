@@ -7,6 +7,7 @@
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
 	<fieldset class="scaffold editor inputs ${meta.classMetadata.cssClassName}">
+		<legend>General</legend>
 		<ol>
 			<c:forEach items="${meta.classMetadata.properties}" var="property">
 				<c:choose>
