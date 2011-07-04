@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.page5of4.scaffold.LabelAndValueAwarePropertyEditor;
 import com.page5of4.scaffold.domain.Repository;
 
 @Controller
@@ -39,9 +38,6 @@ public class HomeController {
 
    @InitBinder
    public void initBinder(WebDataBinder binder) {
-      binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(repository, Project.class));
-      binder.registerCustomEditor(Card.class, new LabelAndValueAwarePropertyEditor(repository, Card.class));
-      binder.registerCustomEditor(Release.class, new LabelAndValueAwarePropertyEditor(repository, Release.class));
       binder.setIgnoreUnknownFields(false);
    }
 
