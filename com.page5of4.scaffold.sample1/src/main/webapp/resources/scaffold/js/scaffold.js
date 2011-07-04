@@ -2,8 +2,12 @@
    $(function() {
       $('.scaffold.editor INPUT.datetimepicker').each(function(i, e) {
          var parsed = Date.parse($(e).val());
-         var formattedTimeValue = parsed.toString("HH:mm");
-         var formattedDateValue = parsed.toString("MMMM dd, yyyy");
+         var formattedTimeValue = "";
+         var formattedDateValue = "";
+         if (parsed != null) {
+            formattedTimeValue = parsed.toString("HH:mm");
+            formattedDateValue = parsed.toString("MMMM dd, yyyy");
+         }
          $(this).datetimepicker({
             "timepicker" : {
                "amPmText" : [ "", "" ],
