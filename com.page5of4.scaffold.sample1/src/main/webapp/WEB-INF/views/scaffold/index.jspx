@@ -6,20 +6,20 @@
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 	
 	<div class='block' id='block-tables'> 
-	<div class='content'> 
-	<div class='inner'> 
-
-	<div class="control">
-		<spring:url value="${meta.urls.createFormUrl}" var="createFormUrl" />
-		<a href="${createFormUrl}">Create</a>
-	</div>
-
-	<h2 class='title'>${meta.viewModel.collectionTitle}</h2> 
+		<div class='content'> 
 	
-	<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${meta.viewModel}" classMetadata="${meta.classMetadata}" />
-	
-	</div>
-	</div>
+			<div class="control">
+				<spring:url value="${meta.urls.createFormUrl}" var="createFormUrl" />
+				<scaffold:button iconUrl="resources/images/icons/add.png" alt="Add" text="Add" href="${createFormUrl}" />
+			</div>
+		
+			<h2 class='title'>${meta.viewModel.collectionTitle}</h2> 
+			
+			<div class="inner">
+				<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${meta.viewModel}" classMetadata="${meta.classMetadata}" />
+			</div>
+		
+		</div>
 	</div>
 
 </jsp:root>

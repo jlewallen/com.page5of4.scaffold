@@ -8,6 +8,54 @@
 	<tlib-version>1.0</tlib-version>
 	<short-name>jl</short-name>
 	<uri>http://www.page5of4.com/tags/scaffold</uri>
+	
+	<tag>
+		<name>button</name>
+		<tag-class>com.page5of4.scaffold.jsp.ButtonTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description></description>
+			<name>iconUrl</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>iconName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>alt</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>text</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>cssClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>href</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>submit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 
 	<tag>
 		<name>display-for</name>

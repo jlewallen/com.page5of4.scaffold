@@ -12,7 +12,7 @@
 					<th>${property.displayName}</th>
 				</c:if>
 			</c:forEach>
-			<th>Actions</th>
+			<th><!-- empty --></th>
 		</tr>
 			<c:forEach items="${meta.targetCollectionMetas}" var="row">
 				<tr>
@@ -27,14 +27,13 @@
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
-					<td>
+					<td class="last">
 						<spring:url value="${row.urls.showUrl}" var="showUrl" />
 						<spring:url value="${row.urls.updateFormUrl}" var="updateFormUrl" />
 						<spring:url value="${row.urls.deleteUrl}" var="deleteUrl" />
-
-						<a href="${showUrl}">Show</a> |
-						<a href="${updateFormUrl}">Update</a> |
-						<a href="${deleteUrl}">Delete</a>
+						<scaffold:button href="${showUrl}" iconUrl="resources/images/icons/24/show.png" alt="Show" cssClass="icon-show" />
+						<scaffold:button href="${updateFormUrl}" iconUrl="resources/images/icons/24/edit.png" alt="Edit" cssClass="icon-edit" />
+						<scaffold:button href="${deleteUrl}" iconUrl="resources/images/icons/24/slash.png" alt="Delete" cssClass="icon-delete" />
 					</td>
 				</tr>
 			</c:forEach>

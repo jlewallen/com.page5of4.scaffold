@@ -31,5 +31,22 @@
             return false;
          }
       });
+
+      // Icons, this is kind of ugly.
+      $('.icon-show img').hover(function() {
+         this.src = 'resources/images/icons/24/show-hover.png';
+      }, function() {
+         this.src = 'resources/images/icons/24/show.png';
+      });
+      $('.icon-edit img').hover(function() {
+         this.src = 'resources/images/icons/24/edit-hover.png';
+      }, function() {
+         this.src = 'resources/images/icons/24/edit.png';
+      });
+      $('.icon-delete img').hover(function() {
+         this.src = 'resources/images/icons/24/slash-hover.png';
+      }, function() {
+         this.src = 'resources/images/icons/24/slash.png';
+      });
    });
 })(jQuery)
