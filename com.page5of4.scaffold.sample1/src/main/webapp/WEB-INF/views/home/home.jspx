@@ -3,48 +3,11 @@
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
 	<div class='block' id='block-tables'> 
-	<div class='content'> 
-	<div class='inner'> 
-	<h2 class='title'>Home</h2> 
-
-	<c:if test="${model.project != null}">
-		<div class="span-12">
-			<h2>Project</h2>
-			<spring:url value="/projects" var="projectUrl" />
-			<scaffold:form modelAttribute="project" action="${projectUrl}" cssClass="formtastic">
-				<scaffold:editor-for object="${model.project}" />
-				<div>
-					<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
-				</div>
-			</scaffold:form>
+		<div class='content'> 
+			<h2 class='title'>Home</h2> 
+			<div class='inner'> 
+				<!-- empty -->
+			</div>
 		</div>
-
-		<div class="span-12 last">
-			<h2>Project</h2>
-			<scaffold:display-for object="${model.project}" />
-		</div>
-	</c:if>
-
-	<c:if test="${model.card != null}">
-		<div class="span-12">
-			<h2>Card</h2>
-			<spring:url value="/cards" var="cardUrl" />
-			<scaffold:form modelAttribute="card" action="${cardUrl}" cssClass="formtastic">
-				<scaffold:editor-for object="${model.card}" />
-				<div>
-					<INPUT TYPE="SUBMIT" VALUE="Save"></INPUT>
-				</div>
-			</scaffold:form>
-		</div>
-
-		<div class="span-12 last">
-			<h2>Card</h2>
-			<scaffold:display-for object="${model.card}" />
-		</div>
-	</c:if>
-
-	</div>
-	</div>
 	</div>
 </jsp:root>
-

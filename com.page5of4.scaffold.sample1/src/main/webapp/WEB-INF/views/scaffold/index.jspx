@@ -14,9 +14,11 @@
 			</div>
 		
 			<h2 class='title'>${meta.viewModel.collectionTitle}</h2> 
-			
+
 			<div class="inner">
-				<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${meta.viewModel}" classMetadata="${meta.classMetadata}" />
+				<spring:nestedPath path="model">
+					<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${meta.viewModel}" classMetadata="${meta.classMetadata}" />
+				</spring:nestedPath>			
 			</div>
 		
 		</div>

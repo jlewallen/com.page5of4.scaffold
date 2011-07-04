@@ -103,7 +103,7 @@ public class ButtonTag extends HtmlEscapingAwareTag {
       else {
          tagWriter.startTag("a");
          if(getHref() != null) {
-            tagWriter.writeAttribute("href", href);
+            tagWriter.writeAttribute("href", getHref());
          }
          else {
             tagWriter.writeAttribute("href", "javascript:void(0)");

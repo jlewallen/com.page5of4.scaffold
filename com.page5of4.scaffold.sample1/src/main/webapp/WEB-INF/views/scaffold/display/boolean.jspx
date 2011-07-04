@@ -7,8 +7,8 @@
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
 	<c:choose>
-		<c:when test="${meta.displayValue == true}">True</c:when>
-		<c:when test="${meta.displayValue == false}">False</c:when>
+		<c:when test="${status.actualValue == true}">Yes</c:when>
+		<c:when test="${status.actualValue == false}">No</c:when>
 		<c:otherwise></c:otherwise>
 	</c:choose>
 </jsp:root>

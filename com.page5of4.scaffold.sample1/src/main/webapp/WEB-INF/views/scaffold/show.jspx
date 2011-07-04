@@ -12,13 +12,15 @@
 				<spring:url value="${meta.urls.updateFormUrl}" var="updateFormUrl" />
 				<spring:url value="${meta.urls.indexUrl}" var="indexUrl" />
 				<scaffold:button iconUrl="resources/images/icons/edit.png" alt="Edit" text="Edit" href="${updateFormUrl}" />
-				<scaffold:button iconUrl="resources/images/icons/see-more.png" alt="List" text="List" href="${indexUrl}" />
+				<scaffold:button iconUrl="resources/images/icons/list.png" alt="List" text="List" href="${indexUrl}" />
 			</div>
 		
-			<h2 class='title'>Show</h2> 
+			<h2 class='title'>${meta.viewModel.resourceName}</h2> 
 		
 			<div class='inner'> 
-			<scaffold:display-for object="${model}" classMetadata="${meta.classMetadata}" />
+				<spring:nestedPath path="model">
+					<scaffold:display-for object="${model}" classMetadata="${meta.classMetadata}" />
+				</spring:nestedPath>
 			</div>
 
 		</div>

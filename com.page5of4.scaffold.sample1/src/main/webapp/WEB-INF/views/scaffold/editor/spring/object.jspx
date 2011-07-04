@@ -8,22 +8,22 @@
 
 	<fieldset class="scaffold editor inputs ${meta.classMetadata.cssClassName}">
 		<legend>General</legend>
-			<c:forEach items="${meta.classMetadata.properties}" var="property">
-				<c:choose>
-					<c:when test="${property.visible}">
-						<div class="field ${property.cssClassName}">
-							<form:label path="${property.name}">${property.displayName}</form:label>
-							<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
-							<p class="help">${property.help}</p>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="field hidden" style="display: none;">
-							<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
-						</div>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
+		<c:forEach items="${meta.classMetadata.properties}" var="property">
+			<c:choose>
+				<c:when test="${property.visible}">
+					<div class="field ${property.cssClassName}">
+						<form:label path="${property.name}">${property.displayName}</form:label>
+						<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
+						<p class="help">${property.help}</p>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="field hidden" style="display: none;">
+						<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
+					</div>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
 	</fieldset>
 
 </jsp:root>

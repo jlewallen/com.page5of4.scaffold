@@ -14,13 +14,15 @@
 			</c:forEach>
 			<th><!-- empty --></th>
 		</tr>
-			<c:forEach items="${meta.targetCollectionMetas}" var="row">
+			<c:forEach items="${meta.targetCollectionMetas}" var="row" varStatus="rowStatus">
 				<tr>
 					<c:forEach items="${meta.classMetadata.properties}" var="property">
 						<c:choose>
 							<c:when test="${property.visible}">
 								<td class="${property.cssClassName}">
-									<scaffold:display-for object="${row.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
+									<spring:bind path="resources[${rowStatus.index}].${property.name}">
+										<scaffold:display-for object="${row.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
+									</spring:bind>
 								</td>
 							</c:when>
 							<c:otherwise>
@@ -29,10 +31,12 @@
 					</c:forEach>
 					<td class="last">
 						<spring:url value="${row.urls.showUrl}" var="showUrl" />
-						<spring:url value="${row.urls.updateFormUrl}" var="updateFormUrl" />
-						<spring:url value="${row.urls.deleteUrl}" var="deleteUrl" />
 						<scaffold:button href="${showUrl}" iconUrl="resources/images/icons/24/show.png" alt="Show" cssClass="icon-show" />
+
+						<spring:url value="${row.urls.updateFormUrl}" var="updateFormUrl" />
 						<scaffold:button href="${updateFormUrl}" iconUrl="resources/images/icons/24/edit.png" alt="Edit" cssClass="icon-edit" />
+						
+						<spring:url value="${row.urls.deleteUrl}" var="deleteUrl" />
 						<scaffold:button href="${deleteUrl}" iconUrl="resources/images/icons/24/slash.png" alt="Delete" cssClass="icon-delete" />
 					</td>
 				</tr>

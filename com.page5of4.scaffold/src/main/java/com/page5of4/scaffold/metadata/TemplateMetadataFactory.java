@@ -109,14 +109,18 @@ public class TemplateMetadataFactory {
    }
 
    private UrlsViewModel createUrlsViewModel(ScaffoldViewModel scaffoldViewModel, Object targetObject) {
+      Object id = getId(targetObject);
+      if(id == null) {
+         return createUrlsViewModel(scaffoldViewModel, targetObject.getClass());
+      }
       String collectionName = scaffoldViewModel.getCollectionName().toLowerCase();
       String indexUrl = String.format("/%s", collectionName);
       String createUrl = String.format("/%s", collectionName);
       String createFormUrl = String.format("/%s/form", collectionName);
-      String showUrl = String.format("/%s/%s", collectionName, getId(targetObject));
-      String updateUrl = String.format("/%s/%s", collectionName, getId(targetObject));
-      String updateFormUrl = String.format("/%s/%s/form", collectionName, getId(targetObject));
-      String deleteUrl = String.format("/%s/%s", collectionName, getId(targetObject));
+      String showUrl = String.format("/%s/%s", collectionName, id);
+      String updateUrl = String.format("/%s/%s", collectionName, id);
+      String updateFormUrl = String.format("/%s/%s/form", collectionName, id);
+      String deleteUrl = String.format("/%s/%s", collectionName, id);
       return new UrlsViewModel(indexUrl, createUrl, createFormUrl, showUrl, updateUrl, updateFormUrl, deleteUrl);
    }
 

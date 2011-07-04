@@ -10,12 +10,15 @@
 
 			<div class="control">
 				<spring:url value="${meta.urls.showUrl}" var="showUrl" />
+				<c:if test="${not empty showUrl}">
+					<scaffold:button iconUrl="resources/images/icons/show.png" alt="Show" text="Show" href="${showUrl}" />
+				</c:if>
+				
 				<spring:url value="${meta.urls.indexUrl}" var="indexUrl" />
-				<scaffold:button iconUrl="resources/images/icons/show.png" alt="Show" text="Show" href="${showUrl}" />
-				<scaffold:button iconUrl="resources/images/icons/see-more.png" alt="List" text="List" href="${indexUrl}" />
+				<scaffold:button iconUrl="resources/images/icons/list.png" alt="List" text="List" href="${indexUrl}" />
 			</div>
 		
-			<h2 class='title'>Form</h2> 
+			<h2 class='title'>${meta.viewModel.resourceName}</h2> 
 		
 			<div class='inner'> 
 				<c:choose>
@@ -31,7 +34,8 @@
 					<scaffold:editor-for object="${model}" classMetadata="${meta.classMetadata}" />
 					<div class="group navform wat-cf">
 						<scaffold:button iconUrl="resources/images/icons/tick.png" alt="Save" text="Save" submit="true" />
-						<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" />
+						<spring:url value="${meta.urls.showUrl}" var="showUrl" />
+						<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" href="${showUrl}" />
 					</div>
 				</scaffold:form>
 			</div>
