@@ -27,18 +27,12 @@
 					</c:otherwise>
 				</c:choose>
 			
-				<scaffold:form modelAttribute="model" action="${actionUrl}" cssClass="form formtastic">
+				<scaffold:form modelAttribute="model" action="${actionUrl}" cssClass="form">
 					<scaffold:editor-for object="${model}" classMetadata="${meta.classMetadata}" />
-					<fieldset class="scaffold editor buttons">
-						<ol>
-							<li class="commit button">
-								<scaffold:button iconUrl="resources/images/icons/tick.png" alt="Save" text="Save" submit="true" />
-							</li>
-							<li class="cancel button">
-								<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" />
-							</li>
-						</ol>
-					</fieldset>
+					<div class="group navform wat-cf">
+						<scaffold:button iconUrl="resources/images/icons/tick.png" alt="Save" text="Save" submit="true" />
+						<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" />
+					</div>
 				</scaffold:form>
 			</div>
 

@@ -20,8 +20,6 @@
 
 		<link rel="stylesheet" href="${resources}/css/base.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/css/activo/activo.css" type="text/css" media="all" /> 	
-		<link rel="stylesheet" href="${resources}/css/formtastic.css" type="text/css" media="all" /> 	
-		<link rel="stylesheet" href="${resources}/css/formtastic_changes.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/css/uniform.default.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/scaffold/css/scaffold.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/css/form.css" type="text/css" media="all" /> 	

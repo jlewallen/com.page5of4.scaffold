@@ -48,7 +48,6 @@ public class PropertyMetadata extends AbstractMetadata {
 
    public String getCssClassName() {
       List<String> names = new ArrayList<String>();
-      names.add(getName());
       if(ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldTextArea.class, targetClass, descriptor) != null) {
          names.add("text");
       }

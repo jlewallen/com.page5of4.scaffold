@@ -79,7 +79,7 @@ form label.inline {
 }
 
 .field .date, .field .datetime, .field .hasDatepicker {
-  background: url("../../images/rails_admin/calendar.png") no-repeat right;
+  background: url("../images/calendar.png") no-repeat right;
 }
 
 .field .time, .field .timestamp, .field .hasTimepicker {

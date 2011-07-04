@@ -8,21 +8,22 @@
 
 	<fieldset class="scaffold editor inputs ${meta.classMetadata.cssClassName}">
 		<legend>General</legend>
-		<ol>
 			<c:forEach items="${meta.classMetadata.properties}" var="property">
 				<c:choose>
 					<c:when test="${property.visible}">
-						<li class="input ${property.cssClassName}">
+						<div class="field ${property.cssClassName}">
 							<form:label path="${property.name}">${property.displayName}</form:label>
 							<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
-						</li>
+							<p class="help">${property.help}</p>
+						</div>
 					</c:when>
 					<c:otherwise>
-						<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
+						<div class="field hidden" style="display: none;">
+							<scaffold:editor-for object="${meta.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" formPrefix="${scaffold.formPrefix}" />
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-		</ol>
 	</fieldset>
 
 </jsp:root>
