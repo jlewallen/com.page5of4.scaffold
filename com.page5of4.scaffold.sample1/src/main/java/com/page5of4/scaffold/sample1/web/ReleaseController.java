@@ -26,5 +26,4 @@ public class ReleaseController extends ScaffoldController<String, Release> {
       binder.registerCustomEditor(Project.class, new LabelAndValueAwarePropertyEditor(getRepository(), Project.class));
       binder.setIgnoreUnknownFields(false);
    }
-
 }

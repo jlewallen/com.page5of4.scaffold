@@ -52,7 +52,8 @@ public class PropertyMetadata extends AbstractMetadata {
          names.add("text");
       }
       else if(getPropertyType().equals(Date.class)) {
-         names.add("datepicker");
+         // TODO Date only?
+         names.add("datetimepicker");
       }
       else if(getPropertyType().isEnum()) {
          names.add("select");

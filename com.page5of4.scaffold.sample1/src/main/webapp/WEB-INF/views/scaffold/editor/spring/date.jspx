@@ -6,6 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
 
-	<form:input path="${meta.propertyMetadata.name}" cssClass="date-field" cssErrorClass="date-field field-error" />
+	<form:input path="${meta.propertyMetadata.name}" cssClass="date-field ${meta.propertyMetadata.cssClassName}" cssErrorClass="date-field field-error ${meta.propertyMetadata.cssClassName}" />
 	<form:errors path="${meta.propertyMetadata.name}" cssClass="field-error" />
 </jsp:root>

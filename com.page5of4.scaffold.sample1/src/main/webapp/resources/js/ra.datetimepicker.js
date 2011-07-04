@@ -13,55 +13,51 @@
  */
 (function($) {
 
-  $.widget("ra.datetimepicker", {
-    options: {
-      showDate: true,
-      showTime: true,
-      datepicker: {},
-      timepicker: {}
-    },
+   $.widget("ra.datetimepicker", {
+      options : {
+         showDate : true,
+         showTime : true,
+         datepicker : {},
+         timepicker : {}
+      },
 
-    _create: function() {
-      var widget = this;
-      this.element.hide();
+      _create : function() {
+         var widget = this;
+         this.element.hide();
 
-      if (this.options.showTime) {
-        this.timepicker = $('<input type="text" value="' + this.options.timepicker.value + '" />');
+         if (this.options.showTime) {
+            this.timepicker = $('<input type="text" value="' + this.options.timepicker.value + '" />');
+            this.timepicker.css("width", "60px");
+            this.timepicker.insertAfter(this.element);
+            this.timepicker.bind("change", function() {
+               widget._onChange();
+            });
+            this.timepicker.timepicker(this.options.timepicker);
+         }
 
-        this.timepicker.css("width", "60px");
+         if (this.options.showDate) {
+            this.datepicker = $('<input type="text" value="' + this.options.datepicker.value + '" />');
+            this.datepicker.css("margin-right", "10px");
+            this.datepicker.insertAfter(this.element);
+            this.datepicker.bind("change", function() {
+               widget._onChange();
+            });
+            this.datepicker.datepicker(this.options.datepicker);
+         }
+      },
 
-        this.timepicker.insertAfter(this.element);
+      _onChange : function() {
+         var value = [];
 
-        this.timepicker.bind("change", function() { widget._onChange(); });
+         if (this.options.showDate) {
+            value.push(this.datepicker.val());
+         }
 
-        this.timepicker.timepicker(this.options.timepicker);
+         if (this.options.showTime) {
+            value.push(this.timepicker.val());
+         }
+
+         this.element.val(value.join(" "));
       }
-
-      if (this.options.showDate) {
-        this.datepicker = $('<input type="text" value="' + this.options.datepicker.value + '" />');
-
-        this.datepicker.css("margin-right", "10px");
-
-        this.datepicker.insertAfter(this.element);
-
-        this.datepicker.bind("change", function() { widget._onChange(); });
-
-        this.datepicker.datepicker(this.options.datepicker);
-      }
-    },
-
-    _onChange: function() {
-      var value = [];
-
-      if (this.options.showDate) {
-        value.push(this.datepicker.val());
-      }
-
-      if (this.options.showTime) {
-        value.push(this.timepicker.val());
-      }
-
-      this.element.val(value.join(" "));
-    }
-  });
+   });
 })(jQuery);

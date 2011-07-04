@@ -83,7 +83,7 @@ form label.inline {
 }
 
 .field .time, .field .timestamp, .field .hasTimepicker {
-  background: url("../../images/rails_admin/clock.png") no-repeat right;
+  background: url("../images/clock.png") no-repeat right;
 }
 
 .field .integer {
