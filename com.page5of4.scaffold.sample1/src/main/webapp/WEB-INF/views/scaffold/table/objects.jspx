@@ -27,7 +27,7 @@
 							<c:when test="${property.visible}">
 								<td class="${property.cssClassName}">
 									<spring:bind path="resources[${rowStatus.index}].${property.name}">
-										<scaffold:display-for object="${row.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
+										<scaffold:display-table-column-for object="${row.targetObject}" propertyName="${property.name}" classMetadata="${meta.classMetadata}" templatePrefix="${scaffold.templatePrefix}" />
 									</spring:bind>
 								</td>
 							</c:when>

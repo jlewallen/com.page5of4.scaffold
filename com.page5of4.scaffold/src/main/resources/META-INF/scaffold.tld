@@ -88,6 +88,36 @@
 	</tag>
 
 	<tag>
+		<name>display-table-column-for</name>
+		<tag-class>com.page5of4.scaffold.jsp.DisplayTableColumnForTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description></description>
+			<name>object</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>propertyName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>classMetadata</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description></description>
+			<name>templatePrefix</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>editor-for</name>
 		<tag-class>com.page5of4.scaffold.jsp.EditorForTag</tag-class>
 		<body-content>JSP</body-content>

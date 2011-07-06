@@ -4,7 +4,15 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:scaffold="http://www.page5of4.com/tags/scaffold" version="2.0">
+	xmlns:scaffold="http://www.page5of4.com/tags/scaffold"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
 
-	${status.displayValue}
+	<c:choose>
+		<c:when test="${fn:length(status.displayValue) > 40}">
+			${fn:substring(status.displayValue, 0, 40)}...
+		</c:when>
+		<c:otherwise>
+			${status.displayValue}
+		</c:otherwise>
+	</c:choose>
 </jsp:root>
