@@ -63,11 +63,13 @@ public class TilesScaffoldProvider {
          convertedNames.add(StringUtils.lowercaseSeparated(name, "-"));
       }
       List<String> definitionNames = new ArrayList<String>();
-      for(String path : getSearchPaths(model.getMode(), model.getTemplatePrefix())) {
-         for(String name : convertedNames) {
-            String url = path + name;
-            if(!definitionNames.contains(url)) {
-               definitionNames.add(url);
+      for(String mode : model.getModes()) {
+         for(String path : getSearchPaths(new String[] { mode }, model.getTemplatePrefix())) {
+            for(String name : convertedNames) {
+               String url = path + name;
+               if(!definitionNames.contains(url)) {
+                  definitionNames.add(url);
+               }
             }
          }
       }
@@ -76,7 +78,7 @@ public class TilesScaffoldProvider {
       renderDefinition(definitionNames, model, templateMetadata, writer, servletRequest, servletContext, requestItems);
    }
 
-   private String[] getSearchPaths(String mode, String prefix) {
+   private String[] getSearchPaths(String[] modes, String prefix) {
       List<String> paths = new ArrayList<String>();
       if(prefix != null) {
          if(!prefix.isEmpty() && !prefix.endsWith("/")) {
@@ -84,8 +86,12 @@ public class TilesScaffoldProvider {
          }
          paths.add(prefix);
       }
-      paths.add(APPLICATION_VIEW_PREFIX + mode + "/");
-      paths.add(INTERNAL_VIEW_PREFIX + mode + "/");
+      for(String mode : modes) {
+         paths.add(APPLICATION_VIEW_PREFIX + mode + "/");
+      }
+      for(String mode : modes) {
+         paths.add(INTERNAL_VIEW_PREFIX + mode + "/");
+      }
       return paths.toArray(new String[0]);
    }
 

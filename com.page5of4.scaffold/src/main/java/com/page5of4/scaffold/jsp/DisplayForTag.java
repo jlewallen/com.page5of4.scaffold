@@ -5,8 +5,8 @@ public class DisplayForTag extends ScaffoldForTag {
    private static final long serialVersionUID = 1L;
 
    @Override
-   public String getMode() {
-      return "display";
+   public String[] getModes() {
+      return new String[] { "display", "scaffold" };
    }
 
 }

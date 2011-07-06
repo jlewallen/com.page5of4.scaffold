@@ -74,8 +74,8 @@ public class TableForTag extends RequestContextAwareTag {
       return objectClass;
    }
 
-   public String getMode() {
-      return "table";
+   public String[] getModes() {
+      return new String[] { "table" };
    }
 
    public ScaffoldViewModel getScaffoldViewModel() {
@@ -93,7 +93,7 @@ public class TableForTag extends RequestContextAwareTag {
       ServletRequest servletRequest = getPageContext().getRequest();
       ServletContext servletContext = getPageContext().getServletContext();
       Object[] requestItems = new Object[] { getPageContext() };
-      ScaffoldTagModel model = new ScaffoldTagModel(getMode(), templatePrefix, null, objectClass, targetCollection, null, classMetadata, scaffoldViewModel);
+      ScaffoldTagModel model = new ScaffoldTagModel(getModes(), templatePrefix, null, objectClass, targetCollection, null, classMetadata, scaffoldViewModel);
       getProvider().render(model, new JspPrintWriterAdapter(pageContext.getOut()), servletRequest, servletContext, requestItems);
       return EVAL_BODY_INCLUDE;
    }

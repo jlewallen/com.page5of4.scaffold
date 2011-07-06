@@ -5,8 +5,8 @@ public class DisplayTableColumnForTag extends ScaffoldForTag {
    private static final long serialVersionUID = 1L;
 
    @Override
-   public String getMode() {
-      return "table";
+   public String[] getModes() {
+      return new String[] { "table", "display", "scaffold" };
    }
 
 }

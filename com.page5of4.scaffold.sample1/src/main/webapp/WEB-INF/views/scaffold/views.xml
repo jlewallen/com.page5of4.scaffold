@@ -21,14 +21,7 @@
     <definition name="scaffold/editor/collection" template="/WEB-INF/views/scaffold/editor/spring/collection.jspx" />
 
     <definition name="scaffold/table/objects" template="/WEB-INF/views/scaffold/table/objects.jspx" />
-    <definition name="scaffold/table/object" template="/WEB-INF/views/scaffold/table/object.jspx" />
-    <definition name="scaffold/table/string" template="/WEB-INF/views/scaffold/table/string.jspx" />
     <definition name="scaffold/table/text-area" template="/WEB-INF/views/scaffold/table/text-area.jspx" />
-    <definition name="scaffold/table/date" template="/WEB-INF/views/scaffold/table/date.jspx" />
-    <definition name="scaffold/table/boolean" template="/WEB-INF/views/scaffold/table/boolean.jspx" />
-    <definition name="scaffold/table/enum" template="/WEB-INF/views/scaffold/table/enum.jspx" />
-    <definition name="scaffold/table/hidden" template="/WEB-INF/views/scaffold/table/hidden.jspx" />
-    <definition name="scaffold/table/collection" template="/WEB-INF/views/scaffold/table/collection.jspx" />
 
 	<definition extends="default" name="*/index">
 		<put-attribute name="body" value="/WEB-INF/views/scaffold/index.jspx" />

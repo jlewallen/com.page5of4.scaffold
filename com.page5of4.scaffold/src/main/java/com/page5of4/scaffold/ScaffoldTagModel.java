@@ -8,7 +8,7 @@ import com.page5of4.scaffold.web.ScaffoldViewModel;
 public class ScaffoldTagModel {
 
    private final String formPrefix;
-   private final String mode;
+   private final String[] modes;
    private final String templatePrefix;
    private final ScaffoldViewModel scaffoldViewModel;
    private ClassMetadata classMetadata;
@@ -17,10 +17,10 @@ public class ScaffoldTagModel {
    private List<?> targetCollection;
    private Object targetObject;
 
-   public ScaffoldTagModel(String mode, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata,
+   public ScaffoldTagModel(String[] modes, String templatePrefix, String formPrefix, Class<?> objectClass, List<?> targetCollection, String propertyName, ClassMetadata classMetadata,
          ScaffoldViewModel scaffoldViewModel) {
       super();
-      this.mode = mode;
+      this.modes = modes;
       this.templatePrefix = templatePrefix;
       this.formPrefix = formPrefix;
       this.objectClass = objectClass;
@@ -30,9 +30,9 @@ public class ScaffoldTagModel {
       this.scaffoldViewModel = scaffoldViewModel;
    }
 
-   public ScaffoldTagModel(String mode, String templatePrefix, String formPrefix, Object targetObject, String propertyName, ClassMetadata classMetadata, ScaffoldViewModel scaffoldViewModel) {
+   public ScaffoldTagModel(String[] modes, String templatePrefix, String formPrefix, Object targetObject, String propertyName, ClassMetadata classMetadata, ScaffoldViewModel scaffoldViewModel) {
       super();
-      this.mode = mode;
+      this.modes = modes;
       this.templatePrefix = templatePrefix;
       this.formPrefix = formPrefix;
       this.targetObject = targetObject;
@@ -49,8 +49,8 @@ public class ScaffoldTagModel {
       return formPrefix;
    }
 
-   public String getMode() {
-      return mode;
+   public String[] getModes() {
+      return modes;
    }
 
    public Class<?> getObjectClass() {
