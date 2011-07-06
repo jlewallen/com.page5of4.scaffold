@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,6 +36,7 @@ public class Project {
 
    @NotEmpty
    @ScaffoldTextArea
+   @Column(length = 2048)
    private String description;
 
    @DateTimeFormat(pattern = "MM/dd/yyyy")

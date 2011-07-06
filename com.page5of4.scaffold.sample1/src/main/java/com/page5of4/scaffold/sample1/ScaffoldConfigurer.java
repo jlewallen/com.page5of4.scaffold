@@ -1,4 +1,4 @@
-package com.page5of4.scaffold.sample1.web;
+package com.page5of4.scaffold.sample1;
 
 import org.springframework.stereotype.Service;
 
