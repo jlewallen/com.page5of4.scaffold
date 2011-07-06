@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldController;
 
@@ -18,8 +19,8 @@ import com.page5of4.scaffold.web.ScaffoldController;
 public class ProjectController extends ScaffoldController<String, Project> {
 
    @Autowired
-   public ProjectController(TemplateMetadataFactory templateMetadataFactory, Repository repository) {
-      super(templateMetadataFactory, repository);
+   public ProjectController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository) {
+      super(templateMetadataFactory, viewModelFactory, repository);
    }
 
    @InitBinder

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 
 @SuppressWarnings("unchecked")
@@ -30,6 +31,7 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    private final ScaffoldViewModel scaffoldViewModel;
    private final TemplateMetadataFactory templateMetadataFactory;
    private final Repository repository;
+   private final ScaffoldViewModelFactory viewModelFactory;
 
    public Class<I> getPrimaryKeyClass() {
       return primaryKeyClass;
@@ -47,17 +49,20 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       return repository;
    }
 
-   public ScaffoldController(TemplateMetadataFactory templateMetadataFactory, Repository repository) {
+   public ScaffoldController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository) {
       this.templateMetadataFactory = templateMetadataFactory;
+      this.viewModelFactory = viewModelFactory;
       this.repository = repository;
       ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
       this.resourceClass = (Class<T>)((ParameterizedType)superclass).getActualTypeArguments()[1];
       this.primaryKeyClass = (Class<I>)Object.class; // HACK
-      this.scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(getResourceClass());
+      this.scaffoldViewModel = viewModelFactory.createScaffoldViewModel(getResourceClass());
    }
 
-   public ScaffoldController(TemplateMetadataFactory templateMetadataFactory, Repository repository, Class<I> primaryKeyClass, Class<T> resourceClass, ScaffoldViewModel scaffoldViewModel) {
+   public ScaffoldController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository, Class<I> primaryKeyClass, Class<T> resourceClass,
+         ScaffoldViewModel scaffoldViewModel) {
       this.templateMetadataFactory = templateMetadataFactory;
+      this.viewModelFactory = viewModelFactory;
       this.repository = repository;
       this.primaryKeyClass = primaryKeyClass;
       this.resourceClass = resourceClass;

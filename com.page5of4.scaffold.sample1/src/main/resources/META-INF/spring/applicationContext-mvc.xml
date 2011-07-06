@@ -17,6 +17,11 @@
 	-->
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0" />
+		<property name="interceptors">
+			<list>
+				<bean class="com.page5of4.scaffold.admin.web.AdministrationSiteModelInterceptor" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />

@@ -1,5 +1,8 @@
 package com.page5of4.scaffold.configuration;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +29,17 @@ public class JpaConfigurer implements Configurer {
       for(ManagedType<?> managedType : managedTypes) {
          logger.info("Type: {}", managedType.getJavaType());
       }
+   }
+
+   @Override
+   public Collection<Class<?>> findAllScaffoldClasses() {
+      List<Class<?>> classes = new ArrayList<Class<?>>();
+      Metamodel metaModel = entityManagerFactory.getMetamodel();
+      Set<ManagedType<?>> managedTypes = metaModel.getManagedTypes();
+      for(ManagedType<?> managedType : managedTypes) {
+         classes.add(managedType.getJavaType());
+      }
+      return classes;
    }
 
 }

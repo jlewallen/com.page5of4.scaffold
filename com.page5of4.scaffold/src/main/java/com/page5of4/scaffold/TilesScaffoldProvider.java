@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadata;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
@@ -37,12 +38,14 @@ public class TilesScaffoldProvider {
    private static final String APPLICATION_VIEW_PREFIX = "application/";
    private final TilesRequestContextFactory tilesRequestContextFactory;
    private final TemplateMetadataFactory templateMetadataFactory;
+   private final ScaffoldViewModelFactory scaffoldViewModelFactory;
 
    @Autowired
    @SuppressWarnings("deprecation")
-   public TilesScaffoldProvider(ConversionService conversionService, TemplateMetadataFactory templateMetadataFactory) {
+   public TilesScaffoldProvider(ConversionService conversionService, TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory scaffoldViewModelFactory) {
       super();
       this.templateMetadataFactory = templateMetadataFactory;
+      this.scaffoldViewModelFactory = scaffoldViewModelFactory;
       this.tilesRequestContextFactory = new ChainedTilesRequestContextFactory();
       this.tilesRequestContextFactory.init(new HashMap<String, String>());
    }
@@ -50,7 +53,7 @@ public class TilesScaffoldProvider {
    public void render(ScaffoldTagModel model, PrintWriter writer, ServletRequest servletRequest, ServletContext servletContext, Object[] requestItems) throws IntrospectionException, ServletException {
       ScaffoldViewModel scaffoldViewModel = model.getScaffoldViewModel();
       if(scaffoldViewModel == null) {
-         scaffoldViewModel = templateMetadataFactory.createScaffoldViewModel(model.determineObjectClass());
+         scaffoldViewModel = scaffoldViewModelFactory.createScaffoldViewModel(model.determineObjectClass());
       }
       TemplateMetadata templateMetadata =
             templateMetadataFactory.createTemplateMetadata(model.getTargetObject(), model.getObjectClass(), model.getTargetCollection(), model.getPropertyName(), scaffoldViewModel);

@@ -11,4 +11,8 @@ public class NavigationViewModel {
       return items;
    }
 
+   public void addItem(NavigationItem item) {
+      items.add(item);
+   }
+
 }

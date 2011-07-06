@@ -1,7 +1,5 @@
 package com.page5of4.scaffold.metadata;
 
-import static org.jvnet.inflector.Noun.pluralOf;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
@@ -12,13 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import com.page5of4.scaffold.ReflectionUtils;
 import com.page5of4.scaffold.ScaffoldCollection;
-import com.page5of4.scaffold.StringUtils;
-import com.page5of4.scaffold.UrlsViewModel;
 import com.page5of4.scaffold.domain.Repository;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
@@ -27,14 +22,14 @@ public class TemplateMetadataFactory {
 
    private final MetadataResolver metadataResolver;
    private final Repository repository;
-   private final ConversionService conversionService;
+   private final ScaffoldViewModelFactory viewModelFactory;
 
    @Autowired
-   public TemplateMetadataFactory(MetadataResolver metadataResolver, Repository repository, ConversionService conversionService) {
+   public TemplateMetadataFactory(MetadataResolver metadataResolver, Repository repository, ScaffoldViewModelFactory viewModelFactory) {
       super();
       this.metadataResolver = metadataResolver;
       this.repository = repository;
-      this.conversionService = conversionService;
+      this.viewModelFactory = viewModelFactory;
    }
 
    public TemplateMetadata createTemplateMetadata(Object targetObject, Class<?> objectClass, List<?> targetCollection, String propertyName, ScaffoldViewModel scaffoldViewModel) {
@@ -50,7 +45,7 @@ public class TemplateMetadataFactory {
    public TemplateMetadata createTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
-         return new InstanceMetadata(classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+         return new InstanceMetadata(classMetadata, targetObject, scaffoldViewModel, viewModelFactory.createUrlsViewModel(scaffoldViewModel, targetObject));
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -60,7 +55,7 @@ public class TemplateMetadataFactory {
    public TemplateMetadata createInstanceTemplateMetadata(Object targetObject, ScaffoldViewModel scaffoldViewModel) {
       try {
          ClassMetadata classMetadata = metadataResolver.resolve(targetObject.getClass());
-         return new InstanceMetadata(classMetadata, targetObject, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject));
+         return new InstanceMetadata(classMetadata, targetObject, scaffoldViewModel, viewModelFactory.createUrlsViewModel(scaffoldViewModel, targetObject));
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -73,7 +68,7 @@ public class TemplateMetadataFactory {
          PropertyMetadata property = classMetadata.findProperty(propertyName);
          OneToManyPropertyMetadata oneToMany = createOneToMany(classMetadata.getObjectClass(), property);
          ManyToOnePropertyMetadata manyToOne = createManyToOne(classMetadata.getObjectClass(), property);
-         return new InstancePropertyMetadata(classMetadata, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, targetObject), targetObject, property, oneToMany, manyToOne);
+         return new InstancePropertyMetadata(classMetadata, scaffoldViewModel, viewModelFactory.createUrlsViewModel(scaffoldViewModel, targetObject), targetObject, property, oneToMany, manyToOne);
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
@@ -87,45 +82,11 @@ public class TemplateMetadataFactory {
          for(Object item : targetCollection) {
             targetCollectionMetas.add(createTemplateMetadata(item, scaffoldViewModel));
          }
-         return new CollectionMetadata(classMetadata, targetCollection, targetCollectionMetas, scaffoldViewModel, createUrlsViewModel(scaffoldViewModel, objectClass));
+         return new CollectionMetadata(classMetadata, targetCollection, targetCollectionMetas, scaffoldViewModel, viewModelFactory.createUrlsViewModel(scaffoldViewModel, objectClass));
       }
       catch(IntrospectionException e) {
          throw new RuntimeException("Error creating template metadata", e);
       }
-   }
-
-   public ScaffoldViewModel createScaffoldViewModel(Class<?> objectClass) {
-      String resourceName = StringUtils.capitaliseFirstLetter(objectClass.getSimpleName());
-      String collectionName = pluralOf(resourceName);
-      return new ScaffoldViewModel(resourceName, collectionName);
-   }
-
-   private UrlsViewModel createUrlsViewModel(ScaffoldViewModel scaffoldViewModel, Class<?> objectClass) {
-      String collectionName = scaffoldViewModel.getCollectionName().toLowerCase();
-      String indexUrl = String.format("/%s", collectionName);
-      String createUrl = String.format("/%s", collectionName);
-      String createFormUrl = String.format("/%s/form", collectionName);
-      return new UrlsViewModel(indexUrl, createUrl, createFormUrl);
-   }
-
-   private UrlsViewModel createUrlsViewModel(ScaffoldViewModel scaffoldViewModel, Object targetObject) {
-      Object id = getId(targetObject);
-      if(id == null) {
-         return createUrlsViewModel(scaffoldViewModel, targetObject.getClass());
-      }
-      String collectionName = scaffoldViewModel.getCollectionName().toLowerCase();
-      String indexUrl = String.format("/%s", collectionName);
-      String createUrl = String.format("/%s", collectionName);
-      String createFormUrl = String.format("/%s/form", collectionName);
-      String showUrl = String.format("/%s/%s", collectionName, id);
-      String updateUrl = String.format("/%s/%s", collectionName, id);
-      String updateFormUrl = String.format("/%s/%s/form", collectionName, id);
-      String deleteUrl = String.format("/%s/%s", collectionName, id);
-      return new UrlsViewModel(indexUrl, createUrl, createFormUrl, showUrl, updateUrl, updateFormUrl, deleteUrl);
-   }
-
-   private Object getId(Object object) {
-      return repository.getIdOf(object);
    }
 
    public ManyToOnePropertyMetadata createManyToOne(Class<?> objectClass, PropertyMetadata property) {

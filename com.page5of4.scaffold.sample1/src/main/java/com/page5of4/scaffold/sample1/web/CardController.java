@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.page5of4.scaffold.RepositoryAwarePropertyEditor;
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldController;
 
@@ -16,8 +17,8 @@ import com.page5of4.scaffold.web.ScaffoldController;
 public class CardController extends ScaffoldController<String, Card> {
 
    @Autowired
-   public CardController(TemplateMetadataFactory templateMetadataFactory, Repository repository) {
-      super(templateMetadataFactory, repository);
+   public CardController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository) {
+      super(templateMetadataFactory, viewModelFactory, repository);
    }
 
    @InitBinder

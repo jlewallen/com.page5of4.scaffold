@@ -57,17 +57,6 @@
        
        		<div id="wrapper" class="wat-cf">
        			<div id="main">
-					<!--
-					<div class='block' id='block-tables'> 
-						<div class="secondary-navigation"><ul class="wat-cf"><li class="first active"><a href="/admin">Dashboard</a></li></ul></div>
-						<div class='content'> 
-							<h2 class='title'>Site administration</h2> 
-							<div class='inner'> 
-							Hello, world!
-							</div>
-						</div>
-					</div>
-					-->
 
 					<tiles:insertAttribute name="body" />   
 
@@ -80,15 +69,13 @@
 			        <div class='block'> 
 						<h3>Navigation</h3> 
 						<spring:url value="/" var="dashboardUrl" />
-						<spring:url value="/projects" var="projectsUrl" />
-						<spring:url value="/cards" var="cardsUrl" />
-						<spring:url value="/releases" var="releasesUrl" />
 
 						<ul class='navigation' id='nav'> 
 							<li class='active'><a href="${dashboardUrl}">Dashboard</a></li> 
-							<li class=' more'><a href="${projectsUrl}">Projects</a></li>
-							<li class=' more'><a href="${cardsUrl}">Cards</a></li>
-							<li class=' more'><a href="${releasesUrl}">Releases</a></li>
+							<c:forEach items="${navigationViewModel.items}" var="item">
+								<spring:url value="${item.urls.indexUrl}" var="itemUrl" />
+								<li class='more'><a href="${itemUrl}">${item.title}</a></li>
+							</c:forEach>
 						</ul> 
 					</div> 
 					<div class='block notice'> 
