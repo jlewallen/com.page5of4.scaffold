@@ -19,6 +19,26 @@
 				<spring:nestedPath path="model">
 					<scaffold:table-for objectClass="${model.resourceClass}" objects="${model.resources}" scaffoldViewModel="${meta.viewModel}" classMetadata="${meta.classMetadata}" />
 				</spring:nestedPath>			
+	
+				<div class="pagination">
+					<c:set var="previousPage" value="${model.previousPage}" />
+					<c:set var="nextPage" value="${model.nextPage}" />
+					<c:choose>
+						<c:when test="${previousPage == null}"><span rel="previous" class="prev_page">« Previous</span></c:when>
+						<c:otherwise><a rel="previous" class="prev_page" href="${previousPage.url}">« Previous</a></c:otherwise>
+					</c:choose>
+					<c:forEach items="${model.pages}" var="page">
+						<c:choose>
+							<c:when test="${page.selected}"><span class="current">${page.number + 1}</span></c:when>
+							<c:otherwise><a href="${page.url}">${page.number + 1}</a></c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${nextPage == null}"><span rel="next" class="next_page">Next »</span></c:when>
+						<c:otherwise><a rel="next" class="next_page" href="${nextPage.url}">Next »</a></c:otherwise>
+					</c:choose>
+				</div>
+				<div class="wat-cf"><!-- empty --></div>
 			</div>
 		
 		</div>

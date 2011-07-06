@@ -42,6 +42,5 @@
 				</tr>
 			</c:forEach>
 	</table>
-
 </jsp:root>
 
