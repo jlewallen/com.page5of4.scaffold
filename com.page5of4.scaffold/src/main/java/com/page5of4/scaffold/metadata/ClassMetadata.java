@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.ClassUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,7 @@ public class ClassMetadata extends AbstractMetadata {
       return ClassUtils.getShortClassName(objectClass);
    }
 
+   @JsonIgnore
    public String getCssClassName() {
       return StringUtils.lowercaseFirstLetter(ClassUtils.getShortClassName(objectClass));
    }

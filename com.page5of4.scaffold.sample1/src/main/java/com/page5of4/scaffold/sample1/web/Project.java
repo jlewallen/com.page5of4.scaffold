@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTextArea;
@@ -39,10 +38,8 @@ public class Project {
    @Column(length = 2048)
    private String description;
 
-   @DateTimeFormat(pattern = "MM/dd/yyyy")
    private Date startingAt;
 
-   @DateTimeFormat(pattern = "MM/dd/yyyy")
    private Date endingAt;
 
    private boolean started;

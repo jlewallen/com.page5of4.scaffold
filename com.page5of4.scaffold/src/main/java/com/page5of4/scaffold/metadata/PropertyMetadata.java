@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang.ClassUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.core.convert.ConversionService;
@@ -30,6 +31,7 @@ public class PropertyMetadata extends AbstractMetadata {
    private final ConversionService conversionService;
    private final Class<?> targetClass;
 
+   @JsonIgnore
    public PropertyDescriptor getPropertyDescriptor() {
       return descriptor;
    }
@@ -67,6 +69,7 @@ public class PropertyMetadata extends AbstractMetadata {
       return StringUtils.join(names, " ");
    }
 
+   @JsonIgnore
    public Class<? extends Object> getPropertyType() {
       return descriptor.getPropertyType();
    }
@@ -75,11 +78,11 @@ public class PropertyMetadata extends AbstractMetadata {
       return StringUtils.humanize(descriptor.getDisplayName());
    }
 
-   public String getPropertyNameTemplateName() {
+   private String getPropertyNameTemplateName() {
       return StringUtils.capitaliseFirstLetter(getName());
    }
 
-   public String getPropertyTypeTemplateName() {
+   private String getPropertyTypeTemplateName() {
       return ClassUtils.getShortClassName(getPropertyType());
    }
 

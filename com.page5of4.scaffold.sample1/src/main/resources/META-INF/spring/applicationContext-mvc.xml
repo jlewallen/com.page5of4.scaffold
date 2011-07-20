@@ -88,7 +88,13 @@
 		</property>
 		<property name="defaultViews">
 			<list>
-				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+					<property name="renderedAttributes">
+						<list>
+							<value>model</value>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 		<property name="ignoreAcceptHeader" value="true" />

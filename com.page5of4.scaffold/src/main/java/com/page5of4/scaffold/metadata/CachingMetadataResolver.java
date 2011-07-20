@@ -32,14 +32,19 @@ public class CachingMetadataResolver implements MetadataResolver {
       this.conversionService = conversionService;
    }
 
-   public ClassMetadata resolve(Class<?> objectClass) throws IntrospectionException {
+   public ClassMetadata resolve(Class<?> objectClass) {
       if(objectClass == null) throw new IllegalArgumentException("Cannot resolve NULL object class.");
       ClassMetadata metadata = cache.get(objectClass);
       if(metadata == null) {
-         logger.debug("Resolving {}", objectClass);
-         metadata = create(objectClass);
-         logger.debug("Done resolving {}", objectClass);
-         cache.put(objectClass, metadata);
+         try {
+            logger.debug("Resolving {}", objectClass);
+            metadata = create(objectClass);
+            logger.debug("Done resolving {}", objectClass);
+            cache.put(objectClass, metadata);
+         }
+         catch(IntrospectionException error) {
+            throw new RuntimeException(error);
+         }
       }
       return metadata;
    }

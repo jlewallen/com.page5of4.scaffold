@@ -30,8 +30,8 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
    private final Class<T> resourceClass;
    private final ScaffoldViewModel scaffoldViewModel;
    private final TemplateMetadataFactory templateMetadataFactory;
-   private final Repository repository;
    private final ScaffoldViewModelFactory viewModelFactory;
+   private final Repository repository;
 
    public Class<I> getPrimaryKeyClass() {
       return primaryKeyClass;
@@ -115,8 +115,13 @@ public abstract class ScaffoldController<I extends Object, T extends Object> {
       return delete(id, findResource(id));
    }
 
+   @RequestMapping(value = "/meta", method = RequestMethod.GET)
+   public ModelAndView meta() {
+      return new ModelAndView("", "model", templateMetadataFactory.createVisibleMetadata(getResourceClass()));
+   }
+
    public int getPageSize() {
-      return 25;
+      return 20;
    }
 
    public Resources<T> findResources(int page) {
