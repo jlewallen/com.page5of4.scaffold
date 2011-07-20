@@ -21,4 +21,10 @@ public class RepositoryAwarePropertyEditor extends PropertyEditorSupport {
    public void setAsText(String text) throws IllegalArgumentException {
       setValue(repository.findById(targetClass, text));
    }
+
+   @Override
+   public String getAsText() {
+      // Allow conversion service to perform this conversion. We'll always just do toString otherwise.
+      return null;
+   }
 }
