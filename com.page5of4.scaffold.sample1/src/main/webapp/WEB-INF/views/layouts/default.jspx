@@ -25,6 +25,13 @@
 		<link rel="stylesheet" href="${resources}/css/display.css" type="text/css" media="all" /> 	
 		<link rel="stylesheet" href="${resources}/scaffold/css/scaffold.css" type="text/css" media="all" /> 	
 
+		<spring:url var="base_url" value="/" />
+		<script type="text/javascript"><![CDATA[
+		(function() {
+			window.BASE_URL = '${base_url}';	
+		})();
+		]]></script>
+    
     	<script type="text/javascript" src="${resources}/jquery/js/jquery-1.5.1.min.js"><!-- empty --></script>
     	<script type="text/javascript" src="${resources}/jquery/js/jquery-ui-1.8.12.custom.min.js"><!-- empty --></script>
     	<script type="text/javascript" src="${resources}/js/jquery.ui.timepicker.js"><!-- empty --></script>

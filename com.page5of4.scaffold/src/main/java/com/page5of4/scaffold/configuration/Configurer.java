@@ -4,8 +4,8 @@ import java.util.Collection;
 
 public interface Configurer {
 
-   void configure();
-
    Collection<Class<?>> findAllScaffoldClasses();
+
+   String getUrlPrefix();
 
 }

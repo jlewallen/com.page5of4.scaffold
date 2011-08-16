@@ -1,3 +1,27 @@
+(function() {
+   window.encodeURL = function() {
+      var joined = "";
+      for ( var i = 0; i < arguments.length; i++) {
+         if (arguments[i][0] == '/') {
+            joined += arguments[i].substring(1);
+         }
+         else {
+            joined += arguments[i];
+         }
+      }
+      var url = window.BASE_URL;
+      var suffix = url.indexOf(';');
+      if (suffix >= 0) { return url.substring(0, suffix) + joined + url.substring(suffix); }
+      return url + joined;
+   }
+
+   window.changeURLExtension = function(url, extension) {
+      var suffix = url.indexOf(';');
+      if (suffix < 0) { return url + "." + extension; }
+      return url.substring(0, suffix) + "." + extension + url.substring(suffix);
+   }
+})();
+
 (function($) {
    $(function() {
       // jQuery uniform controls (http://pixelmatrixdesign.com/uniform)
@@ -34,19 +58,19 @@
 
       // Icons, this is kind of ugly.
       $('.icon-show img').hover(function() {
-         this.src = 'resources/images/icons/24/show-hover.png';
+         this.src = encodeURL('/resources/images/icons/24/show-hover.png');
       }, function() {
-         this.src = 'resources/images/icons/24/show.png';
+         this.src = encodeURL('/resources/images/icons/24/show.png');
       });
       $('.icon-edit img').hover(function() {
-         this.src = 'resources/images/icons/24/edit-hover.png';
+         this.src = encodeURL('/resources/images/icons/24/edit-hover.png');
       }, function() {
-         this.src = 'resources/images/icons/24/edit.png';
+         this.src = encodeURL('/resources/images/icons/24/edit.png');
       });
       $('.icon-delete img').hover(function() {
-         this.src = 'resources/images/icons/24/slash-hover.png';
+         this.src = encodeURL('/resources/images/icons/24/slash-hover.png');
       }, function() {
-         this.src = 'resources/images/icons/24/slash.png';
+         this.src = encodeURL('/resources/images/icons/24/slash.png');
       });
    });
 })(jQuery)

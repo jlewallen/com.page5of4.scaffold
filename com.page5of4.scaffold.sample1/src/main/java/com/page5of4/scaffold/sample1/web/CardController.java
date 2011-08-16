@@ -13,7 +13,7 @@ import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldController;
 
 @Controller
-@RequestMapping(value = "/cards")
+@RequestMapping(value = "/admin/cards")
 public class CardController extends ScaffoldController<String, Card> {
 
    @Autowired

@@ -21,7 +21,6 @@ public class JpaConfigurer implements Configurer {
    @PersistenceUnit
    private EntityManagerFactory entityManagerFactory;
 
-   @Override
    @PostConstruct
    public void configure() {
       Metamodel metaModel = entityManagerFactory.getMetamodel();
@@ -40,6 +39,11 @@ public class JpaConfigurer implements Configurer {
          classes.add(managedType.getJavaType());
       }
       return classes;
+   }
+
+   @Override
+   public String getUrlPrefix() {
+      return "/admin";
    }
 
 }

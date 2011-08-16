@@ -15,7 +15,7 @@ import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.ScaffoldController;
 
 @Controller
-@RequestMapping(value = "/projects")
+@RequestMapping(value = "/admin/projects")
 public class ProjectController extends ScaffoldController<String, Project> {
 
    @Autowired
