@@ -1,0 +1,4 @@
+# Tooling related information for the scaffold namespace
+http\://www.page5of4.com/schema/scaffold@name=scaffold Namespace
+http\://www.page5of4.com/schema/scaffold@prefix=scaffold
+http\://www.page5of4.com/schema/scaffold@icon=org/springframework/transaction/config/spring-tx.gif

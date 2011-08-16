@@ -10,58 +10,9 @@
 		</layout>
 	</appender>
 
-	<appender name="CoalescingStatistics" class="org.perf4j.log4j.AsyncCoalescingStatisticsAppender">
-		<param name="TimeSlice" value="10000" />
-		<appender-ref ref="fileAppender" />
-		<appender-ref ref="graphExecutionTimes" />
-		<appender-ref ref="graphExecutionTPS" />
-		<appender-ref ref="graphExecutionCounts" />
-	</appender>
-
-	<appender name="fileAppender" class="org.apache.log4j.FileAppender">
-		<param name="File" value="perfStats.log" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%m%n" />
-		</layout>
-	</appender>
-
-	<logger name="org.perf4j.TimingLogger" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="CoalescingStatistics" />
-	</logger>
-
-	<!-- This first GraphingStatisticsAppender graphs Mean execution times for 
-		the firstBlock and secondBlock tags -->
-	<appender name="graphExecutionTimes" class="org.perf4j.log4j.GraphingStatisticsAppender">
-		<!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
-		<param name="GraphType" value="Mean" />
-		<param name="TagNamesToGraph" value="firstBlock,secondBlock" />
-		<appender-ref ref="graphsFileAppender" />
-	</appender>
-
-	<appender name="graphExecutionCounts" class="org.perf4j.log4j.GraphingStatisticsAppender">
-		<!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
-		<param name="GraphType" value="Count" />
-		<param name="TagNamesToGraph" value="firstBlock,secondBlock" />
-		<appender-ref ref="graphsFileAppender" />
-	</appender>
-
-	<appender name="graphExecutionTPS" class="org.perf4j.log4j.GraphingStatisticsAppender">
-		<param name="GraphType" value="TPS" />
-		<param name="TagNamesToGraph" value="firstBlock,secondBlock" />
-		<appender-ref ref="graphsFileAppender" />
-	</appender>
-
-	<appender name="graphsFileAppender" class="org.apache.log4j.FileAppender">
-		<param name="File" value="perfGraphs.log" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%m%n" />
-		</layout>
-	</appender>
-
 	<!-- Application Loggers -->
 	<logger name="com.page5of4.scaffold">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->
@@ -82,16 +33,16 @@
 	</logger>
 
 	<logger name="org.hibernate.engine.jdbc.spi.SqlStatementLogger">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<logger name="org.springframework.test.context.transaction.TransactionalTestExecutionListener">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 
