@@ -81,7 +81,9 @@
 							<li class='active'><a href="${dashboardUrl}">Dashboard</a></li> 
 							<c:forEach items="${navigationViewModel.items}" var="item">
 								<spring:url value="${item.urls.indexUrl}" var="itemUrl" />
-								<li class='more'><a href="${itemUrl}">${item.title}</a></li>
+								<li class='more'>
+									<a href="${itemUrl}">${item.title}</a>
+								</li>
 							</c:forEach>
 						</ul> 
 					</div> 

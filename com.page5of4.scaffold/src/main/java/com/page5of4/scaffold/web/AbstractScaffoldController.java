@@ -115,6 +115,7 @@ public abstract class AbstractScaffoldController {
       return 20;
    }
 
+   @SuppressWarnings("unchecked")
    protected Resources<Object> findResources(int page) {
       int pageSize = getPageSize();
       Collection<Object> all = (Collection<Object>)repository.findAll(getResourceClass(), page * pageSize, pageSize);

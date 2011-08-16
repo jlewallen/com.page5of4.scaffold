@@ -35,7 +35,8 @@ public class ScaffoldViewModelFactory {
       String indexUrl = encodeURL("/%s", collectionName);
       String createUrl = encodeURL("/%s", collectionName);
       String createFormUrl = encodeURL("/%s/form", collectionName);
-      return new UrlsViewModel(indexUrl, createUrl, createFormUrl);
+      String metaUrl = encodeURL("/%s/meta.json", collectionName);
+      return new UrlsViewModel(indexUrl, createUrl, createFormUrl, metaUrl);
    }
 
    public UrlsViewModel createUrlsViewModel(ScaffoldViewModel scaffoldViewModel, Object targetObject) {
@@ -47,11 +48,12 @@ public class ScaffoldViewModelFactory {
       String indexUrl = encodeURL("/%s", collectionName);
       String createUrl = encodeURL("/%s", collectionName);
       String createFormUrl = encodeURL("/%s/form", collectionName);
+      String metaUrl = encodeURL("/%s/meta.json", collectionName);
       String showUrl = encodeURL("/%s/%s", collectionName, id);
       String updateUrl = encodeURL("/%s/%s", collectionName, id);
       String updateFormUrl = encodeURL("/%s/%s/form", collectionName, id);
       String deleteUrl = encodeURL("/%s/%s", collectionName, id);
-      return new UrlsViewModel(indexUrl, createUrl, createFormUrl, showUrl, updateUrl, updateFormUrl, deleteUrl);
+      return new UrlsViewModel(indexUrl, createUrl, createFormUrl, metaUrl, showUrl, updateUrl, updateFormUrl, deleteUrl);
    }
 
    private String encodeURL(String url, Object... parts) {
