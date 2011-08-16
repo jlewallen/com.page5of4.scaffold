@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Resources<T extends Object> {
    private final Collection<T> resources;
-   private final Class<T> resourceClass;
+   private final Class<?> resourceClass;
    private final int numberOfPages;
    private final int page;
 
-   public Class<T> getResourceClass() {
+   public Class<?> getResourceClass() {
       return resourceClass;
    }
 
@@ -44,7 +44,7 @@ public class Resources<T extends Object> {
       return new Page(page + 1, false);
    }
 
-   public Resources(Class<T> resourceClass, Collection<T> resources, int numberOfPages, int page) {
+   public Resources(Class<?> resourceClass, Collection<T> resources, int numberOfPages, int page) {
       super();
       this.resourceClass = resourceClass;
       this.resources = resources;
