@@ -4,6 +4,7 @@ import static org.jvnet.inflector.Noun.pluralOf;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +27,7 @@ import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 @RequestMapping(value = "/admin/{collectionName}")
 public class DefaultScaffoldController extends AbstractScaffoldController {
 
+   private final Map<String, Class<?>> map = new ConcurrentHashMap<String, Class<?>>();
    private final Configurer configurer;
 
    @Autowired
@@ -42,12 +44,16 @@ public class DefaultScaffoldController extends AbstractScaffoldController {
 
    @Override
    protected Class<?> getResourceClass() {
-      String collectionName = getPathParameters().get("collectionName");
-      for(Class<?> klass : configurer.findAllScaffoldClasses()) {
-         String resourceName = StringUtils.capitaliseFirstLetter(klass.getSimpleName());
-         if(pluralOf(resourceName).equalsIgnoreCase(collectionName)) {
-            return klass;
+      if(map.isEmpty()) {
+         for(Class<?> klass : configurer.findAllScaffoldClasses()) {
+            String resourceName = StringUtils.capitaliseFirstLetter(klass.getSimpleName());
+            String collectionName = pluralOf(resourceName).toLowerCase();
+            map.put(collectionName, klass);
          }
+      }
+      String collectionName = getPathParameters().get("collectionName");
+      if(map.containsKey(collectionName)) {
+         return map.get(collectionName);
       }
       throw new RuntimeException("Unable to locate ResourceClass for " + collectionName);
    }
