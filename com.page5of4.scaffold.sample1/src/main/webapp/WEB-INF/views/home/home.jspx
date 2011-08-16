@@ -18,6 +18,23 @@
 			<h2 class='title'>Home</h2> 
 			<div class='inner'> 
 				<!-- empty -->
+				<div class="flash">
+				<div class="message notice">
+					<p>Notice Message</p>
+				</div>
+				</div>
+
+				<div class="flash">
+				<div class="message error">
+					<p>Error Message</p>
+				</div>
+				</div>
+
+				<div class="flash">
+				<div class="message warning">
+					<p>Warning Message</p>
+				</div>
+				</div>
 			</div>
 		</div>
 	</div>
