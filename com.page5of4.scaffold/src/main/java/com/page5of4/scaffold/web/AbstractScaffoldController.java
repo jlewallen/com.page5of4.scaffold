@@ -86,6 +86,7 @@ public abstract class AbstractScaffoldController {
          return newModelAndView(getScaffoldViewModel().getFormView(), resource, errors);
       }
       repository.update(getResourceClass(), resource);
+      model.asMap().clear();
       return update(id, resource, errors);
    }
 
@@ -98,6 +99,7 @@ public abstract class AbstractScaffoldController {
          return newModelAndView(getScaffoldViewModel().getFormView(), resource, errors);
       }
       repository.add(getResourceClass(), resource);
+      model.asMap().clear();
       return create(resource, errors);
    }
 
