@@ -34,8 +34,17 @@
 					<scaffold:editor-for object="${model}" classMetadata="${meta.classMetadata}" />
 					<div class="group navform wat-cf">
 						<scaffold:button iconUrl="resources/images/icons/tick.png" alt="Save" text="Save" submit="true" />
-						<spring:url value="${meta.urls.showUrl}" var="showUrl" />
-						<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" href="${showUrl}" />
+						
+						<c:choose>
+							<c:when test="${not empty meta.urls.showUrl}">
+								<spring:url value="${meta.urls.showUrl}" var="showUrl" />
+								<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" href="${showUrl}" />
+							</c:when>
+							<c:otherwise>
+								<spring:url value="${meta.urls.indexUrl}" var="indexUrl" />
+								<scaffold:button iconUrl="resources/images/icons/cross.png" alt="Cancel" text="Cancel" href="${indexUrl}" />
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</scaffold:form>
 			</div>
