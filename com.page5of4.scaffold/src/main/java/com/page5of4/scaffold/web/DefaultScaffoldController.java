@@ -2,11 +2,8 @@ package com.page5of4.scaffold.web;
 
 import static org.jvnet.inflector.Noun.pluralOf;
 
-import java.beans.PropertyEditorSupport;
 import java.text.DateFormat;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -77,42 +74,5 @@ public class DefaultScaffoldController extends AbstractScaffoldController {
       binder.registerCustomEditor(java.util.Date.class, new MultipleFormatDateEditor(new DateFormat[] { df1, df2 }, df1, true));
       binder.setIgnoreUnknownFields(false);
       super.initializeBinder(binder);
-   }
-
-   public static class MultipleFormatDateEditor extends PropertyEditorSupport {
-      private final DateFormat[] readingDateFormats;
-      private final DateFormat writingDateFormat;
-
-      private final boolean allowEmpty;
-
-      public MultipleFormatDateEditor(DateFormat[] readingDateFormats, DateFormat writingDateFormat, boolean allowEmpty) {
-         this.readingDateFormats = readingDateFormats;
-         this.writingDateFormat = writingDateFormat;
-         this.allowEmpty = allowEmpty;
-      }
-
-      @Override
-      public void setAsText(String text) throws IllegalArgumentException {
-         if(this.allowEmpty && !org.springframework.util.StringUtils.hasText(text)) {
-            setValue(null);
-         }
-         else {
-            for(DateFormat df : readingDateFormats) {
-               ParsePosition position = new ParsePosition(0);
-               Date parsed = df.parse(text, position);
-               if(parsed != null) {
-                  setValue(parsed);
-                  break;
-               }
-            }
-         }
-      }
-
-      @Override
-      public String getAsText() {
-         Date value = (Date)getValue();
-         return(value != null ? this.writingDateFormat.format(value) : "");
-      }
-
    }
 }
