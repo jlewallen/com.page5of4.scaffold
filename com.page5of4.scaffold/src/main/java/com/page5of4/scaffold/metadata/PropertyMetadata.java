@@ -16,6 +16,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.support.ConvertingPropertyEditorAdapter;
 
 import com.page5of4.scaffold.ReflectionUtils;
+import com.page5of4.scaffold.ScaffoldDateTime;
 import com.page5of4.scaffold.ScaffoldHelp;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTemplate;
@@ -54,8 +55,12 @@ public class PropertyMetadata extends AbstractMetadata {
          names.add("text");
       }
       else if(getPropertyType().equals(Date.class)) {
-         // TODO Date only?
-         names.add("datetimepicker");
+         ScaffoldDateTime dateTimeAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldDateTime.class, targetClass, descriptor);
+         String name = "datetimepicker";
+         if(dateTimeAnnotation != null && dateTimeAnnotation.dateOnly()) {
+            name = "datepicker";
+         }
+         names.add(name);
       }
       else if(getPropertyType().isEnum()) {
          names.add("select");

@@ -2,14 +2,17 @@ package com.page5of4.scaffold.web;
 
 import static org.jvnet.inflector.Noun.pluralOf;
 
+import java.beans.PropertyEditorSupport;
+import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -69,9 +72,47 @@ public class DefaultScaffoldController extends AbstractScaffoldController {
       for(Class<?> klass : configurer.findAllScaffoldClasses()) {
          binder.registerCustomEditor(klass, new RepositoryAwarePropertyEditor(getRepository(), klass));
       }
-      SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy HH:mm");
-      binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(df, true));
+      SimpleDateFormat df1 = new SimpleDateFormat("MMMM dd, yyyy HH:mm");
+      SimpleDateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+      binder.registerCustomEditor(java.util.Date.class, new MultipleFormatDateEditor(new DateFormat[] { df1, df2 }, df1, true));
       binder.setIgnoreUnknownFields(false);
       super.initializeBinder(binder);
+   }
+
+   public static class MultipleFormatDateEditor extends PropertyEditorSupport {
+      private final DateFormat[] readingDateFormats;
+      private final DateFormat writingDateFormat;
+
+      private final boolean allowEmpty;
+
+      public MultipleFormatDateEditor(DateFormat[] readingDateFormats, DateFormat writingDateFormat, boolean allowEmpty) {
+         this.readingDateFormats = readingDateFormats;
+         this.writingDateFormat = writingDateFormat;
+         this.allowEmpty = allowEmpty;
+      }
+
+      @Override
+      public void setAsText(String text) throws IllegalArgumentException {
+         if(this.allowEmpty && !org.springframework.util.StringUtils.hasText(text)) {
+            setValue(null);
+         }
+         else {
+            for(DateFormat df : readingDateFormats) {
+               ParsePosition position = new ParsePosition(0);
+               Date parsed = df.parse(text, position);
+               if(parsed != null) {
+                  setValue(parsed);
+                  break;
+               }
+            }
+         }
+      }
+
+      @Override
+      public String getAsText() {
+         Date value = (Date)getValue();
+         return(value != null ? this.writingDateFormat.format(value) : "");
+      }
+
    }
 }

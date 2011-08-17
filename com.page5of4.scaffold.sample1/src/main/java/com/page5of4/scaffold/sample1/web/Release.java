@@ -1,5 +1,7 @@
 package com.page5of4.scaffold.sample1.web;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import com.page5of4.scaffold.ScaffoldCollection;
+import com.page5of4.scaffold.ScaffoldDateTime;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTemplate;
 
@@ -32,6 +35,9 @@ public class Release {
    @NotNull
    private Status status;
 
+   @ScaffoldDateTime(dateOnly = true)
+   private Date releaseDate;
+
    public Long getId() {
       return id;
    }
@@ -54,6 +60,14 @@ public class Release {
 
    public void setStatus(Status status) {
       this.status = status;
+   }
+
+   public Date getReleaseDate() {
+      return releaseDate;
+   }
+
+   public void setReleaseDate(Date releaseDate) {
+      this.releaseDate = releaseDate;
    }
 
    public Release() {
