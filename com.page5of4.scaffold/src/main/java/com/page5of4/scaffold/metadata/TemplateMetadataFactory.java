@@ -118,7 +118,9 @@ public class TemplateMetadataFactory {
       for(PropertyMetadata pm : classMetadata.getProperties()) {
          VisibleClassMetadata propertyClassMetadata = null;
          if(pm.getPropertyTypeHasMetadata()) {
-            propertyClassMetadata = createVisibleMetadata(pm.getPropertyType());
+            // TODO Shorten this? May be faster to have the type on the PropertyMetadata
+            // Stack overflow here... Need to handle this better somehow...
+            // propertyClassMetadata = createVisibleMetadata(pm.getPropertyTypeMetadata().getObjectClass());
          }
          properties.add(new VisiblePropertyMetadata(pm.getName(), pm.getPropertyType().getName(), propertyClassMetadata));
       }

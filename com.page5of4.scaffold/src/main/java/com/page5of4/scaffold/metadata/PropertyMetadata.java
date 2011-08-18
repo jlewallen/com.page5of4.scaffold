@@ -31,7 +31,7 @@ public class PropertyMetadata extends AbstractMetadata {
    private final String help;
    private final ConversionService conversionService;
    private final Class<?> targetClass;
-   private final MetadataResolver resolver;
+   private final PropertyTypeMetadataResolver resolver;
 
    @JsonIgnore
    public PropertyDescriptor getPropertyDescriptor() {
@@ -101,7 +101,7 @@ public class PropertyMetadata extends AbstractMetadata {
    }
 
    public ClassMetadata getPropertyTypeMetadata() {
-      return resolver.resolve(getPropertyType());
+      return resolver.resolve();
    }
 
    public Object getDisplayValue(Object object) {
@@ -146,7 +146,7 @@ public class PropertyMetadata extends AbstractMetadata {
       return names.toArray(new String[0]);
    }
 
-   public PropertyMetadata(ConversionService conversionService, MetadataResolver resolver, Class<?> targetClass, PropertyDescriptor descriptor) {
+   public PropertyMetadata(ConversionService conversionService, PropertyTypeMetadataResolver resolver, Class<?> targetClass, PropertyDescriptor descriptor) {
       super();
       this.conversionService = conversionService;
       this.resolver = resolver;

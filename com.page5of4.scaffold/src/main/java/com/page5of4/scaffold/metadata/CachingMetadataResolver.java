@@ -4,7 +4,9 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -81,10 +83,39 @@ public class CachingMetadataResolver implements MetadataResolver {
       return properties;
    }
 
-   private PropertyMetadata createProperty(Class<? extends Object> objectClass, PropertyDescriptor descriptor) throws Exception {
+   private Class<?> getCollectionTypeIfAny(PropertyDescriptor descriptor) {
       Class<?> propertyType = descriptor.getPropertyType();
+      if(!Collection.class.isAssignableFrom(propertyType)) {
+         return null;
+      }
+      ParameterizedType collectionParameterizedType = (ParameterizedType)descriptor.getReadMethod().getGenericReturnType();
+      return (Class<?>)collectionParameterizedType.getActualTypeArguments()[0];
+   }
+
+   public static class FullResolver implements PropertyTypeMetadataResolver {
+      private final MetadataResolver resolver;
+      private final Class<?> type;
+
+      public FullResolver(MetadataResolver resolver, Class<?> type) {
+         super();
+         this.resolver = resolver;
+         this.type = type;
+      }
+
+      @Override
+      public ClassMetadata resolve() {
+         return resolver.resolve(type);
+      }
+   }
+
+   private PropertyMetadata createProperty(Class<? extends Object> objectClass, PropertyDescriptor descriptor) throws Exception {
+      Class<?> propertyType = getCollectionTypeIfAny(descriptor);
+      if(propertyType == null) {
+         propertyType = descriptor.getPropertyType();
+      }
       if(configurer.findAllScaffoldClasses().contains(propertyType)) {
-         return new PropertyMetadata(conversionService, this, objectClass, descriptor);
+         PropertyTypeMetadataResolver resolver = new FullResolver(this, propertyType);
+         return new PropertyMetadata(conversionService, resolver, objectClass, descriptor);
       }
       return new PropertyMetadata(conversionService, null, objectClass, descriptor);
    }

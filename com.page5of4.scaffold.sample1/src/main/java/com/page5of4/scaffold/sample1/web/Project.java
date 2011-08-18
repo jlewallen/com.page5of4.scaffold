@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -43,6 +44,9 @@ public class Project {
    private Date endingAt;
 
    private boolean started;
+
+   @OneToMany
+   private List<Card> cards;
 
    public Long getId() {
       return id;
@@ -98,6 +102,14 @@ public class Project {
 
    public void setStarted(boolean started) {
       this.started = started;
+   }
+
+   public List<Card> getCards() {
+      return cards;
+   }
+
+   public void setCards(List<Card> cards) {
+      this.cards = cards;
    }
 
    public Project() {
