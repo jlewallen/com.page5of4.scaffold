@@ -31,6 +31,7 @@ public class PropertyMetadata extends AbstractMetadata {
    private final String help;
    private final ConversionService conversionService;
    private final Class<?> targetClass;
+   private final MetadataResolver resolver;
 
    @JsonIgnore
    public PropertyDescriptor getPropertyDescriptor() {
@@ -95,6 +96,14 @@ public class PropertyMetadata extends AbstractMetadata {
       return this.help;
    }
 
+   public boolean getPropertyTypeHasMetadata() {
+      return resolver != null;
+   }
+
+   public ClassMetadata getPropertyTypeMetadata() {
+      return resolver.resolve(getPropertyType());
+   }
+
    public Object getDisplayValue(Object object) {
       BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(object);
       Object value = bw.getPropertyValue(getName());
@@ -137,9 +146,10 @@ public class PropertyMetadata extends AbstractMetadata {
       return names.toArray(new String[0]);
    }
 
-   public PropertyMetadata(ConversionService conversionService, Class<?> targetClass, PropertyDescriptor descriptor) {
+   public PropertyMetadata(ConversionService conversionService, MetadataResolver resolver, Class<?> targetClass, PropertyDescriptor descriptor) {
       super();
       this.conversionService = conversionService;
+      this.resolver = resolver;
       this.targetClass = targetClass;
       this.descriptor = descriptor;
       this.hidden = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldHidden.class, targetClass, descriptor) != null;

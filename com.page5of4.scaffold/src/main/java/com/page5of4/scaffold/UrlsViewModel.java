@@ -1,42 +1,25 @@
 package com.page5of4.scaffold;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class UrlsViewModel {
-   private final String indexUrl;
-   private final String createUrl;
-   private final String createFormUrl;
-   private final String metaUrl;
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class UrlsViewModel extends TypeUrlsViewModel {
    private final String showUrl;
    private final String updateUrl;
    private final String updateFormUrl;
    private final String deleteUrl;
-
-   @JsonSerialize(using = RelativeUrlSerializer.class)
-   public String getIndexUrl() {
-      return indexUrl;
-   }
-
-   @JsonSerialize(using = RelativeUrlSerializer.class)
-   public String getCreateUrl() {
-      return createUrl;
-   }
-
-   @JsonSerialize(using = RelativeUrlSerializer.class)
-   public String getCreateFormUrl() {
-      return createFormUrl;
-   }
-
-   @JsonSerialize(using = RelativeUrlSerializer.class)
-   public String getMetaUrl() {
-      return metaUrl;
-   }
 
    @JsonSerialize(using = RelativeUrlSerializer.class)
    public String getShowUrl() {
@@ -59,11 +42,7 @@ public class UrlsViewModel {
    }
 
    public UrlsViewModel(String indexUrl, String createUrl, String createFormUrl, String metaUrl, String showUrl, String updateUrl, String updateFormUrl, String deleteUrl) {
-      super();
-      this.indexUrl = indexUrl;
-      this.createUrl = createUrl;
-      this.createFormUrl = createFormUrl;
-      this.metaUrl = metaUrl;
+      super(indexUrl, createUrl, createFormUrl, metaUrl);
       this.showUrl = showUrl;
       this.updateUrl = updateUrl;
       this.updateFormUrl = updateFormUrl;
@@ -71,11 +50,7 @@ public class UrlsViewModel {
    }
 
    public UrlsViewModel(String indexUrl, String createUrl, String createFormUrl, String metaUrl) {
-      super();
-      this.indexUrl = indexUrl;
-      this.createUrl = createUrl;
-      this.createFormUrl = createFormUrl;
-      this.metaUrl = metaUrl;
+      super(indexUrl, createUrl, createFormUrl, metaUrl);
       this.showUrl = null;
       this.updateUrl = null;
       this.updateFormUrl = null;
@@ -83,9 +58,25 @@ public class UrlsViewModel {
    }
 
    public static class RelativeUrlSerializer extends JsonSerializer<String> {
+      public HttpServletRequest getServletRequest() {
+         return ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+      }
+
+      public String getRootURL() {
+         HttpServletRequest servletRequest = getServletRequest();
+         try {
+            return new URL(servletRequest.getScheme(), servletRequest.getLocalName(), servletRequest.getLocalPort(), servletRequest.getContextPath()).toString();
+         }
+         catch(MalformedURLException e) {
+            throw new RuntimeException("Unable to get Current URL", e);
+         }
+      }
+
       @Override
       public void serialize(String value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-         jgen.writeString("http://127.0.0.1:8080" + value.toString());
+         if(value != null) {
+            jgen.writeString(getRootURL() + value.toString());
+         }
       }
    }
 }

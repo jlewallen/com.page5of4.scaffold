@@ -18,18 +18,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import com.page5of4.scaffold.configuration.Configurer;
+
 @Service
 public class CachingMetadataResolver implements MetadataResolver {
 
    private static final Logger logger = LoggerFactory.getLogger(CachingMetadataResolver.class);
 
+   private static final ThreadLocal<Map<Class<? extends Object>, ClassMetadata>> stack = new ThreadLocal<Map<Class<? extends Object>, ClassMetadata>>();
    private final Map<Class<?>, ClassMetadata> cache = new ConcurrentHashMap<Class<?>, ClassMetadata>();
    private final ConversionService conversionService;
+   private final Configurer configurer;
 
    @Autowired
-   public CachingMetadataResolver(ConversionService conversionService) {
+   public CachingMetadataResolver(ConversionService conversionService, Configurer configurer) {
       super();
       this.conversionService = conversionService;
+      this.configurer = configurer;
    }
 
    public ClassMetadata resolve(Class<?> objectClass) {
@@ -60,7 +65,7 @@ public class CachingMetadataResolver implements MetadataResolver {
       for(PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
          if(!shouldSkip(descriptor)) {
             try {
-               properties.add(new PropertyMetadata(conversionService, objectClass, descriptor));
+               properties.add(createProperty(objectClass, descriptor));
             }
             catch(Exception error) {
                throw new RuntimeException(String.format("Error resolving property metadata for: '%s'", descriptor.getName()), error);
@@ -74,6 +79,14 @@ public class CachingMetadataResolver implements MetadataResolver {
          }
       });
       return properties;
+   }
+
+   private PropertyMetadata createProperty(Class<? extends Object> objectClass, PropertyDescriptor descriptor) throws Exception {
+      Class<?> propertyType = descriptor.getPropertyType();
+      if(configurer.findAllScaffoldClasses().contains(propertyType)) {
+         return new PropertyMetadata(conversionService, this, objectClass, descriptor);
+      }
+      return new PropertyMetadata(conversionService, null, objectClass, descriptor);
    }
 
    public static boolean shouldSkip(PropertyDescriptor descriptor) {
