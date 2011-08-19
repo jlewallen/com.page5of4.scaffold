@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HomeController {
+public class AdministrationDashboardController {
 
-   @RequestMapping(value = "/", method = RequestMethod.GET)
+   @RequestMapping(value = "/admin", method = RequestMethod.GET)
    public ModelAndView home() {
       return new ModelAndView();
    }

@@ -4,9 +4,13 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.ManyToOne;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
+import javax.validation.metadata.BeanDescriptor;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +117,9 @@ public class TemplateMetadataFactory {
    }
 
    public VisibleClassMetadata createVisibleMetadata(Class<?> objectClass) {
+      ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+      BeanDescriptor beanDescriptor = validatorFactory.getValidator().getConstraintsForClass(objectClass);
+      Set<javax.validation.metadata.PropertyDescriptor> constrainedProperties = beanDescriptor.getConstrainedProperties();
       ClassMetadata classMetadata = metadataResolver.resolve(objectClass);
       ScaffoldViewModel viewModel = viewModelFactory.createScaffoldViewModel(objectClass);
       List<VisiblePropertyMetadata> properties = new ArrayList<VisiblePropertyMetadata>();
