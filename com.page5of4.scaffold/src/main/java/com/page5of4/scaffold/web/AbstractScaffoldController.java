@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.domain.Repository;
 import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
+import com.page5of4.scaffold.metadata.TemplateMetadataFactory.VisibleClassMetadata;
 
 public abstract class AbstractScaffoldController {
 
@@ -109,8 +111,9 @@ public abstract class AbstractScaffoldController {
    }
 
    @RequestMapping(value = "/meta", method = RequestMethod.GET)
-   public ModelAndView meta() {
-      return new ModelAndView("", "model", templateMetadataFactory.createVisibleMetadata(getResourceClass()));
+   public @ResponseBody
+   VisibleClassMetadata meta() {
+      return templateMetadataFactory.createVisibleMetadata(getResourceClass());
    }
 
    protected int getPageSize() {
