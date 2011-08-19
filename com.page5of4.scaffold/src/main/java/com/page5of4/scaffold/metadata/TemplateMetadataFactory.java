@@ -103,12 +103,13 @@ public class TemplateMetadataFactory {
       return null;
    }
 
-   private static boolean shouldIncludeEmpty() {
-      return true;
-   }
-
    public OneToManyPropertyMetadata createOneToMany(Class<?> objectClass, PropertyMetadata property) {
       return null;
+   }
+
+   private PropertyReference createPropertyReference(Class<?> objectClass) {
+      ScaffoldViewModel scaffoldViewModel = viewModelFactory.createScaffoldViewModel(objectClass);
+      return new PropertyReference(objectClass.getName(), viewModelFactory.createUrlsViewModel(scaffoldViewModel, objectClass));
    }
 
    public VisibleClassMetadata createVisibleMetadata(Class<?> objectClass) {
@@ -116,13 +117,11 @@ public class TemplateMetadataFactory {
       ScaffoldViewModel viewModel = viewModelFactory.createScaffoldViewModel(objectClass);
       List<VisiblePropertyMetadata> properties = new ArrayList<VisiblePropertyMetadata>();
       for(PropertyMetadata pm : classMetadata.getProperties()) {
-         VisibleClassMetadata propertyClassMetadata = null;
+         PropertyReference reference = null;
          if(pm.getPropertyTypeHasMetadata()) {
-            // TODO Shorten this? May be faster to have the type on the PropertyMetadata
-            // Stack overflow here... Need to handle this better somehow...
-            // propertyClassMetadata = createVisibleMetadata(pm.getPropertyTypeMetadata().getObjectClass());
+            reference = createPropertyReference(pm.getPropertyTypeMetadata().getObjectClass());
          }
-         properties.add(new VisiblePropertyMetadata(pm.getName(), pm.getPropertyType().getName(), propertyClassMetadata));
+         properties.add(new VisiblePropertyMetadata(pm.getName(), pm.getPropertyType().getName(), reference));
       }
       TypeUrlsViewModel urls = new TypeUrlsViewModel(viewModelFactory.createUrlsViewModel(viewModel, objectClass));
       return new VisibleClassMetadata(classMetadata.getName(), objectClass.getName(), urls, properties);
@@ -163,7 +162,7 @@ public class TemplateMetadataFactory {
    public static class VisiblePropertyMetadata {
       private final String name;
       private final String typeName;
-      private final VisibleClassMetadata classMetadata;
+      private final PropertyReference propertyReference;
 
       public String getName() {
          return name;
@@ -174,31 +173,32 @@ public class TemplateMetadataFactory {
       }
 
       public PropertyReference getReferencedProperty() {
-         if(classMetadata == null) return null;
-         return new PropertyReference(classMetadata);
+         return propertyReference;
       }
 
-      public VisiblePropertyMetadata(String name, String typeName, VisibleClassMetadata classMetadata) {
+      public VisiblePropertyMetadata(String name, String typeName, PropertyReference propertyReference) {
          super();
          this.name = name;
          this.typeName = typeName;
-         this.classMetadata = classMetadata;
+         this.propertyReference = propertyReference;
       }
    }
 
    public static class PropertyReference {
-      private final VisibleClassMetadata metadata;
+      private final String typeName;
+      private final TypeUrlsViewModel urls;
 
       public String getTypeName() {
-         return metadata.getTypeName();
+         return typeName;
       }
 
       public TypeUrlsViewModel getUrls() {
-         return metadata.getUrls();
+         return urls;
       }
 
-      public PropertyReference(VisibleClassMetadata metadata) {
-         this.metadata = metadata;
+      public PropertyReference(String typeName, TypeUrlsViewModel urls) {
+         this.typeName = typeName;
+         this.urls = urls;
       }
    }
 

@@ -2,8 +2,6 @@ package com.page5of4.scaffold;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.page5of4.scaffold.UrlsViewModel.RelativeUrlSerializer;
-
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class TypeUrlsViewModel {
    private final String indexUrl;
@@ -11,22 +9,22 @@ public class TypeUrlsViewModel {
    private final String createFormUrl;
    private final String metaUrl;
 
-   @JsonSerialize(using = RelativeUrlSerializer.class)
+   @JsonSerialize(using = RelativeUrlSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
    public String getIndexUrl() {
       return indexUrl;
    }
 
-   @JsonSerialize(using = RelativeUrlSerializer.class)
+   @JsonSerialize(using = RelativeUrlSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
    public String getCreateUrl() {
       return createUrl;
    }
 
-   @JsonSerialize(using = RelativeUrlSerializer.class)
+   @JsonSerialize(using = RelativeUrlSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
    public String getCreateFormUrl() {
       return createFormUrl;
    }
 
-   @JsonSerialize(using = RelativeUrlSerializer.class)
+   @JsonSerialize(using = RelativeUrlSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
    public String getMetaUrl() {
       return metaUrl;
    }
