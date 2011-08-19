@@ -20,6 +20,7 @@ import com.page5of4.scaffold.RepositoryAwarePropertyEditor;
 import com.page5of4.scaffold.StringUtils;
 import com.page5of4.scaffold.configuration.Configurer;
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ExternalMetadataFactory;
 import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 
@@ -32,8 +33,8 @@ public class DefaultScaffoldController extends AbstractScaffoldController {
 
    @Autowired
    public DefaultScaffoldController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository, HttpServletRequest servletRequest,
-         Configurer configurer) {
-      super(templateMetadataFactory, viewModelFactory, repository, servletRequest);
+         Configurer configurer, ExternalMetadataFactory externalMetadataFactory) {
+      super(templateMetadataFactory, externalMetadataFactory, viewModelFactory, repository, servletRequest);
       this.configurer = configurer;
    }
 
