@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -105,7 +106,20 @@ public class TemplateMetadataFactory {
    }
 
    public OneToManyPropertyMetadata createOneToMany(Class<?> objectClass, PropertyMetadata property) {
-      return null;
+      PropertyDescriptor descriptor = property.getPropertyDescriptor();
+      Class<? extends Object> type = property.getPropertyType();
+      NotNull notNullAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(NotNull.class, objectClass, descriptor);
+      boolean nullable = notNullAnnotation == null;
+      OneToMany manyToOneAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(OneToMany.class, objectClass, descriptor);
+      if(manyToOneAnnotation == null) {
+         return null;
+      }
+      ScaffoldCollection collectionAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldCollection.class, objectClass, descriptor);
+      List<?> items = new ArrayList<Object>();
+      if(collectionAnnotation == null) {
+         return new OneToManyPropertyMetadata(descriptor, items.toArray(), nullable);
+      }
+      return new OneToManyPropertyMetadata(descriptor, items.toArray(), nullable, collectionAnnotation.label(), collectionAnnotation.value());
    }
 
 }

@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.page5of4.scaffold.ScaffoldCollection;
 import com.page5of4.scaffold.ScaffoldHidden;
 import com.page5of4.scaffold.ScaffoldTextArea;
 
@@ -46,6 +47,7 @@ public class Project {
    private boolean started;
 
    @OneToMany
+   @ScaffoldCollection(label = "title", value = "id")
    private List<Card> cards;
 
    public Long getId() {
