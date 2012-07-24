@@ -31,6 +31,9 @@
   				<form:options items="${meta.manyToOne.items}" itemLabel="${meta.manyToOne.itemLabelExpression}" itemValue="${meta.manyToOne.itemValueExpression}"/>	
   			</form:select>
 		</c:when>
+		<c:when test="${meta.isOneToMany}">
+			Nope
+		</c:when>
 		<c:otherwise>
 			<form:input path="${meta.propertyMetadata.name}" cssClass="collection-field" cssErrorClass="collection-field error" />
 		</c:otherwise>

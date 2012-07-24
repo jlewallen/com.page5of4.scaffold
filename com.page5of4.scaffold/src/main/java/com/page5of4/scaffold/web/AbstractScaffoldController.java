@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ExternalMetadataFactory;
+import com.page5of4.scaffold.metadata.ExternalMetadataFactory.VisibleClassMetadata;
 import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 
@@ -27,6 +30,7 @@ public abstract class AbstractScaffoldController {
    public static final String META_KEY_NAME = "meta";
 
    private final TemplateMetadataFactory templateMetadataFactory;
+   private final ExternalMetadataFactory externalMetadataFactory;
    private final Repository repository;
    private final ScaffoldViewModelFactory viewModelFactory;
    private final HttpServletRequest servletRequest;
@@ -47,8 +51,10 @@ public abstract class AbstractScaffoldController {
       return repository;
    }
 
-   public AbstractScaffoldController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository, HttpServletRequest servletRequest) {
+   public AbstractScaffoldController(TemplateMetadataFactory templateMetadataFactory, ExternalMetadataFactory externalMetadataFactory, ScaffoldViewModelFactory viewModelFactory,
+         Repository repository, HttpServletRequest servletRequest) {
       this.templateMetadataFactory = templateMetadataFactory;
+      this.externalMetadataFactory = externalMetadataFactory;
       this.repository = repository;
       this.viewModelFactory = viewModelFactory;
       this.servletRequest = servletRequest;
@@ -109,8 +115,9 @@ public abstract class AbstractScaffoldController {
    }
 
    @RequestMapping(value = "/meta", method = RequestMethod.GET)
-   public ModelAndView meta() {
-      return new ModelAndView("", "model", templateMetadataFactory.createVisibleMetadata(getResourceClass()));
+   public @ResponseBody
+   VisibleClassMetadata meta() {
+      return externalMetadataFactory.createVisibleMetadata(getResourceClass());
    }
 
    protected int getPageSize() {

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.page5of4.scaffold.RepositoryAwarePropertyEditor;
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ExternalMetadataFactory;
 import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 import com.page5of4.scaffold.web.GenericScaffoldController;
@@ -19,8 +20,9 @@ import com.page5of4.scaffold.web.GenericScaffoldController;
 public class CardController extends GenericScaffoldController<String, Card> {
 
    @Autowired
-   public CardController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository, HttpServletRequest servletRequest) {
-      super(templateMetadataFactory, viewModelFactory, repository, servletRequest);
+   public CardController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory viewModelFactory, Repository repository, HttpServletRequest servletRequest,
+         ExternalMetadataFactory externalMetadataFactory) {
+      super(templateMetadataFactory, viewModelFactory, repository, servletRequest, externalMetadataFactory);
    }
 
    @Override

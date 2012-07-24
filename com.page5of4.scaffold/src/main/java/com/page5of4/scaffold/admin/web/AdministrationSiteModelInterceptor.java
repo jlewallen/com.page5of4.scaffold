@@ -23,7 +23,9 @@ public class AdministrationSiteModelInterceptor extends HandlerInterceptorAdapte
    @Override
    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
       super.postHandle(request, response, handler, modelAndView);
-      NavigationViewModel model = navigationViewModelFactory.createNavigationViewModel();
-      modelAndView.addObject("navigationViewModel", model);
+      if(modelAndView != null) {
+         NavigationViewModel model = navigationViewModelFactory.createNavigationViewModel();
+         modelAndView.addObject("navigationViewModel", model);
+      }
    }
 }

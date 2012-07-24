@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.page5of4.scaffold.domain.Repository;
+import com.page5of4.scaffold.metadata.ExternalMetadataFactory;
 import com.page5of4.scaffold.metadata.ScaffoldViewModelFactory;
 import com.page5of4.scaffold.metadata.TemplateMetadataFactory;
 
@@ -17,8 +18,9 @@ public class GenericScaffoldController<I extends Object, T extends Object> exten
 
    @Autowired
    @SuppressWarnings("unchecked")
-   public GenericScaffoldController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory scaffoldViewModelFactory, Repository repository, HttpServletRequest servletRequest) {
-      super(templateMetadataFactory, scaffoldViewModelFactory, repository, servletRequest);
+   public GenericScaffoldController(TemplateMetadataFactory templateMetadataFactory, ScaffoldViewModelFactory scaffoldViewModelFactory, Repository repository, HttpServletRequest servletRequest,
+         ExternalMetadataFactory externalMetadataFactory) {
+      super(templateMetadataFactory, externalMetadataFactory, scaffoldViewModelFactory, repository, servletRequest);
       ParameterizedType superClass = (ParameterizedType)getClass().getGenericSuperclass();
       this.primaryKeyClass = (Class<I>)(superClass.getActualTypeArguments()[0]);
       this.resourceClass = (Class<T>)(superClass.getActualTypeArguments()[1]);

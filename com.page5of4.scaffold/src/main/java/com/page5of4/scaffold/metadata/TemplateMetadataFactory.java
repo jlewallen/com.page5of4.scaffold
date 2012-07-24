@@ -6,21 +6,23 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.page5of4.scaffold.ReflectionUtils;
 import com.page5of4.scaffold.ScaffoldCollection;
-import com.page5of4.scaffold.TypeUrlsViewModel;
 import com.page5of4.scaffold.domain.Repository;
 import com.page5of4.scaffold.web.ScaffoldViewModel;
 
 @Service
 public class TemplateMetadataFactory {
 
+   private static final Logger logger = LoggerFactory.getLogger(TemplateMetadataFactory.class);
    private final MetadataResolver metadataResolver;
    private final Repository repository;
    private final ScaffoldViewModelFactory viewModelFactory;
@@ -104,102 +106,20 @@ public class TemplateMetadataFactory {
    }
 
    public OneToManyPropertyMetadata createOneToMany(Class<?> objectClass, PropertyMetadata property) {
-      return null;
-   }
-
-   private PropertyReference createPropertyReference(Class<?> objectClass) {
-      ScaffoldViewModel scaffoldViewModel = viewModelFactory.createScaffoldViewModel(objectClass);
-      return new PropertyReference(objectClass.getName(), viewModelFactory.createUrlsViewModel(scaffoldViewModel, objectClass));
-   }
-
-   public VisibleClassMetadata createVisibleMetadata(Class<?> objectClass) {
-      ClassMetadata classMetadata = metadataResolver.resolve(objectClass);
-      ScaffoldViewModel viewModel = viewModelFactory.createScaffoldViewModel(objectClass);
-      List<VisiblePropertyMetadata> properties = new ArrayList<VisiblePropertyMetadata>();
-      for(PropertyMetadata pm : classMetadata.getProperties()) {
-         PropertyReference reference = null;
-         if(pm.getPropertyTypeHasMetadata()) {
-            reference = createPropertyReference(pm.getPropertyTypeMetadata().getObjectClass());
-         }
-         properties.add(new VisiblePropertyMetadata(pm.getName(), pm.getPropertyType().getName(), reference));
+      PropertyDescriptor descriptor = property.getPropertyDescriptor();
+      Class<? extends Object> type = property.getPropertyType();
+      NotNull notNullAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(NotNull.class, objectClass, descriptor);
+      boolean nullable = notNullAnnotation == null;
+      OneToMany manyToOneAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(OneToMany.class, objectClass, descriptor);
+      if(manyToOneAnnotation == null) {
+         return null;
       }
-      TypeUrlsViewModel urls = new TypeUrlsViewModel(viewModelFactory.createUrlsViewModel(viewModel, objectClass));
-      return new VisibleClassMetadata(classMetadata.getName(), objectClass.getName(), urls, properties);
-   }
-
-   public static class VisibleClassMetadata {
-      private final String name;
-      private final String typeName;
-      private final TypeUrlsViewModel urls;
-      private final List<VisiblePropertyMetadata> properties;
-
-      public String getName() {
-         return name;
+      ScaffoldCollection collectionAnnotation = ReflectionUtils.getFieldOrMethodAnnotation(ScaffoldCollection.class, objectClass, descriptor);
+      List<?> items = new ArrayList<Object>();
+      if(collectionAnnotation == null) {
+         return new OneToManyPropertyMetadata(descriptor, items.toArray(), nullable);
       }
-
-      public String getTypeName() {
-         return typeName;
-      }
-
-      public TypeUrlsViewModel getUrls() {
-         return urls;
-      }
-
-      public List<VisiblePropertyMetadata> getProperties() {
-         return properties;
-      }
-
-      public VisibleClassMetadata(String name, String typeName, TypeUrlsViewModel urls, List<VisiblePropertyMetadata> properties) {
-         super();
-         this.name = name;
-         this.typeName = typeName;
-         this.urls = urls;
-         this.properties = properties;
-      }
-   }
-
-   @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-   public static class VisiblePropertyMetadata {
-      private final String name;
-      private final String typeName;
-      private final PropertyReference propertyReference;
-
-      public String getName() {
-         return name;
-      }
-
-      public String getTypeName() {
-         return typeName;
-      }
-
-      public PropertyReference getReferencedProperty() {
-         return propertyReference;
-      }
-
-      public VisiblePropertyMetadata(String name, String typeName, PropertyReference propertyReference) {
-         super();
-         this.name = name;
-         this.typeName = typeName;
-         this.propertyReference = propertyReference;
-      }
-   }
-
-   public static class PropertyReference {
-      private final String typeName;
-      private final TypeUrlsViewModel urls;
-
-      public String getTypeName() {
-         return typeName;
-      }
-
-      public TypeUrlsViewModel getUrls() {
-         return urls;
-      }
-
-      public PropertyReference(String typeName, TypeUrlsViewModel urls) {
-         this.typeName = typeName;
-         this.urls = urls;
-      }
+      return new OneToManyPropertyMetadata(descriptor, items.toArray(), nullable, collectionAnnotation.label(), collectionAnnotation.value());
    }
 
 }
